@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>내 마음의 컬러 팔레트</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
+
+    * {
+      font-family: 'Pretendard', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 221, 230, 0.8), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(210, 237, 255, 0.85), transparent 32%),
+        radial-gradient(circle at 50% 90%, rgba(221, 255, 232, 0.75), transparent 34%),
+        linear-gradient(135deg, #fff7fb 0%, #f7fbff 48%, #fffaf1 100%);
+      color: #3f3a4a;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeSlide 0.45s ease both;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .soft-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 60px rgba(123, 103, 156, 0.16);
+    }
+
+    .choice-card {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(93, 78, 122, 0.14);
+    }
+
+    .choice-card.selected {
+      border-color: #a78bfa;
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.18), 0 16px 34px rgba(93, 78, 122, 0.14);
+      transform: translateY(-2px);
+    }
+
+    .color-chip {
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7), 0 10px 24px rgba(76, 60, 95, 0.16);
+    }
+
+    .palette-chip {
+      animation: popIn 0.45s ease both;
+    }
+
+    .palette-chip:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .palette-chip:nth-child(3) {
+      animation-delay: 0.24s;
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.86) translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .progress-dot {
+      transition: all 0.25s ease;
+    }
+
+    .progress-dot.active {
+      width: 34px;
+      background: linear-gradient(90deg, #f9a8d4, #93c5fd);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="min-h-screen px-4 py-6 sm:px-6 flex items-center justify-center">
+    <section class="w-full max-w-3xl">
+
+      <div id="introScreen" class="screen active">
+        <div class="soft-card rounded-[28px] p-7 sm:p-10 text-center">
+          <div class="mx-auto mb-6 grid h-24 w-24 place-items-center rounded-full bg-white/80 text-5xl shadow-lg">
+            🎨
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-extrabold text-[#4b3f72] leading-tight">
+            내 마음의 컬러 팔레트 🎨
+          </h1>
+          <p class="mt-6 text-base sm:text-lg leading-8 text-[#665f77]">
+            미술심리치료사는 내 마음의 도화지에 어떤 색이 칠해져 있는지 함께 바라보는 사람입니다.
+            본격적인 미술 활동 전, 나의 <span class="font-bold text-[#7c5fc7]">'마음의 컬러 팔레트'</span>를 먼저 채워볼까요?
+          </p>
+          <button
+            id="startBtn"
+            class="mt-8 w-full sm:w-auto rounded-full bg-[#7c5fc7] px-8 py-4 text-white font-bold shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6] active:scale-[0.98]"
+          >
+            내 팔레트 만들기 시작
+          </button>
+        </div>
+      </div>
+
+      <div id="quizScreen" class="screen">
+        <div class="soft-card rounded-[28px] p-6 sm:p-9">
+          <div class="mb-6 flex items-center justify-between gap-4">
+            <div>
+              <p class="text-sm font-bold text-[#8f7acb]">미술심리 알아보기</p>
+              <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">O/X 퀴즈</h2>
+            </div>
+            <div id="quizCount" class="rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-[#7c5fc7] shadow-sm">
+              1 / 5
+            </div>
+          </div>
+
+          <div id="quizDots" class="mb-7 flex gap-2"></div>
+
+          <div class="rounded-3xl bg-white/72 p-6 sm:p-8 shadow-sm">
+            <p id="quizQuestion" class="text-xl sm:text-2xl font-bold leading-9 text-[#40394f]"></p>
+
+            <div class="mt-8 grid grid-cols-2 gap-4">
+              <button
+                class="quiz-answer rounded-3xl border-2 border-transparent bg-[#ffe1eb] px-4 py-6 text-3xl font-extrabold text-[#d94b78] transition hover:scale-[1.02]"
+                data-answer="O"
+              >
+                O
+              </button>
+              <button
+                class="quiz-answer rounded-3xl border-2 border-transparent bg-[#dff0ff] px-4 py-6 text-3xl font-extrabold text-[#3f7fc0] transition hover:scale-[1.02]"
+                data-answer="X"
+              >
+                X
+              </button>
+            </div>
+
+            <div id="quizFeedback" class="mt-6 hidden rounded-3xl bg-[#fff8d9] p-5 leading-7 text-[#62553a]"></div>
+
+            <button
+              id="nextQuizBtn"
+              disabled
+              class="mt-6 w-full rounded-full bg-[#bbb4ca] px-6 py-4 font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-70 enabled:bg-[#7c5fc7] enabled:hover:bg-[#6d55b6]"
+            >
+              다음으로
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="paletteScreen" class="screen">
+        <div class="soft-card rounded-[28px] p-6 sm:p-9">
+          <div class="mb-6 flex items-center justify-between gap-4">
+            <div>
+              <p class="text-sm font-bold text-[#8f7acb]">컬러 팔레트 채우기</p>
+              <h2 id="paletteCategory" class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]"></h2>
+            </div>
+            <div id="paletteCount" class="rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-[#7c5fc7] shadow-sm">
+              1 / 3
+            </div>
+          </div>
+
+          <div id="palettePreview" class="mb-7 flex min-h-16 flex-wrap items-center gap-3 rounded-3xl bg-white/55 p-4"></div>
+
+          <div class="rounded-3xl bg-white/72 p-5 sm:p-7 shadow-sm">
+            <p id="paletteQuestion" class="text-xl sm:text-2xl font-bold leading-9 text-[#40394f]"></p>
+            <div id="paletteChoices" class="mt-7 grid gap-4 sm:grid-cols-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="resultScreen" class="screen">
+        <div class="soft-card rounded-[28px] p-6 sm:p-9">
+          <div class="text-center">
+            <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight text-[#4b3f72]">
+              🎨 당신의 '오늘의 마음 컬러 팔레트'가 완성되었습니다!
+            </h2>
+            <p class="mt-4 text-[#716982]">
+              지금 마음이 고른 세 가지 색을 한 장의 작은 지도처럼 바라보세요.
+            </p>
+          </div>
+
+          <div id="resultPalette" class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"></div>
+
+          <div class="mt-8 rounded-3xl bg-white/75 p-6 sm:p-8 shadow-sm">
+            <h3 class="text-xl font-extrabold text-[#4b3f72]">미술심리치료사의 통찰 리포트</h3>
+            <p id="insightText" class="mt-4 whitespace-pre-line text-base sm:text-lg leading-8 text-[#5d566b]"></p>
+          </div>
+
+          <div class="mt-5 rounded-3xl bg-[#fff2d9] p-6 leading-7 text-[#6d5841] shadow-sm">
+            <h3 class="font-extrabold text-[#9a6232]">미술심리치료사의 추천 솔루션</h3>
+            <p class="mt-2">
+              오늘 오프라인 미술 활동에서는 이 컬러 팔레트의 감성을 도화지 위에 다채롭게 펼쳐보세요!
+              색을 예쁘게 칠하는 것보다, 내가 왜 이 색에 끌렸는지 천천히 느껴보는 시간이 더 중요합니다.
+            </p>
+          </div>
+
+          <button
+            id="restartBtn"
+            class="mt-7 w-full rounded-full bg-[#7c5fc7] px-6 py-4 font-bold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6] active:scale-[0.98]"
+          >
+            다시 테스트하기
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    const screens = {
+      intro: document.getElementById('introScreen'),
+      quiz: document.getElementById('quizScreen'),
+      palette: document.getElementById('paletteScreen'),
+      result: document.getElementById('resultScreen')
+    };
+
+    const quizzes = [
+      {
+        question: "미술심리치료는 말로 표현하기 힘든 감정을 그림이나 색으로 안전하게 꺼내어 표현하는 '비언어적 소통'이다?",
+        answer: "O",
+        explain: "맞아요. 미술심리치료는 말보다 먼저 떠오르는 이미지, 색, 선, 상징을 통해 마음을 안전하게 표현하도록 돕는 과정이에요."
+      },
+      {
+        question: "미술심리치료사는 내 그림을 보고 '그림을 얼마나 잘 그렸는지' 예술 점수를 매기는 사람이다?",
+        answer: "X",
+        explain: "정답이에요. 미술심리치료사는 그림 실력을 평가하지 않아요. 작품 속에 담긴 감정과 이야기를 함께 바라보는 사람이에요."
+      },
+      {
+        question: "미술심리치료는 꼭 마음에 큰 상처나 병이 있는 사람들만 받을 수 있는 특별한 치료이다?",
+        answer: "X",
+        explain: "잘했어요. 미술심리치료는 누구나 경험할 수 있어요. 스트레스, 진로 고민, 관계 감정, 자기 이해에도 도움이 될 수 있답니다."
+      },
+      {
+        question: "이 웹앱처럼 무의식적으로 '색상'이나 '상징 오브제'를 고르는 것도 실제 심리 상담에서 쓰이는 투사 기법의 일부이다?",
+        answer: "O",
+        explain: "맞아요. 색이나 상징을 고르는 행동에는 지금의 감정, 욕구, 기대가 자연스럽게 비칠 수 있어요. 이것을 투사적 표현이라고 볼 수 있어요."
+      },
+      {
+        question: "미술심리치료사는 내 그림을 마음대로 해석해서 '너는 이런 사람이야!' 하고 정답을 단정 짓는 권위자이다?",
+        answer: "X",
+        explain: "정답이에요. 좋은 미술심리치료사는 단정하지 않아요. 그림의 의미를 만든 사람은 바로 나 자신이기 때문에, 함께 질문하고 발견하는 태도가 중요해요."
+      }
+    ];
+
+    const paletteQuestions = [
+      {
+        category: "에너지 상태",
+        question: "요즘 나의 무의식 에너지는 어떤 형태와 색상에 가까운가요?",
+        choices: [
+          {
+            object: "타오르는 불꽃",
+            colorName: "레드",
+            hex: "#ef5b66",
+            keyword: "열정과 역동",
+            insight: "레드는 마음 안쪽의 추진력과 생동감을 보여줘요. 요즘의 당신은 무언가를 시작하거나 밀고 나가고 싶은 에너지가 살아 있는 상태일 수 있어요."
+          },
+          {
+            object: "잔잔한 물결",
+            colorName: "블루",
+            hex: "#6aa7e8",
+            keyword: "고요와 조율",
+            insight: "블루는 마음을 천천히 가라앉히고 균형을 찾고 싶은 욕구와 연결돼요. 당신은 지금 속도를 조절하며 차분히 자신을 정리하고 싶은 시기를 지나고 있을 수 있어요."
+          },
+          {
+            object: "곧게 뻗은 나무",
+            colorName: "그린",
+            hex: "#6fbe8b",
+            keyword: "성장과 뿌리",
+            insight: "그린은 성장, 회복, 안정의 색이에요. 당신 안에는 흔들리더라도 다시 뿌리를 내리고 천천히 자라나려는 힘이 있어 보여요."
+          },
+          {
+            object: "깊은 밤의 별빛",
+            colorName: "퍼플",
+            hex: "#9b7ae5",
+            keyword: "상상력과 내면",
+            insight: "퍼플은 상상력과 깊은 내면의 색이에요. 당신은 보이는 것보다 더 많은 생각과 감각을 품고 있으며, 자신만의 세계를 탐색하고 있을 수 있어요."
+          }
+        ]
+      },
+      {
+        category: "숨겨진 감정/오브제",
+        question: "요즘 내 마음 한쪽에 묵혀두거나, 혹은 품고 있는 감정의 오브제는?",
+        choices: [
+          {
+            object: "잠겨진 보물상자",
+            colorName: "다크브라운",
+            hex: "#6b4f3f",
+            keyword: "비밀과 방어",
+            insight: "다크브라운의 보물상자는 아직 쉽게 꺼내고 싶지 않은 마음을 상징해요. 방어는 나쁜 것이 아니라, 나를 지키기 위한 자연스러운 마음의 문일 수 있어요."
+          },
+          {
+            object: "살랑이는 바람에 흔들리는 노란 풍선",
+            colorName: "옐로우",
+            hex: "#ffd966",
+            keyword: "설렘과 기대",
+            insight: "옐로우 풍선은 가벼운 기대와 호기심을 품고 있어요. 당신의 마음은 새로운 가능성 쪽으로 살짝 떠오르고 있는지도 몰라요."
+          },
+          {
+            object: "비바람을 막아주는 커다란 우산",
+            colorName: "네이비",
+            hex: "#384b73",
+            keyword: "보호와 휴식",
+            insight: "네이비 우산은 보호받고 싶은 마음, 조용히 쉬고 싶은 욕구를 나타낼 수 있어요. 지금은 강해지는 것보다 충분히 머무를 안전한 공간이 필요할 수 있어요."
+          },
+          {
+            object: "열심히 페이지를 다뤄가는 다이어리",
+            colorName: "코랄",
+            hex: "#ff8f87",
+            keyword: "성취와 열정",
+            insight: "코랄 다이어리는 기록, 노력, 성취의 감각과 닿아 있어요. 당신은 자신의 하루를 의미 있게 만들고 싶은 따뜻한 열정을 가지고 있어 보여요."
+          }
+        ]
+      },
+      {
+        category: "치유와 소망",
+        question: "오늘 내 마음에 더 채워 넣고 싶은 치유와 활력의 빛은?",
+        choices: [
+          {
+            object: "싱그러운 초록빛 숲의 오라",
+            colorName: "민트",
+            hex: "#8ee6c7",
+            keyword: "회복과 산뜻함",
+            insight: "민트는 숨을 틔워주는 회복의 빛이에요. 마음의 피로를 씻어내고 다시 산뜻하게 시작하고 싶은 바람이 느껴져요."
+          },
+          {
+            object: "따스한 노을빛 온기의 오라",
+            colorName: "피치오렌지",
+            hex: "#ffb37c",
+            keyword: "온기와 위로",
+            insight: "피치오렌지는 다정한 온기의 색이에요. 당신은 평가보다 응원, 긴장보다 포근함을 마음에 더 채워 넣고 싶은 상태일 수 있어요."
+          },
+          {
+            object: "맑고 투명한 하늘빛 호흡의 오라",
+            colorName: "스카이블루",
+            hex: "#8fd3ff",
+            keyword: "호흡과 자유",
+            insight: "스카이블루는 넓은 하늘처럼 숨 쉴 공간을 상징해요. 당신의 마음은 답답함을 내려놓고 조금 더 자유롭게 움직이고 싶어 하는 것 같아요."
+          },
+          {
+            object: "햇살 가득한 레몬빛 긍정 에너지",
+            colorName: "레몬옐로우",
+            hex: "#fff176",
+            keyword: "긍정과 활력",
+            insight: "레몬옐로우는 밝은 활력과 긍정의 빛이에요. 작은 즐거움, 웃음, 가벼운 시작이 지금의 당신에게 좋은 연료가 될 수 있어요."
+          }
+        ]
+      }
+    ];
+
+    let quizIndex = 0;
+    let paletteIndex = 0;
+    let selectedPalette = [];
+
+    const startBtn = document.getElementById('startBtn');
+    const quizCount = document.getElementById('quizCount');
+    const quizDots = document.getElementById('quizDots');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const nextQuizBtn = document.getElementById('nextQuizBtn');
+    const quizAnswerBtns = document.querySelectorAll('.quiz-answer');
+
+    const paletteCategory = document.getElementById('paletteCategory');
+    const paletteCount = document.getElementById('paletteCount');
+    const paletteQuestion = document.getElementById('paletteQuestion');
+    const paletteChoices = document.getElementById('paletteChoices');
+    const palettePreview = document.getElementById('palettePreview');
+
+    const resultPalette = document.getElementById('resultPalette');
+    const insightText = document.getElementById('insightText');
+    const restartBtn = document.getElementById('restartBtn');
+
+    function showScreen(name) {
+      Object.values(screens).forEach(screen => screen.classList.remove('active'));
+      screens[name].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuiz() {
+      const quiz = quizzes[quizIndex];
+
+      quizCount.textContent = `${quizIndex + 1} / ${quizzes.length}`;
+      quizQuestion.textContent = `Q${quizIndex + 1}. ${quiz.question}`;
+      quizFeedback.classList.add('hidden');
+      quizFeedback.textContent = '';
+      nextQuizBtn.disabled = true;
+
+      quizAnswerBtns.forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('border-[#7c5fc7]', 'opacity-60', 'scale-[0.98]');
+      });
+
+      quizDots.innerHTML = quizzes.map((_, index) => `
+        <div class="progress-dot h-3 rounded-full ${index === quizIndex ? 'active' : 'w-3 bg-white/80'}"></div>
+      `).join('');
+    }
+
+    function handleQuizAnswer(answer, button) {
+      const quiz = quizzes[quizIndex];
+      const isCorrect = answer === quiz.answer;
+
+      quizAnswerBtns.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-60');
+      });
+
+      button.classList.remove('opacity-60');
+      button.classList.add('border-[#7c5fc7]');
+
+      quizFeedback.classList.remove('hidden');
+      quizFeedback.innerHTML = `
+        <p class="font-extrabold ${isCorrect ? 'text-[#5b9c78]' : 'text-[#d06767]'}">
+          ${isCorrect ? '정답이에요.' : '괜찮아요, 다시 배워보면 돼요.'}
+        </p>
+        <p class="mt-2">${quiz.explain}</p>
+      `;
+
+      nextQuizBtn.disabled = false;
+    }
+
+    function renderPaletteQuestion() {
+      const item = paletteQuestions[paletteIndex];
+
+      paletteCategory.textContent = item.category;
+      paletteCount.textContent = `${paletteIndex + 1} / ${paletteQuestions.length}`;
+      paletteQuestion.textContent = item.question;
+
+      renderPalettePreview();
+
+      paletteChoices.innerHTML = item.choices.map((choice, index) => `
+        <button
+          class="choice-card rounded-3xl border-2 border-white/80 bg-white/76 p-5 text-left"
+          data-choice-index="${index}"
+        >
+          <div class="flex items-start gap-4">
+            <div
+              class="color-chip h-14 w-14 shrink-0 rounded-2xl"
+              style="background: ${choice.hex};"
+              aria-hidden="true"
+            ></div>
+            <div>
+              <p class="text-lg font-extrabold text-[#40394f]">${choice.object}</p>
+              <p class="mt-1 text-sm font-bold text-[#7c5fc7]">${choice.colorName}</p>
+              <p class="mt-2 text-sm leading-6 text-[#746d82]">${choice.keyword}</p>
+            </div>
+          </div>
+        </button>
+      `).join('');
+
+      document.querySelectorAll('[data-choice-index]').forEach(button => {
+        button.addEventListener('click', () => {
+          const choice = item.choices[Number(button.dataset.choiceIndex)];
+          selectedPalette.push({
+            category: item.category,
+            ...choice
+          });
+
+          button.classList.add('selected');
+
+          setTimeout(() => {
+            paletteIndex++;
+            if (paletteIndex < paletteQuestions.length) {
+              renderPaletteQuestion();
+            } else {
+              renderResult();
+              showScreen('result');
+            }
+          }, 280);
+        });
+      });
+    }
+
+    function renderPalettePreview() {
+      if (selectedPalette.length === 0) {
+        palettePreview.innerHTML = `
+          <p class="text-sm font-medium text-[#82788f]">
+            아직 비어 있는 팔레트예요. 마음이 끌리는 색을 하나씩 담아볼게요.
+          </p>
+        `;
+        return;
+      }
+
+      palettePreview.innerHTML = selectedPalette.map(choice => `
+        <div class="flex items-center gap-2 rounded-full bg-white/80 py-2 pl-2 pr-4 shadow-sm">
+          <span class="h-8 w-8 rounded-full color-chip" style="background: ${choice.hex};"></span>
+          <span class="text-sm font-bold text-[#5c526d]">${choice.colorName}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderResult() {
+      resultPalette.innerHTML = selectedPalette.map(choice => `
+        <div class="palette-chip rounded-[26px] bg-white/78 p-4 text-center shadow-sm">
+          <div
+            class="mx-auto h-24 w-24 rounded-full color-chip sm:h-32 sm:w-32"
+            style="background: ${choice.hex};"
+          ></div>
+          <p class="mt-4 text-sm font-bold text-[#8f7acb]">${choice.category}</p>
+          <p class="mt-1 text-lg font-extrabold text-[#40394f]">${choice.colorName}</p>
+          <p class="mt-1 text-sm leading-5 text-[#746d82]">${choice.keyword}</p>
+        </div>
+      `).join('');
+
+      const energy = selectedPalette[0];
+      const hidden = selectedPalette[1];
+      const healing = selectedPalette[2];
+
+      insightText.textContent =
+        `오늘 당신의 팔레트는 ${energy.colorName}, ${hidden.colorName}, ${healing.colorName}의 흐름으로 완성되었어요.\n\n` +
+        `${energy.insight}\n\n` +
+        `${hidden.insight}\n\n` +
+        `${healing.insight}\n\n` +
+        `이 세 색이 함께 놓이면, 지금의 당신은 '${energy.keyword}'을 바탕으로 '${hidden.keyword}'을 품고 있으며, 앞으로는 '${healing.keyword}'의 방향으로 마음을 돌보고 싶어 하는 모습으로 읽어볼 수 있어요. ` +
+        `이 해석은 정답이 아니라 대화의 출발점이에요. 색을 고른 이유를 스스로 떠올려보는 순간, 이미 당신은 자기 마음을 섬세하게 바라보고 있는 중입니다.`;
+    }
+
+    function restart() {
+      quizIndex = 0;
+      paletteIndex = 0;
+      selectedPalette = [];
+      renderQuiz();
+      showScreen('intro');
+    }
+
+    startBtn.addEventListener('click', () => {
+      renderQuiz();
+      showScreen('quiz');
+    });
+
+    quizAnswerBtns.forEach(button => {
+      button.addEventListener('click', () => {
+        handleQuizAnswer(button.dataset.answer, button);
+      });
+    });
+
+    nextQuizBtn.addEventListener('click', () => {
+      quizIndex++;
+      if (quizIndex < quizzes.length) {
+        renderQuiz();
+      } else {
+        paletteIndex = 0;
+        selectedPalette = [];
+        renderPaletteQuestion();
+        showScreen('palette');
+      }
+    });
+
+    restartBtn.addEventListener('click', restart);
+  </script>
+</body>
+</html>
