@@ -99,6 +99,106 @@
       width: 34px;
       background: linear-gradient(90deg, #f9a8d4, #93c5fd);
     }
+
+    .teacher-feedback {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 14px 34px rgba(117, 92, 145, 0.12);
+    }
+
+    .teacher-feedback::before,
+    .teacher-feedback::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      z-index: -1;
+    }
+
+    .teacher-feedback::before {
+      left: 20px;
+      bottom: -58px;
+      width: 230px;
+      height: 230px;
+      background: rgba(247, 240, 255, 0.72);
+    }
+
+    .teacher-feedback::after {
+      left: 206px;
+      top: 30px;
+      width: 82px;
+      height: 82px;
+      background: rgba(255, 248, 217, 0.72);
+    }
+
+    .teacher-cutout {
+      width: min(38vw, 230px);
+      min-width: 150px;
+      filter: drop-shadow(0 12px 18px rgba(109, 92, 134, 0.14));
+    }
+
+    .speech-bubble {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255, 248, 217, 0.98), rgba(255, 244, 232, 0.96) 58%, rgba(243, 239, 255, 0.96));
+      box-shadow: 0 12px 26px rgba(117, 92, 145, 0.12);
+    }
+
+    .speech-bubble::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 54px;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 248, 217, 0.98);
+      transform: rotate(45deg);
+    }
+
+    .typing-cursor::after {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 3px;
+      background: #7c5fc7;
+      vertical-align: -0.12em;
+      animation: blink 0.8s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .teacher-feedback::before {
+        left: 50%;
+        bottom: auto;
+        top: 18px;
+        transform: translateX(-50%);
+        width: 210px;
+        height: 210px;
+      }
+
+      .teacher-feedback::after {
+        left: 22px;
+        top: 88px;
+        width: 54px;
+        height: 54px;
+      }
+
+      .teacher-cutout {
+        width: 190px;
+      }
+
+      .speech-bubble::before {
+        left: 50%;
+        top: -9px;
+        transform: translateX(-50%) rotate(45deg);
+      }
+    }
   </style>
 </head>
 
@@ -159,7 +259,27 @@
               </button>
             </div>
 
-            <div id="quizFeedback" class="mt-6 hidden rounded-3xl bg-[#fff8d9] p-5 leading-7 text-[#62553a]"></div>
+            <div id="quizFeedback" class="teacher-feedback mt-6 hidden rounded-3xl border border-white p-4 sm:p-6 leading-7 text-[#62553a]">
+              <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
+                <img
+                  src="teacher.png"
+                  alt="미술심리치료사 선생님"
+                  class="teacher-cutout shrink-0 object-contain"
+                />
+                <div class="speech-bubble min-h-32 w-full flex-1 rounded-[26px] border border-white/90 p-5 sm:p-6">
+                  <p
+                    id="feedbackTitle"
+                    class="font-extrabold"
+                    aria-live="polite"
+                  ></p>
+                  <p
+                    id="feedbackText"
+                    class="mt-2 min-h-20 text-[#62553a]"
+                    aria-live="polite"
+                  ></p>
+                </div>
+              </div>
+            </div>
 
             <button
               id="nextQuizBtn"
@@ -375,12 +495,15 @@
     let quizIndex = 0;
     let paletteIndex = 0;
     let selectedPalette = [];
+    let typingTimer = null;
 
     const startBtn = document.getElementById('startBtn');
     const quizCount = document.getElementById('quizCount');
     const quizDots = document.getElementById('quizDots');
     const quizQuestion = document.getElementById('quizQuestion');
     const quizFeedback = document.getElementById('quizFeedback');
+    const feedbackTitle = document.getElementById('feedbackTitle');
+    const feedbackText = document.getElementById('feedbackText');
     const nextQuizBtn = document.getElementById('nextQuizBtn');
     const quizAnswerBtns = document.querySelectorAll('.quiz-answer');
 
@@ -403,10 +526,14 @@
     function renderQuiz() {
       const quiz = quizzes[quizIndex];
 
+      clearTyping();
       quizCount.textContent = `${quizIndex + 1} / ${quizzes.length}`;
       quizQuestion.textContent = `Q${quizIndex + 1}. ${quiz.question}`;
       quizFeedback.classList.add('hidden');
-      quizFeedback.textContent = '';
+      feedbackTitle.textContent = '';
+      feedbackTitle.className = 'font-extrabold';
+      feedbackText.textContent = '';
+      feedbackText.classList.remove('typing-cursor');
       nextQuizBtn.disabled = true;
 
       quizAnswerBtns.forEach(btn => {
@@ -422,7 +549,9 @@
     function handleQuizAnswer(answer, button) {
       const quiz = quizzes[quizIndex];
       const isCorrect = answer === quiz.answer;
+      const titleText = isCorrect ? '정답이에요.' : '괜찮아요, 다시 배워보면 돼요.';
 
+      clearTyping();
       quizAnswerBtns.forEach(btn => {
         btn.disabled = true;
         btn.classList.add('opacity-60');
@@ -432,14 +561,47 @@
       button.classList.add('border-[#7c5fc7]');
 
       quizFeedback.classList.remove('hidden');
-      quizFeedback.innerHTML = `
-        <p class="font-extrabold ${isCorrect ? 'text-[#5b9c78]' : 'text-[#d06767]'}">
-          ${isCorrect ? '정답이에요.' : '괜찮아요, 다시 배워보면 돼요.'}
-        </p>
-        <p class="mt-2">${quiz.explain}</p>
-      `;
+      feedbackTitle.textContent = '';
+      feedbackTitle.className = `font-extrabold ${isCorrect ? 'text-[#5b9c78]' : 'text-[#d06767]'}`;
+      feedbackText.textContent = '';
+      feedbackText.classList.add('typing-cursor');
+      nextQuizBtn.disabled = true;
 
-      nextQuizBtn.disabled = false;
+      typeFeedback(titleText, quiz.explain);
+    }
+
+    function clearTyping() {
+      if (typingTimer) {
+        clearTimeout(typingTimer);
+        typingTimer = null;
+      }
+    }
+
+    function typeInto(element, text, speed, onComplete) {
+      let index = 0;
+
+      function tick() {
+        element.textContent = text.slice(0, index);
+        index++;
+
+        if (index <= text.length) {
+          typingTimer = setTimeout(tick, speed);
+        } else {
+          typingTimer = null;
+          onComplete();
+        }
+      }
+
+      tick();
+    }
+
+    function typeFeedback(titleText, explainText) {
+      typeInto(feedbackTitle, titleText, 34, () => {
+        typeInto(feedbackText, explainText, 28, () => {
+          feedbackText.classList.remove('typing-cursor');
+          nextQuizBtn.disabled = false;
+        });
+      });
     }
 
     function renderPaletteQuestion() {
