@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="980" viewBox="0 0 1420 980">
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#7b679c" flood-opacity="0.16"/>
+    </filter>
+    <filter id="teacherShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#5d4e7a" flood-opacity="0.22"/>
+    </filter>
+    <linearGradient id="pageBg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff7fb"/>
+      <stop offset="0.48" stop-color="#f7fbff"/>
+      <stop offset="1" stop-color="#fffaf1"/>
+    </linearGradient>
+    <linearGradient id="stageBg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff8d9"/>
+      <stop offset="1" stop-color="#fff2fa"/>
+    </linearGradient>
+    <linearGradient id="activeDot" x1="0" x2="1">
+      <stop offset="0" stop-color="#f9a8d4"/>
+      <stop offset="1" stop-color="#93c5fd"/>
+    </linearGradient>
+    <style>
+      text {
+        font-family: Pretendard, Apple SD Gothic Neo, system-ui, sans-serif;
+        letter-spacing: 0;
+      }
+    </style>
+  </defs>
+
+  <rect width="1420" height="980" fill="url(#pageBg)"/>
+  <circle cx="120" cy="70" r="230" fill="#ffe3ee" opacity="0.62"/>
+  <circle cx="1270" cy="100" r="250" fill="#dff2ff" opacity="0.7"/>
+  <circle cx="670" cy="930" r="270" fill="#e5ffe9" opacity="0.58"/>
+
+  <rect x="28" y="28" width="1364" height="924" rx="32" fill="#ffffff" opacity="0.82" filter="url(#softShadow)"/>
+  <rect x="28" y="28" width="1364" height="924" rx="32" fill="none" stroke="#ffffff" stroke-width="2"/>
+
+  <text x="92" y="128" font-size="52" font-weight="800" fill="#443d58">
+    <tspan x="92" dy="0">Q2. 미술심리치료사는 내 그림을 보고 '그림을 얼마나 잘 그렸는지'</tspan>
+    <tspan x="92" dy="64">예술 점수를 매기는 사람이다?</tspan>
+  </text>
+
+  <rect x="92" y="266" width="612" height="176" rx="44" fill="#fde8f1"/>
+  <text x="398" y="375" font-size="60" font-weight="800" text-anchor="middle" fill="#e884aa">O</text>
+
+  <rect x="735" y="266" width="608" height="176" rx="44" fill="#dff0ff" stroke="#7c5fc7" stroke-width="4"/>
+  <text x="1039" y="375" font-size="60" font-weight="800" text-anchor="middle" fill="#3f7fc0">X</text>
+
+  <rect x="92" y="490" width="1252" height="412" rx="42" fill="url(#stageBg)"/>
+  <circle cx="235" cy="810" r="148" fill="#ffd8e9" opacity="0.46"/>
+
+  <image href="teacher.png" x="82" y="518" width="340" height="340" preserveAspectRatio="xMidYMid meet" filter="url(#teacherShadow)"/>
+
+  <path d="M388 620 L350 648 L388 676 Z" fill="#ffffff" opacity="0.94"/>
+  <rect x="388" y="532" width="916" height="330" rx="38" fill="#ffffff" opacity="0.94" stroke="#ffffff" stroke-width="3" filter="url(#softShadow)"/>
+
+  <text x="438" y="624" font-size="36" font-weight="800" fill="#5b9c78">정답이에요.</text>
+  <text x="438" y="710" font-size="31" font-weight="600" fill="#62553a">
+    <tspan x="438" dy="0">미술심리치료사는 그림 실력을 평가하지 않아요.</tspan>
+    <tspan x="438" dy="56">작품 속에 담긴 감정과 이야기를 함께 바라보는</tspan>
+    <tspan x="438" dy="56">사람이에요.</tspan>
+  </text>
+
+  <rect x="92" y="918" width="1252" height="52" rx="26" fill="#7c5fc7"/>
+  <text x="718" y="955" font-size="34" font-weight="800" fill="#ffffff" text-anchor="middle">다음으로</text>
+</svg>
