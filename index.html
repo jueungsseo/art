@@ -50,6 +50,7 @@
     }
 
     .choice-card {
+      min-height: 150px;
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     }
 
@@ -62,6 +63,35 @@
       border-color: #a78bfa;
       box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.18), 0 16px 34px rgba(93, 78, 122, 0.14);
       transform: translateY(-2px);
+    }
+
+    .choice-icon {
+      background:
+        radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.86), transparent 32%),
+        var(--choice-color);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.68), 0 10px 20px rgba(76, 60, 95, 0.13);
+    }
+
+    .palette-choice-grid {
+      max-height: min(62vh, 620px);
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(124, 95, 199, 0.42) rgba(255, 255, 255, 0.5);
+    }
+
+    .palette-choice-grid::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .palette-choice-grid::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.52);
+      border-radius: 999px;
+    }
+
+    .palette-choice-grid::-webkit-scrollbar-thumb {
+      background: rgba(124, 95, 199, 0.42);
+      border-radius: 999px;
     }
 
     .color-chip {
@@ -204,7 +234,7 @@
 
 <body>
   <main class="min-h-screen px-4 py-6 sm:px-6 flex items-center justify-center">
-    <section class="w-full max-w-3xl">
+    <section class="w-full max-w-5xl">
 
       <div id="introScreen" class="screen active">
         <div class="soft-card rounded-[28px] p-7 sm:p-10 text-center">
@@ -308,7 +338,7 @@
 
           <div class="rounded-3xl bg-white/72 p-5 sm:p-7 shadow-sm">
             <p id="paletteQuestion" class="text-xl sm:text-2xl font-bold leading-9 text-[#40394f]"></p>
-            <div id="paletteChoices" class="mt-7 grid gap-4 sm:grid-cols-2"></div>
+            <div id="paletteChoices" class="palette-choice-grid mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"></div>
           </div>
         </div>
       </div>
@@ -392,102 +422,54 @@
         category: "에너지 상태",
         question: "요즘 나의 무의식 에너지는 어떤 형태와 색상에 가까운가요?",
         choices: [
-          {
-            object: "타오르는 불꽃",
-            colorName: "레드",
-            hex: "#ef5b66",
-            keyword: "열정과 역동",
-            insight: "레드는 마음 안쪽의 추진력과 생동감을 보여줘요. 요즘의 당신은 무언가를 시작하거나 밀고 나가고 싶은 에너지가 살아 있는 상태일 수 있어요."
-          },
-          {
-            object: "잔잔한 물결",
-            colorName: "블루",
-            hex: "#6aa7e8",
-            keyword: "고요와 조율",
-            insight: "블루는 마음을 천천히 가라앉히고 균형을 찾고 싶은 욕구와 연결돼요. 당신은 지금 속도를 조절하며 차분히 자신을 정리하고 싶은 시기를 지나고 있을 수 있어요."
-          },
-          {
-            object: "곧게 뻗은 나무",
-            colorName: "그린",
-            hex: "#6fbe8b",
-            keyword: "성장과 뿌리",
-            insight: "그린은 성장, 회복, 안정의 색이에요. 당신 안에는 흔들리더라도 다시 뿌리를 내리고 천천히 자라나려는 힘이 있어 보여요."
-          },
-          {
-            object: "깊은 밤의 별빛",
-            colorName: "퍼플",
-            hex: "#9b7ae5",
-            keyword: "상상력과 내면",
-            insight: "퍼플은 상상력과 깊은 내면의 색이에요. 당신은 보이는 것보다 더 많은 생각과 감각을 품고 있으며, 자신만의 세계를 탐색하고 있을 수 있어요."
-          }
+          { icon: "🔥", object: "타오르는 불꽃", colorName: "레드", hex: "#ef5b66", keyword: "열정과 역동", insight: "레드는 마음 안쪽의 추진력과 생동감을 보여줘요. 요즘의 당신은 무언가를 시작하거나 밀고 나가고 싶은 에너지가 살아 있는 상태일 수 있어요." },
+          { icon: "🌊", object: "잔잔한 물결", colorName: "블루", hex: "#6aa7e8", keyword: "고요와 조율", insight: "블루는 마음을 천천히 가라앉히고 균형을 찾고 싶은 욕구와 연결돼요. 당신은 지금 속도를 조절하며 차분히 자신을 정리하고 싶은 시기를 지나고 있을 수 있어요." },
+          { icon: "🌲", object: "곧게 뻗은 나무", colorName: "그린", hex: "#6fbe8b", keyword: "성장과 뿌리", insight: "그린은 성장, 회복, 안정의 색이에요. 당신 안에는 흔들리더라도 다시 뿌리를 내리고 천천히 자라나려는 힘이 있어 보여요." },
+          { icon: "🌌", object: "깊은 밤의 별빛", colorName: "퍼플", hex: "#9b7ae5", keyword: "상상력과 내면", insight: "퍼플은 상상력과 깊은 내면의 색이에요. 당신은 보이는 것보다 더 많은 생각과 감각을 품고 있으며, 자신만의 세계를 탐색하고 있을 수 있어요." },
+          { icon: "☀️", object: "환한 아침 햇살", colorName: "골드", hex: "#f6c453", keyword: "자신감과 활력", insight: "골드는 자신을 드러내고 싶은 밝은 힘과 연결돼요. 요즘의 당신은 인정받고 싶거나, 스스로의 가능성을 더 믿고 싶은 마음을 품고 있을 수 있어요." },
+          { icon: "🌙", object: "조용한 달빛", colorName: "라벤더", hex: "#c5b4f2", keyword: "휴식과 감수성", insight: "라벤더는 예민한 감수성과 부드러운 휴식의 색이에요. 당신의 에너지는 조용한 곳에서 다시 충전될 때 더 선명해질 수 있어요." },
+          { icon: "⚡", object: "반짝이는 번개", colorName: "일렉트릭 블루", hex: "#57c7ff", keyword: "순간 집중과 전환", insight: "일렉트릭 블루는 빠른 집중과 변화의 신호처럼 느껴져요. 지금의 당신은 새로운 자극이나 전환점을 만나면 에너지가 확 살아날 수 있어요." },
+          { icon: "🌋", object: "끓어오르는 화산", colorName: "버밀리언", hex: "#ff6b3d", keyword: "강렬함과 해방", insight: "버밀리언은 눌려 있던 감정이 밖으로 움직이려는 색이에요. 참아온 에너지나 말하고 싶은 마음을 안전하게 표현할 통로가 필요할 수 있어요." },
+          { icon: "🪨", object: "단단한 바위", colorName: "스톤 그레이", hex: "#8e8f98", keyword: "인내와 버팀", insight: "스톤 그레이는 쉽게 흔들리지 않는 버팀의 힘을 보여줘요. 당신은 지금 감정을 크게 드러내기보다 조용히 견디며 중심을 잡고 있을 수 있어요." },
+          { icon: "🌱", object: "막 돋아난 새싹", colorName: "라임그린", hex: "#a8dc6f", keyword: "시작과 회복", insight: "라임그린은 작지만 분명한 시작의 색이에요. 아직 완성되지 않았더라도, 당신 안에는 새롭게 자라나는 가능성이 살아 있어요." },
+          { icon: "🫧", object: "떠오르는 비눗방울", colorName: "아쿠아", hex: "#7ddfd6", keyword: "가벼움과 유연함", insight: "아쿠아는 가볍게 움직이고 싶은 마음과 닿아 있어요. 너무 무겁게 생각하기보다 유연하게 시도할 때 당신의 에너지가 편안해질 수 있어요." },
+          { icon: "🕯️", object: "작은 촛불", colorName: "앰버", hex: "#f2a65a", keyword: "집중과 온기", insight: "앰버는 작지만 오래 지속되는 따뜻한 집중을 나타내요. 당신에게는 큰 폭발보다 꾸준히 밝혀지는 내면의 힘이 중요할 수 있어요." }
         ]
       },
       {
         category: "숨겨진 감정/오브제",
         question: "요즘 내 마음 한쪽에 묵혀두거나, 혹은 품고 있는 감정의 오브제는?",
         choices: [
-          {
-            object: "잠겨진 보물상자",
-            colorName: "다크브라운",
-            hex: "#6b4f3f",
-            keyword: "비밀과 방어",
-            insight: "다크브라운의 보물상자는 아직 쉽게 꺼내고 싶지 않은 마음을 상징해요. 방어는 나쁜 것이 아니라, 나를 지키기 위한 자연스러운 마음의 문일 수 있어요."
-          },
-          {
-            object: "살랑이는 바람에 흔들리는 노란 풍선",
-            colorName: "옐로우",
-            hex: "#ffd966",
-            keyword: "설렘과 기대",
-            insight: "옐로우 풍선은 가벼운 기대와 호기심을 품고 있어요. 당신의 마음은 새로운 가능성 쪽으로 살짝 떠오르고 있는지도 몰라요."
-          },
-          {
-            object: "비바람을 막아주는 커다란 우산",
-            colorName: "네이비",
-            hex: "#384b73",
-            keyword: "보호와 휴식",
-            insight: "네이비 우산은 보호받고 싶은 마음, 조용히 쉬고 싶은 욕구를 나타낼 수 있어요. 지금은 강해지는 것보다 충분히 머무를 안전한 공간이 필요할 수 있어요."
-          },
-          {
-            object: "열심히 페이지를 다뤄가는 다이어리",
-            colorName: "코랄",
-            hex: "#ff8f87",
-            keyword: "성취와 열정",
-            insight: "코랄 다이어리는 기록, 노력, 성취의 감각과 닿아 있어요. 당신은 자신의 하루를 의미 있게 만들고 싶은 따뜻한 열정을 가지고 있어 보여요."
-          }
+          { icon: "🧰", object: "잠겨진 보물상자", colorName: "다크브라운", hex: "#6b4f3f", keyword: "비밀과 방어", insight: "다크브라운의 보물상자는 아직 쉽게 꺼내고 싶지 않은 마음을 상징해요. 방어는 나쁜 것이 아니라, 나를 지키기 위한 자연스러운 마음의 문일 수 있어요." },
+          { icon: "🎈", object: "노란 풍선", colorName: "옐로우", hex: "#ffd966", keyword: "설렘과 기대", insight: "옐로우 풍선은 가벼운 기대와 호기심을 품고 있어요. 당신의 마음은 새로운 가능성 쪽으로 살짝 떠오르고 있는지도 몰라요." },
+          { icon: "☂️", object: "커다란 우산", colorName: "네이비", hex: "#384b73", keyword: "보호와 휴식", insight: "네이비 우산은 보호받고 싶은 마음, 조용히 쉬고 싶은 욕구를 나타낼 수 있어요. 지금은 강해지는 것보다 충분히 머무를 안전한 공간이 필요할 수 있어요." },
+          { icon: "📓", object: "페이지를 넘기는 다이어리", colorName: "코랄", hex: "#ff8f87", keyword: "성취와 열정", insight: "코랄 다이어리는 기록, 노력, 성취의 감각과 닿아 있어요. 당신은 자신의 하루를 의미 있게 만들고 싶은 따뜻한 열정을 가지고 있어 보여요." },
+          { icon: "🧊", object: "녹지 않은 얼음조각", colorName: "아이스블루", hex: "#b9e6ff", keyword: "거리두기와 진정", insight: "아이스블루는 감정을 잠시 얼려두고 싶은 마음을 보여줄 수 있어요. 지금은 서두르지 않고, 감정이 녹을 만큼의 안전한 시간이 필요할 수 있어요." },
+          { icon: "🪞", object: "흐릿한 거울", colorName: "실버", hex: "#c8c8d2", keyword: "자기탐색과 혼란", insight: "실버 거울은 나를 더 알고 싶지만 아직 선명하지 않은 마음을 상징해요. 혼란은 부족함이 아니라, 새로운 자기 이해로 가는 중간 과정일 수 있어요." },
+          { icon: "🪁", object: "높이 오른 연", colorName: "터쿼이즈", hex: "#4ecdc4", keyword: "자유와 거리", insight: "터쿼이즈 연은 조금 멀리서 상황을 보고 싶은 마음과 닿아 있어요. 관계나 고민에서 적당한 거리를 둘 때 숨이 트일 수 있어요." },
+          { icon: "🧶", object: "엉킨 실타래", colorName: "마젠타", hex: "#d86ba7", keyword: "복잡함과 연결", insight: "마젠타 실타래는 마음속 여러 감정이 서로 얽혀 있음을 보여줘요. 하나씩 풀어가면 복잡함 안에도 중요한 연결과 바람이 숨어 있을 수 있어요." },
+          { icon: "🪶", object: "가벼운 깃털", colorName: "파우더핑크", hex: "#f6bfd2", keyword: "섬세함과 배려", insight: "파우더핑크 깃털은 쉽게 상처받을 만큼 섬세한 마음을 나타낼 수 있어요. 당신의 다정함은 약점이 아니라 감정을 잘 느끼는 힘이에요." },
+          { icon: "🧭", object: "방향을 찾는 나침반", colorName: "인디고", hex: "#5460a8", keyword: "진로와 탐색", insight: "인디고 나침반은 어디로 가야 할지 찾고 싶은 마음과 연결돼요. 답을 빨리 정하기보다, 내가 끌리는 방향을 관찰하는 시간이 도움이 될 수 있어요." },
+          { icon: "🌧️", object: "창가의 빗방울", colorName: "슬레이트블루", hex: "#7787b7", keyword: "그리움과 정화", insight: "슬레이트블루 빗방울은 조용한 슬픔이나 그리움을 씻어내는 이미지를 품고 있어요. 감정을 밀어내지 않고 바라보는 것만으로도 마음은 조금 가벼워질 수 있어요." },
+          { icon: "🗝️", object: "작은 열쇠", colorName: "브라스", hex: "#c59b54", keyword: "가능성과 선택", insight: "브라스 열쇠는 아직 열어보지 않은 가능성을 상징해요. 당신 안에는 스스로도 모르는 문을 열 수 있는 선택의 힘이 남아 있어요." }
         ]
       },
       {
         category: "치유와 소망",
         question: "오늘 내 마음에 더 채워 넣고 싶은 치유와 활력의 빛은?",
         choices: [
-          {
-            object: "싱그러운 초록빛 숲의 오라",
-            colorName: "민트",
-            hex: "#8ee6c7",
-            keyword: "회복과 산뜻함",
-            insight: "민트는 숨을 틔워주는 회복의 빛이에요. 마음의 피로를 씻어내고 다시 산뜻하게 시작하고 싶은 바람이 느껴져요."
-          },
-          {
-            object: "따스한 노을빛 온기의 오라",
-            colorName: "피치오렌지",
-            hex: "#ffb37c",
-            keyword: "온기와 위로",
-            insight: "피치오렌지는 다정한 온기의 색이에요. 당신은 평가보다 응원, 긴장보다 포근함을 마음에 더 채워 넣고 싶은 상태일 수 있어요."
-          },
-          {
-            object: "맑고 투명한 하늘빛 호흡의 오라",
-            colorName: "스카이블루",
-            hex: "#8fd3ff",
-            keyword: "호흡과 자유",
-            insight: "스카이블루는 넓은 하늘처럼 숨 쉴 공간을 상징해요. 당신의 마음은 답답함을 내려놓고 조금 더 자유롭게 움직이고 싶어 하는 것 같아요."
-          },
-          {
-            object: "햇살 가득한 레몬빛 긍정 에너지",
-            colorName: "레몬옐로우",
-            hex: "#fff176",
-            keyword: "긍정과 활력",
-            insight: "레몬옐로우는 밝은 활력과 긍정의 빛이에요. 작은 즐거움, 웃음, 가벼운 시작이 지금의 당신에게 좋은 연료가 될 수 있어요."
-          }
+          { icon: "🌿", object: "초록빛 숲의 오라", colorName: "민트", hex: "#8ee6c7", keyword: "회복과 산뜻함", insight: "민트는 숨을 틔워주는 회복의 빛이에요. 마음의 피로를 씻어내고 다시 산뜻하게 시작하고 싶은 바람이 느껴져요." },
+          { icon: "🌅", object: "노을빛 온기의 오라", colorName: "피치오렌지", hex: "#ffb37c", keyword: "온기와 위로", insight: "피치오렌지는 다정한 온기의 색이에요. 당신은 평가보다 응원, 긴장보다 포근함을 마음에 더 채워 넣고 싶은 상태일 수 있어요." },
+          { icon: "🪽", object: "하늘빛 호흡의 오라", colorName: "스카이블루", hex: "#8fd3ff", keyword: "호흡과 자유", insight: "스카이블루는 넓은 하늘처럼 숨 쉴 공간을 상징해요. 당신의 마음은 답답함을 내려놓고 조금 더 자유롭게 움직이고 싶어 하는 것 같아요." },
+          { icon: "🍋", object: "레몬빛 긍정 에너지", colorName: "레몬옐로우", hex: "#fff176", keyword: "긍정과 활력", insight: "레몬옐로우는 밝은 활력과 긍정의 빛이에요. 작은 즐거움, 웃음, 가벼운 시작이 지금의 당신에게 좋은 연료가 될 수 있어요." },
+          { icon: "🫶", object: "포근한 손의 온기", colorName: "로즈핑크", hex: "#f4a6bc", keyword: "수용과 애정", insight: "로즈핑크는 있는 그대로의 나를 안아주는 색이에요. 지금 당신에게 필요한 치유는 더 잘하려는 압박보다 따뜻한 자기수용일 수 있어요." },
+          { icon: "💎", object: "투명한 수정빛", colorName: "크리스탈", hex: "#d8f5ff", keyword: "맑음과 정리", insight: "크리스탈빛은 마음을 맑게 정돈하고 싶은 바람과 이어져요. 생각이 복잡할수록 단순한 선과 색으로 감정을 정리해보면 좋아요." },
+          { icon: "🌻", object: "해바라기 햇살", colorName: "선플라워", hex: "#ffc857", keyword: "희망과 자존감", insight: "선플라워는 햇빛을 향해 고개를 드는 힘을 상징해요. 당신은 작은 칭찬과 성공 경험을 통해 마음의 방향을 다시 세울 수 있어요." },
+          { icon: "🪷", object: "고요한 연꽃", colorName: "페일퍼플", hex: "#d8c7ff", keyword: "평온과 자기존중", insight: "페일퍼플 연꽃은 소란 속에서도 나를 잃지 않는 평온을 보여줘요. 조용히 숨을 고르며 자기 마음을 존중하는 시간이 필요할 수 있어요." },
+          { icon: "🍊", object: "상큼한 귤빛", colorName: "탠저린", hex: "#ff9f5a", keyword: "즐거움과 생기", insight: "탠저린은 몸과 마음에 생기를 더하는 색이에요. 너무 무겁게 완벽을 추구하기보다, 즐거운 시도 하나가 회복의 시작이 될 수 있어요." },
+          { icon: "🌬️", object: "맑은 바람길", colorName: "페일민트", hex: "#c7f3df", keyword: "순환과 가벼움", insight: "페일민트는 막힌 마음을 순환시키는 색이에요. 산책, 환기, 짧은 낙서처럼 가벼운 움직임이 오늘의 마음에 도움이 될 수 있어요." },
+          { icon: "🪩", object: "반짝이는 프리즘", colorName: "오팔", hex: "#bde0fe", keyword: "다채로움과 발견", insight: "오팔은 하나의 색으로 설명되지 않는 다채로운 마음을 보여줘요. 당신 안의 여러 모습이 함께 있어도 괜찮다는 감각이 치유가 될 수 있어요." },
+          { icon: "🤍", object: "부드러운 흰 구름", colorName: "웜화이트", hex: "#fffaf0", keyword: "비움과 안정", insight: "웜화이트는 잠시 비워내고 쉬어가는 색이에요. 무엇을 더 채우기보다 덜어내는 시간이 지금의 당신을 편안하게 해줄 수 있어요." }
         ]
       }
     ];
@@ -615,19 +597,17 @@
 
       paletteChoices.innerHTML = item.choices.map((choice, index) => `
         <button
-          class="choice-card rounded-3xl border-2 border-white/80 bg-white/76 p-5 text-left"
+          class="choice-card rounded-3xl border-2 border-white/80 bg-white/76 p-4 text-center"
           data-choice-index="${index}"
+          style="--choice-color: ${choice.hex};"
         >
-          <div class="flex items-start gap-4">
-            <div
-              class="color-chip h-14 w-14 shrink-0 rounded-2xl"
-              style="background: ${choice.hex};"
-              aria-hidden="true"
-            ></div>
+          <div class="flex h-full flex-col items-center justify-center gap-3">
+            <div class="choice-icon grid h-16 w-16 place-items-center rounded-[22px] text-4xl sm:h-20 sm:w-20 sm:text-5xl" aria-hidden="true">
+              ${choice.icon}
+            </div>
             <div>
-              <p class="text-lg font-extrabold text-[#40394f]">${choice.object}</p>
-              <p class="mt-1 text-sm font-bold text-[#7c5fc7]">${choice.colorName}</p>
-              <p class="mt-2 text-sm leading-6 text-[#746d82]">${choice.keyword}</p>
+              <p class="text-sm font-extrabold leading-5 text-[#40394f] sm:text-base">${choice.object}</p>
+              <p class="mt-1 text-xs font-bold text-[#7c5fc7] sm:text-sm">${choice.colorName}</p>
             </div>
           </div>
         </button>
