@@ -1080,9 +1080,23 @@
         return;
       }
 
+      if (state.currentScreen === 'palette' && state.paletteIndex > 0) {
+        state.paletteIndex--;
+        state.selectedPalette = state.selectedPalette.slice(0, state.paletteIndex);
+        renderPaletteQuestion();
+        updateNavControls();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
       const previousScreen = state.screenHistory.pop();
       if (!previousScreen) return;
       showScreen(previousScreen, { remember: false });
+      if (previousScreen === 'palette') {
+        state.paletteIndex = Math.max(0, Math.min(paletteQuestions.length - 1, state.selectedPalette.length - 1));
+        state.selectedPalette = state.selectedPalette.slice(0, state.paletteIndex);
+        renderPaletteQuestion();
+      }
     }
 
     function goHome() {
@@ -1250,8 +1264,9 @@
         return;
       }
       $('reasonAlert').classList.add('hidden');
+      state.paletteIndex = Math.max(0, Math.min(state.paletteIndex, paletteQuestions.length - 1));
       state.selectedPalette[state.paletteIndex] = { ...state.pendingChoice, reason };
-      state.selectedPalette = state.selectedPalette.slice(0, paletteQuestions.length);
+      state.selectedPalette = state.selectedPalette.slice(0, state.paletteIndex + 1);
       state.paletteIndex++;
       if (state.paletteIndex < paletteQuestions.length) renderPaletteQuestion();
       else {
