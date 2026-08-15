@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>내 마음의 컬러 팔레트</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
 
@@ -103,6 +103,21 @@
         contrast(1.04);
     }
 
+    .choice-icon .emoji-symbol {
+      display: block;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      font-size: 3.45rem;
+      line-height: 1;
+      filter: drop-shadow(0 5px 6px rgba(48, 36, 62, 0.24));
+      transform: translateY(2px);
+    }
+
+    @media (min-width: 640px) {
+      .choice-icon .emoji-symbol {
+        font-size: 3.95rem;
+      }
+    }
+
     .choice-card:hover .choice-icon {
       box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.76),
@@ -166,32 +181,13 @@
 
     .teacher-feedback::before,
     .teacher-feedback::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      z-index: -1;
-    }
-
-    .teacher-feedback::before {
-      left: 20px;
-      bottom: -58px;
-      width: 230px;
-      height: 230px;
-      background: rgba(247, 240, 255, 0.72);
-    }
-
-    .teacher-feedback::after {
-      left: 206px;
-      top: 30px;
-      width: 82px;
-      height: 82px;
-      background: rgba(255, 248, 217, 0.72);
+      display: none;
     }
 
     .teacher-cutout {
       width: min(38vw, 230px);
       min-width: 150px;
-      filter: drop-shadow(0 12px 18px rgba(109, 92, 134, 0.14));
+      filter: drop-shadow(0 10px 14px rgba(109, 92, 134, 0.08));
     }
 
     .speech-bubble {
@@ -252,25 +248,28 @@
 
     .painter-palette {
       position: relative;
-      min-height: clamp(270px, 48vw, 360px);
-      border-radius: 58% 42% 47% 53% / 64% 43% 57% 36%;
+      min-height: clamp(190px, 32vw, 250px);
+      width: min(100%, 860px);
+      margin-inline: auto;
+      border-radius: 55% 45% 43% 57% / 58% 45% 55% 42%;
       background:
-        radial-gradient(ellipse at 36% 11%, rgba(255, 255, 255, 0.88), transparent 22%),
-        radial-gradient(ellipse at 72% 30%, rgba(255, 255, 255, 0.5), transparent 24%),
-        radial-gradient(ellipse at 50% 96%, rgba(180, 127, 55, 0.13), transparent 45%),
-        linear-gradient(135deg, #fff8e7 0%, #f8e7bd 52%, #f2d59b 100%);
+        radial-gradient(ellipse at 18% 18%, rgba(255, 255, 255, 0.72), transparent 24%),
+        radial-gradient(ellipse at 54% 94%, rgba(176, 110, 34, 0.15), transparent 48%),
+        repeating-linear-gradient(8deg, rgba(151, 100, 39, 0.035) 0 2px, transparent 2px 15px),
+        linear-gradient(135deg, #fff4d8 0%, #f4d7a0 54%, #e9bd73 100%);
       border: 2px solid rgba(230, 196, 139, 0.72);
       box-shadow:
         inset 0 0 0 5px rgba(255, 255, 255, 0.42),
-        inset 0 -24px 46px rgba(161, 107, 39, 0.13),
-        0 24px 46px rgba(128, 94, 52, 0.18);
+        inset 0 -20px 36px rgba(145, 88, 28, 0.14),
+        0 20px 34px rgba(128, 94, 52, 0.18);
+      overflow: visible;
     }
 
     .painter-palette::after {
       content: "";
       position: absolute;
-      right: 8.5%;
-      top: 16%;
+      right: 2.8%;
+      top: 44%;
       width: clamp(42px, 9vw, 64px);
       height: clamp(42px, 9vw, 64px);
       border-radius: 999px;
@@ -279,23 +278,28 @@
       box-shadow: inset 0 10px 18px rgba(128, 94, 52, 0.2), 0 3px 10px rgba(128, 94, 52, 0.12);
     }
 
+    .painter-palette::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.44);
+      pointer-events: none;
+    }
+
     .paint-well {
       position: relative;
-      border: 5px solid rgba(255, 255, 255, 0.56);
+      border: 5px solid rgba(255, 255, 255, 0.5);
       box-shadow:
-        inset 0 10px 18px rgba(255, 255, 255, 0.42),
-        inset 0 -16px 24px rgba(83, 57, 98, 0.16),
-        0 10px 0 rgba(98, 72, 117, 0.08),
-        0 18px 28px rgba(76, 60, 95, 0.16);
+        inset 0 12px 20px rgba(255, 255, 255, 0.34),
+        inset 0 -18px 24px rgba(59, 43, 75, 0.16),
+        inset 0 0 0 8px rgba(255, 255, 255, 0.12),
+        0 10px 0 rgba(98, 72, 117, 0.07),
+        0 16px 24px rgba(76, 60, 95, 0.13);
     }
 
     .paint-well::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border-radius: inherit;
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.24);
+      display: none;
     }
 
     .paint-symbol {
@@ -306,6 +310,33 @@
 
     .paint-symbol .icon-img {
       padding: 0.6rem;
+    }
+
+    .palette-chip {
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 27% 23%, rgba(255, 255, 255, 0.72), transparent 20%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 58%),
+        var(--chip-color);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+        inset 0 -10px 18px rgba(64, 48, 79, 0.09),
+        0 8px 16px rgba(76, 60, 95, 0.14);
+    }
+
+    .palette-chip .emoji-symbol {
+      display: block;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      font-size: 2.25rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 5px rgba(48, 36, 62, 0.22));
+      transform: translateY(1px);
+    }
+
+    @media (min-width: 640px) {
+      .palette-chip .emoji-symbol {
+        font-size: 3rem;
+      }
     }
 
     .report-divider {
@@ -388,22 +419,6 @@
     }
 
     @media (max-width: 640px) {
-      .teacher-feedback::before {
-        left: 50%;
-        bottom: auto;
-        top: 18px;
-        transform: translateX(-50%);
-        width: 210px;
-        height: 210px;
-      }
-
-      .teacher-feedback::after {
-        left: 22px;
-        top: 88px;
-        width: 54px;
-        height: 54px;
-      }
-
       .teacher-cutout { width: 190px; }
 
       .speech-bubble::before {
@@ -592,7 +607,7 @@
                       <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/palette.png" alt="팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                       <h4 class="font-extrabold text-[#4b3f72]">마음 팔레트</h4>
                     </div>
-                    <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-2 px-4 py-10 pr-[18%] sm:px-8 sm:py-12"></div>
+                    <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-2 px-6 py-8 pr-[24%] sm:px-12 sm:py-9 sm:pr-[22%]"></div>
                   </div>
                   <p class="mt-5 rounded-2xl border border-dashed border-[#d8c7ff] bg-white/70 px-4 py-3 text-sm leading-6 text-[#6d657c]">이 리포트는 색채선택을 통해 드러난 내담자의 현재 마음 상태와 필요를 이해하는 데 도움을 줍니다.</p>
                 </section>
@@ -790,6 +805,8 @@
 
     const iconImg = (name, alt, className = 'icon-img p-2') =>
       `<img src="assets/icons/${name}.png" alt="${alt}" class="${className}" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" />`;
+    const emojiIcon = (emoji, label) =>
+      `<span class="emoji-symbol" role="img" aria-label="${label}">${emoji}</span>`;
 
     const quizzes = [
       { question: "미술심리치료는 말로 표현하기 힘든 감정을 그림이나 색으로 안전하게 꺼내어 표현하는 '비언어적 소통'이다?", answer: "O", explain: "맞아요. 미술심리치료는 말보다 먼저 떠오르는 이미지, 색, 선, 상징을 통해 마음을 안전하게 표현하도록 돕는 과정이에요." },
@@ -812,54 +829,54 @@
         category: "에너지 상태",
         question: "요즘 나의 무의식 에너지는 어떤 형태와 색상에 가까운가요?",
         choices: [
-          { icon: iconImg("flame", "타오르는 불꽃"), object: "타오르는 불꽃", colorName: "레드", hex: "#ef5b66", keyword: "추진력", theory: "레드는 생명력, 행동화, 자기주장의 색으로 읽힙니다.", insight: "레드는 마음 안쪽의 추진력과 생동감을 보여줘요. 요즘의 당신은 무언가를 시작하거나 밀고 나가고 싶은 에너지가 살아 있는 상태일 수 있어요." },
-          { icon: iconImg("wave", "잔잔한 물결"), object: "잔잔한 물결", colorName: "블루", hex: "#6aa7e8", keyword: "자아정화", theory: "블루는 정화, 안정, 감정 조율의 색으로 해석됩니다.", insight: "블루는 마음을 천천히 가라앉히고 균형을 찾고 싶은 욕구와 연결돼요." },
-          { icon: iconImg("tree", "곧게 뻗은 나무"), object: "곧게 뻗은 나무", colorName: "그린", hex: "#6fbe8b", keyword: "회복", theory: "그린은 성장, 회복, 관계적 안정의 색입니다.", insight: "그린은 성장, 회복, 안정의 색이에요. 다시 뿌리를 내리고 자라나려는 힘이 있어 보여요." },
-          { icon: iconImg("starlight", "깊은 밤의 별빛"), object: "깊은 밤의 별빛", colorName: "퍼플", hex: "#9b7ae5", keyword: "내면 탐색", theory: "퍼플은 상상력, 직관, 깊은 내면의 색입니다.", insight: "퍼플은 보이는 것보다 더 많은 생각과 감각을 품은 상태를 보여줘요." },
-          { icon: iconImg("morning-sun", "환한 아침 햇살"), object: "환한 아침 햇살", colorName: "골드", hex: "#f6c453", keyword: "자신감", theory: "골드는 자기 가치감, 인정 욕구, 밝은 확장의 색입니다.", insight: "골드는 스스로의 가능성을 더 믿고 싶은 마음을 품고 있을 수 있어요." },
-          { icon: iconImg("moonlight", "조용한 달빛"), object: "조용한 달빛", colorName: "라벤더", hex: "#c5b4f2", keyword: "휴식", theory: "라벤더는 민감한 감수성과 회복적 휴식의 색입니다.", insight: "라벤더는 조용한 곳에서 다시 충전될 때 마음이 선명해지는 흐름을 보여줘요." },
-          { icon: iconImg("spark", "반짝이는 번개"), object: "반짝이는 번개", colorName: "일렉트릭 블루", hex: "#57c7ff", keyword: "전환", theory: "밝은 청색은 빠른 통찰, 각성, 전환의 색으로 볼 수 있습니다.", insight: "새로운 자극이나 전환점을 만나면 에너지가 살아날 수 있어요." },
-          { icon: iconImg("volcano", "끓어오르는 화산"), object: "끓어오르는 화산", colorName: "버밀리언", hex: "#ff6b3d", keyword: "해방", theory: "주황빛 레드는 억압된 정서의 분출과 표현 욕구를 나타냅니다.", insight: "참아온 에너지나 말하고 싶은 마음을 안전하게 표현할 통로가 필요할 수 있어요." },
-          { icon: iconImg("stone", "단단한 바위"), object: "단단한 바위", colorName: "스톤 그레이", hex: "#8e8f98", keyword: "버팀", theory: "그레이는 중립, 방어, 심리적 거리 조절의 색입니다.", insight: "감정을 크게 드러내기보다 조용히 견디며 중심을 잡고 있을 수 있어요." },
-          { icon: iconImg("sprout", "막 돋아난 새싹"), object: "막 돋아난 새싹", colorName: "라임그린", hex: "#a8dc6f", keyword: "시작", theory: "라임그린은 새 출발, 회복 탄력성, 미성숙하지만 살아 있는 가능성을 뜻합니다.", insight: "아직 완성되지 않았더라도 새롭게 자라나는 가능성이 살아 있어요." },
-          { icon: iconImg("bubble", "떠오르는 비눗방울"), object: "떠오르는 비눗방울", colorName: "아쿠아", hex: "#7ddfd6", keyword: "유연함", theory: "아쿠아는 가벼운 정서 순환과 유연한 소통의 색입니다.", insight: "무겁게 생각하기보다 유연하게 시도할 때 에너지가 편안해질 수 있어요." },
-          { icon: iconImg("candle", "작은 촛불"), object: "작은 촛불", colorName: "앰버", hex: "#f2a65a", keyword: "온기", theory: "앰버는 내적 집중, 지속성, 따뜻한 자기 돌봄의 색입니다.", insight: "큰 폭발보다 꾸준히 밝혀지는 내면의 힘이 중요할 수 있어요." }
+          { icon: emojiIcon("🔥", "타오르는 불꽃"), object: "타오르는 불꽃", colorName: "레드", hex: "#ef5b66", keyword: "추진력", theory: "레드는 생명력, 행동화, 자기주장의 색으로 읽힙니다.", insight: "레드는 마음 안쪽의 추진력과 생동감을 보여줘요. 요즘의 당신은 무언가를 시작하거나 밀고 나가고 싶은 에너지가 살아 있는 상태일 수 있어요." },
+          { icon: emojiIcon("🌊", "잔잔한 물결"), object: "잔잔한 물결", colorName: "블루", hex: "#6aa7e8", keyword: "자아정화", theory: "블루는 정화, 안정, 감정 조율의 색으로 해석됩니다.", insight: "블루는 마음을 천천히 가라앉히고 균형을 찾고 싶은 욕구와 연결돼요." },
+          { icon: emojiIcon("🌲", "곧게 뻗은 나무"), object: "곧게 뻗은 나무", colorName: "그린", hex: "#6fbe8b", keyword: "회복", theory: "그린은 성장, 회복, 관계적 안정의 색입니다.", insight: "그린은 성장, 회복, 안정의 색이에요. 다시 뿌리를 내리고 자라나려는 힘이 있어 보여요." },
+          { icon: emojiIcon("🌌", "깊은 밤의 별빛"), object: "깊은 밤의 별빛", colorName: "퍼플", hex: "#9b7ae5", keyword: "내면 탐색", theory: "퍼플은 상상력, 직관, 깊은 내면의 색입니다.", insight: "퍼플은 보이는 것보다 더 많은 생각과 감각을 품은 상태를 보여줘요." },
+          { icon: emojiIcon("☀️", "환한 아침 햇살"), object: "환한 아침 햇살", colorName: "골드", hex: "#f6c453", keyword: "자신감", theory: "골드는 자기 가치감, 인정 욕구, 밝은 확장의 색입니다.", insight: "골드는 스스로의 가능성을 더 믿고 싶은 마음을 품고 있을 수 있어요." },
+          { icon: emojiIcon("🌙", "조용한 달빛"), object: "조용한 달빛", colorName: "라벤더", hex: "#c5b4f2", keyword: "휴식", theory: "라벤더는 민감한 감수성과 회복적 휴식의 색입니다.", insight: "라벤더는 조용한 곳에서 다시 충전될 때 마음이 선명해지는 흐름을 보여줘요." },
+          { icon: emojiIcon("⚡", "반짝이는 번개"), object: "반짝이는 번개", colorName: "일렉트릭 블루", hex: "#57c7ff", keyword: "전환", theory: "밝은 청색은 빠른 통찰, 각성, 전환의 색으로 볼 수 있습니다.", insight: "새로운 자극이나 전환점을 만나면 에너지가 살아날 수 있어요." },
+          { icon: emojiIcon("🌋", "끓어오르는 화산"), object: "끓어오르는 화산", colorName: "버밀리언", hex: "#ff6b3d", keyword: "해방", theory: "주황빛 레드는 억압된 정서의 분출과 표현 욕구를 나타냅니다.", insight: "참아온 에너지나 말하고 싶은 마음을 안전하게 표현할 통로가 필요할 수 있어요." },
+          { icon: emojiIcon("🪨", "단단한 바위"), object: "단단한 바위", colorName: "스톤 그레이", hex: "#8e8f98", keyword: "버팀", theory: "그레이는 중립, 방어, 심리적 거리 조절의 색입니다.", insight: "감정을 크게 드러내기보다 조용히 견디며 중심을 잡고 있을 수 있어요." },
+          { icon: emojiIcon("🌱", "막 돋아난 새싹"), object: "막 돋아난 새싹", colorName: "라임그린", hex: "#a8dc6f", keyword: "시작", theory: "라임그린은 새 출발, 회복 탄력성, 미성숙하지만 살아 있는 가능성을 뜻합니다.", insight: "아직 완성되지 않았더라도 새롭게 자라나는 가능성이 살아 있어요." },
+          { icon: emojiIcon("🫧", "떠오르는 비눗방울"), object: "떠오르는 비눗방울", colorName: "아쿠아", hex: "#7ddfd6", keyword: "유연함", theory: "아쿠아는 가벼운 정서 순환과 유연한 소통의 색입니다.", insight: "무겁게 생각하기보다 유연하게 시도할 때 에너지가 편안해질 수 있어요." },
+          { icon: emojiIcon("🕯️", "작은 촛불"), object: "작은 촛불", colorName: "앰버", hex: "#f2a65a", keyword: "온기", theory: "앰버는 내적 집중, 지속성, 따뜻한 자기 돌봄의 색입니다.", insight: "큰 폭발보다 꾸준히 밝혀지는 내면의 힘이 중요할 수 있어요." }
         ]
       },
       {
         category: "감정 오브제",
         question: "요즘 내 마음 한쪽에 묵혀두거나, 혹은 품고 있는 감정의 오브제는?",
         choices: [
-          { icon: iconImg("treasure-box", "잠겨진 보물상자"), object: "잠겨진 보물상자", colorName: "다크브라운", hex: "#6b4f3f", keyword: "방어", theory: "브라운은 보호, 경계, 내면의 저장고를 상징합니다.", insight: "아직 쉽게 꺼내고 싶지 않은 마음을 안전하게 보관하고 있을 수 있어요." },
-          { icon: iconImg("balloon", "노란 풍선"), object: "노란 풍선", colorName: "옐로우", hex: "#ffd966", keyword: "기대", theory: "옐로우는 호기심, 기대, 인지적 활력을 나타냅니다.", insight: "새로운 가능성 쪽으로 마음이 살짝 떠오르고 있을 수 있어요." },
-          { icon: iconImg("umbrella", "커다란 우산"), object: "커다란 우산", colorName: "네이비", hex: "#384b73", keyword: "보호", theory: "네이비는 깊은 안정, 보호, 내면의 은신처와 관련됩니다.", insight: "지금은 강해지는 것보다 충분히 머무를 안전한 공간이 필요할 수 있어요." },
-          { icon: iconImg("diary", "페이지를 넘기는 다이어리"), object: "페이지를 넘기는 다이어리", colorName: "코랄", hex: "#ff8f87", keyword: "성취", theory: "코랄은 관계적 온기와 성취 동기를 함께 품은 색입니다.", insight: "자신의 하루를 의미 있게 만들고 싶은 따뜻한 열정을 가지고 있어 보여요." },
-          { icon: iconImg("ice-cube", "녹지 않은 얼음조각"), object: "녹지 않은 얼음조각", colorName: "아이스블루", hex: "#b9e6ff", keyword: "진정", theory: "아이스블루는 감정의 냉각, 거리두기, 과열된 마음의 안정화를 뜻합니다.", insight: "서두르지 않고 감정이 녹을 만큼의 안전한 시간이 필요할 수 있어요." },
-          { icon: iconImg("mirror", "흐릿한 거울"), object: "흐릿한 거울", colorName: "실버", hex: "#c8c8d2", keyword: "자기탐색", theory: "실버는 반영, 자기 관찰, 아직 선명하지 않은 정체감 탐색의 색입니다.", insight: "혼란은 부족함이 아니라 새로운 자기 이해로 가는 과정일 수 있어요." },
-          { icon: iconImg("kite", "높이 오른 연"), object: "높이 오른 연", colorName: "터쿼이즈", hex: "#4ecdc4", keyword: "자유", theory: "터쿼이즈는 자유로운 호흡, 거리 조절, 열린 소통을 상징합니다.", insight: "관계나 고민에서 적당한 거리를 둘 때 숨이 트일 수 있어요." },
-          { icon: iconImg("yarn", "엉킨 실타래"), object: "엉킨 실타래", colorName: "마젠타", hex: "#d86ba7", keyword: "복잡함", theory: "마젠타는 강한 정서 연결, 애착, 복합 감정의 색입니다.", insight: "복잡함 안에도 중요한 연결과 바람이 숨어 있을 수 있어요." },
-          { icon: iconImg("feather", "가벼운 깃털"), object: "가벼운 깃털", colorName: "파우더핑크", hex: "#f6bfd2", keyword: "섬세함", theory: "파우더핑크는 취약성, 배려, 부드러운 애정 욕구를 나타냅니다.", insight: "다정함은 약점이 아니라 감정을 잘 느끼는 힘이에요." },
-          { icon: iconImg("compass", "방향을 찾는 나침반"), object: "방향을 찾는 나침반", colorName: "인디고", hex: "#5460a8", keyword: "진로탐색", theory: "인디고는 깊은 사고, 방향성, 자기 결정의 색입니다.", insight: "답을 빨리 정하기보다 끌리는 방향을 관찰하는 시간이 도움이 될 수 있어요." },
-          { icon: iconImg("raindrop", "창가의 빗방울"), object: "창가의 빗방울", colorName: "슬레이트블루", hex: "#7787b7", keyword: "정화", theory: "슬레이트블루는 슬픔의 정화, 회상, 차분한 감정 처리를 돕는 색입니다.", insight: "감정을 밀어내지 않고 바라보는 것만으로도 마음은 조금 가벼워질 수 있어요." },
-          { icon: iconImg("key", "작은 열쇠"), object: "작은 열쇠", colorName: "브라스", hex: "#c59b54", keyword: "가능성", theory: "브라스는 잠재력, 선택권, 아직 열리지 않은 심리적 문을 상징합니다.", insight: "스스로도 모르는 문을 열 수 있는 선택의 힘이 남아 있어요." }
+          { icon: emojiIcon("🧰", "잠겨진 보물상자"), object: "잠겨진 보물상자", colorName: "다크브라운", hex: "#6b4f3f", keyword: "방어", theory: "브라운은 보호, 경계, 내면의 저장고를 상징합니다.", insight: "아직 쉽게 꺼내고 싶지 않은 마음을 안전하게 보관하고 있을 수 있어요." },
+          { icon: emojiIcon("🎈", "노란 풍선"), object: "노란 풍선", colorName: "옐로우", hex: "#ffd966", keyword: "기대", theory: "옐로우는 호기심, 기대, 인지적 활력을 나타냅니다.", insight: "새로운 가능성 쪽으로 마음이 살짝 떠오르고 있을 수 있어요." },
+          { icon: emojiIcon("☂️", "커다란 우산"), object: "커다란 우산", colorName: "네이비", hex: "#384b73", keyword: "보호", theory: "네이비는 깊은 안정, 보호, 내면의 은신처와 관련됩니다.", insight: "지금은 강해지는 것보다 충분히 머무를 안전한 공간이 필요할 수 있어요." },
+          { icon: emojiIcon("📓", "페이지를 넘기는 다이어리"), object: "페이지를 넘기는 다이어리", colorName: "코랄", hex: "#ff8f87", keyword: "성취", theory: "코랄은 관계적 온기와 성취 동기를 함께 품은 색입니다.", insight: "자신의 하루를 의미 있게 만들고 싶은 따뜻한 열정을 가지고 있어 보여요." },
+          { icon: emojiIcon("🧊", "녹지 않은 얼음조각"), object: "녹지 않은 얼음조각", colorName: "아이스블루", hex: "#b9e6ff", keyword: "진정", theory: "아이스블루는 감정의 냉각, 거리두기, 과열된 마음의 안정화를 뜻합니다.", insight: "서두르지 않고 감정이 녹을 만큼의 안전한 시간이 필요할 수 있어요." },
+          { icon: emojiIcon("🪞", "흐릿한 거울"), object: "흐릿한 거울", colorName: "실버", hex: "#c8c8d2", keyword: "자기탐색", theory: "실버는 반영, 자기 관찰, 아직 선명하지 않은 정체감 탐색의 색입니다.", insight: "혼란은 부족함이 아니라 새로운 자기 이해로 가는 과정일 수 있어요." },
+          { icon: emojiIcon("🪁", "높이 오른 연"), object: "높이 오른 연", colorName: "터쿼이즈", hex: "#4ecdc4", keyword: "자유", theory: "터쿼이즈는 자유로운 호흡, 거리 조절, 열린 소통을 상징합니다.", insight: "관계나 고민에서 적당한 거리를 둘 때 숨이 트일 수 있어요." },
+          { icon: emojiIcon("🧶", "엉킨 실타래"), object: "엉킨 실타래", colorName: "마젠타", hex: "#d86ba7", keyword: "복잡함", theory: "마젠타는 강한 정서 연결, 애착, 복합 감정의 색입니다.", insight: "복잡함 안에도 중요한 연결과 바람이 숨어 있을 수 있어요." },
+          { icon: emojiIcon("🪶", "가벼운 깃털"), object: "가벼운 깃털", colorName: "파우더핑크", hex: "#f6bfd2", keyword: "섬세함", theory: "파우더핑크는 취약성, 배려, 부드러운 애정 욕구를 나타냅니다.", insight: "다정함은 약점이 아니라 감정을 잘 느끼는 힘이에요." },
+          { icon: emojiIcon("🧭", "방향을 찾는 나침반"), object: "방향을 찾는 나침반", colorName: "인디고", hex: "#5460a8", keyword: "진로탐색", theory: "인디고는 깊은 사고, 방향성, 자기 결정의 색입니다.", insight: "답을 빨리 정하기보다 끌리는 방향을 관찰하는 시간이 도움이 될 수 있어요." },
+          { icon: emojiIcon("💧", "창가의 빗방울"), object: "창가의 빗방울", colorName: "슬레이트블루", hex: "#7787b7", keyword: "정화", theory: "슬레이트블루는 슬픔의 정화, 회상, 차분한 감정 처리를 돕는 색입니다.", insight: "감정을 밀어내지 않고 바라보는 것만으로도 마음은 조금 가벼워질 수 있어요." },
+          { icon: emojiIcon("🗝️", "작은 열쇠"), object: "작은 열쇠", colorName: "브라스", hex: "#c59b54", keyword: "가능성", theory: "브라스는 잠재력, 선택권, 아직 열리지 않은 심리적 문을 상징합니다.", insight: "스스로도 모르는 문을 열 수 있는 선택의 힘이 남아 있어요." }
         ]
       },
       {
         category: "치유와 소망의 오라",
         question: "오늘 내 마음에 더 채워 넣고 싶은 치유와 활력의 빛은?",
         choices: [
-          { icon: iconImg("forest-aura", "초록빛 숲의 오라"), object: "초록빛 숲의 오라", colorName: "민트", hex: "#8ee6c7", keyword: "회복", theory: "민트는 회복, 신선한 호흡, 정서적 재시작의 색입니다.", insight: "마음의 피로를 씻어내고 다시 산뜻하게 시작하고 싶은 바람이 느껴져요." },
-          { icon: iconImg("sunset-aura", "노을빛 온기의 오라"), object: "노을빛 온기의 오라", colorName: "피치오렌지", hex: "#ffb37c", keyword: "위로", theory: "피치오렌지는 친밀감, 위로, 따뜻한 접촉의 색입니다.", insight: "평가보다 응원, 긴장보다 포근함을 마음에 채우고 싶은 상태일 수 있어요." },
-          { icon: iconImg("sky-breath", "하늘빛 호흡의 오라"), object: "하늘빛 호흡의 오라", colorName: "스카이블루", hex: "#8fd3ff", keyword: "자유", theory: "스카이블루는 호흡, 확장, 심리적 공간 확보를 나타냅니다.", insight: "답답함을 내려놓고 조금 더 자유롭게 움직이고 싶어 하는 것 같아요." },
-          { icon: iconImg("lemon", "레몬빛 긍정 에너지"), object: "레몬빛 긍정 에너지", colorName: "레몬옐로우", hex: "#fff176", keyword: "활력", theory: "레몬옐로우는 긍정, 인지적 밝음, 가벼운 시작의 색입니다.", insight: "작은 즐거움, 웃음, 가벼운 시작이 좋은 연료가 될 수 있어요." },
-          { icon: iconImg("warm-hands", "포근한 손의 온기"), object: "포근한 손의 온기", colorName: "로즈핑크", hex: "#f4a6bc", keyword: "수용", theory: "로즈핑크는 자기수용, 애정, 정서적 안아주기를 뜻합니다.", insight: "더 잘하려는 압박보다 따뜻한 자기수용이 필요할 수 있어요." },
-          { icon: iconImg("crystal", "투명한 수정빛"), object: "투명한 수정빛", colorName: "크리스탈", hex: "#d8f5ff", keyword: "정리", theory: "크리스탈빛은 명료화, 정돈, 생각의 투명성을 상징합니다.", insight: "단순한 선과 색으로 감정을 정리해보면 좋아요." },
-          { icon: iconImg("sunflower", "해바라기 햇살"), object: "해바라기 햇살", colorName: "선플라워", hex: "#ffc857", keyword: "희망", theory: "선플라워는 자존감, 희망, 외부 세계를 향한 회복적 시선을 나타냅니다.", insight: "작은 칭찬과 성공 경험을 통해 마음의 방향을 다시 세울 수 있어요." },
-          { icon: iconImg("lotus", "고요한 연꽃"), object: "고요한 연꽃", colorName: "페일퍼플", hex: "#d8c7ff", keyword: "평온", theory: "페일퍼플은 자기존중, 영감, 고요한 내면 회복의 색입니다.", insight: "조용히 숨을 고르며 자기 마음을 존중하는 시간이 필요할 수 있어요." },
-          { icon: iconImg("tangerine", "상큼한 귤빛"), object: "상큼한 귤빛", colorName: "탠저린", hex: "#ff9f5a", keyword: "생기", theory: "탠저린은 놀이성, 생기, 신체적 활력의 색입니다.", insight: "즐거운 시도 하나가 회복의 시작이 될 수 있어요." },
-          { icon: iconImg("breeze", "맑은 바람길"), object: "맑은 바람길", colorName: "페일민트", hex: "#c7f3df", keyword: "순환", theory: "페일민트는 감정 순환, 환기, 부드러운 재조절의 색입니다.", insight: "산책, 환기, 짧은 낙서처럼 가벼운 움직임이 도움이 될 수 있어요." },
-          { icon: iconImg("prism", "반짝이는 프리즘"), object: "반짝이는 프리즘", colorName: "오팔", hex: "#bde0fe", keyword: "다채로움", theory: "오팔은 복합성, 다면성, 여러 감정의 공존을 상징합니다.", insight: "여러 모습이 함께 있어도 괜찮다는 감각이 치유가 될 수 있어요." },
-          { icon: iconImg("white-cloud", "부드러운 흰 구름"), object: "부드러운 흰 구름", colorName: "웜화이트", hex: "#fffaf0", keyword: "비움", theory: "웜화이트는 휴식, 비움, 심리적 여백의 색입니다.", insight: "무엇을 더 채우기보다 덜어내는 시간이 편안함을 줄 수 있어요." }
+          { icon: emojiIcon("🌿", "초록빛 숲의 오라"), object: "초록빛 숲의 오라", colorName: "민트", hex: "#8ee6c7", keyword: "회복", theory: "민트는 회복, 신선한 호흡, 정서적 재시작의 색입니다.", insight: "마음의 피로를 씻어내고 다시 산뜻하게 시작하고 싶은 바람이 느껴져요." },
+          { icon: emojiIcon("🌅", "노을빛 온기의 오라"), object: "노을빛 온기의 오라", colorName: "피치오렌지", hex: "#ffb37c", keyword: "위로", theory: "피치오렌지는 친밀감, 위로, 따뜻한 접촉의 색입니다.", insight: "평가보다 응원, 긴장보다 포근함을 마음에 채우고 싶은 상태일 수 있어요." },
+          { icon: emojiIcon("🪽", "하늘빛 호흡의 오라"), object: "하늘빛 호흡의 오라", colorName: "스카이블루", hex: "#8fd3ff", keyword: "자유", theory: "스카이블루는 호흡, 확장, 심리적 공간 확보를 나타냅니다.", insight: "답답함을 내려놓고 조금 더 자유롭게 움직이고 싶어 하는 것 같아요." },
+          { icon: emojiIcon("🍋", "레몬빛 긍정 에너지"), object: "레몬빛 긍정 에너지", colorName: "레몬옐로우", hex: "#fff176", keyword: "활력", theory: "레몬옐로우는 긍정, 인지적 밝음, 가벼운 시작의 색입니다.", insight: "작은 즐거움, 웃음, 가벼운 시작이 좋은 연료가 될 수 있어요." },
+          { icon: emojiIcon("🫶", "포근한 손의 온기"), object: "포근한 손의 온기", colorName: "로즈핑크", hex: "#f4a6bc", keyword: "수용", theory: "로즈핑크는 자기수용, 애정, 정서적 안아주기를 뜻합니다.", insight: "더 잘하려는 압박보다 따뜻한 자기수용이 필요할 수 있어요." },
+          { icon: emojiIcon("💎", "투명한 수정빛"), object: "투명한 수정빛", colorName: "크리스탈", hex: "#d8f5ff", keyword: "정리", theory: "크리스탈빛은 명료화, 정돈, 생각의 투명성을 상징합니다.", insight: "단순한 선과 색으로 감정을 정리해보면 좋아요." },
+          { icon: emojiIcon("🌻", "해바라기 햇살"), object: "해바라기 햇살", colorName: "선플라워", hex: "#ffc857", keyword: "희망", theory: "선플라워는 자존감, 희망, 외부 세계를 향한 회복적 시선을 나타냅니다.", insight: "작은 칭찬과 성공 경험을 통해 마음의 방향을 다시 세울 수 있어요." },
+          { icon: emojiIcon("🪷", "고요한 연꽃"), object: "고요한 연꽃", colorName: "페일퍼플", hex: "#d8c7ff", keyword: "평온", theory: "페일퍼플은 자기존중, 영감, 고요한 내면 회복의 색입니다.", insight: "조용히 숨을 고르며 자기 마음을 존중하는 시간이 필요할 수 있어요." },
+          { icon: emojiIcon("🍊", "상큼한 귤빛"), object: "상큼한 귤빛", colorName: "탠저린", hex: "#ff9f5a", keyword: "생기", theory: "탠저린은 놀이성, 생기, 신체적 활력의 색입니다.", insight: "즐거운 시도 하나가 회복의 시작이 될 수 있어요." },
+          { icon: emojiIcon("💨", "맑은 바람길"), object: "맑은 바람길", colorName: "페일민트", hex: "#c7f3df", keyword: "순환", theory: "페일민트는 감정 순환, 환기, 부드러운 재조절의 색입니다.", insight: "산책, 환기, 짧은 낙서처럼 가벼운 움직임이 도움이 될 수 있어요." },
+          { icon: emojiIcon("🔷", "반짝이는 프리즘"), object: "반짝이는 프리즘", colorName: "오팔", hex: "#bde0fe", keyword: "다채로움", theory: "오팔은 복합성, 다면성, 여러 감정의 공존을 상징합니다.", insight: "여러 모습이 함께 있어도 괜찮다는 감각이 치유가 될 수 있어요." },
+          { icon: emojiIcon("☁️", "부드러운 흰 구름"), object: "부드러운 흰 구름", colorName: "웜화이트", hex: "#fffaf0", keyword: "비움", theory: "웜화이트는 휴식, 비움, 심리적 여백의 색입니다.", insight: "무엇을 더 채우기보다 덜어내는 시간이 편안함을 줄 수 있어요." }
         ]
       }
     ];
@@ -1094,9 +1111,8 @@
       const [energy, object, healing] = state.selectedPalette;
       $('resultPalette').innerHTML = state.selectedPalette.map(choice => `
         <div class="text-center">
-          <div class="paint-well mx-auto grid h-20 w-20 place-items-center rounded-full text-4xl sm:h-28 sm:w-28 sm:text-6xl" style="background:${choice.hex};"><span class="paint-symbol">${choice.icon}</span></div>
+          <div class="paint-well mx-auto h-[68px] w-[68px] rounded-full sm:h-[90px] sm:w-[90px]" style="background:${choice.hex};"></div>
           <p class="mt-3 text-sm font-extrabold text-[#40394f] sm:text-base">${choice.colorName}</p>
-          <p class="mt-1 text-[11px] leading-4 text-[#746d82] sm:text-xs sm:leading-5">${choice.object}</p>
         </div>
       `).join('');
 
@@ -1155,14 +1171,82 @@
         `세 색의 조합을 종합하면, ${state.profile.nickname}님은 ${energy.keyword}의 에너지를 가지고 있으면서도 ${object.keyword}의 감정을 조심스럽게 다루고 있으며, 앞으로는 ${healing.keyword}의 방향으로 마음을 돌보고 싶어 하는 모습입니다. 이 리포트는 단정이 아니라 대화를 여는 지도입니다.`;
     }
 
+    function waitForImages(element) {
+      const images = Array.from(element.querySelectorAll('img'));
+      return Promise.all(images.map(img => {
+        if (img.complete && img.naturalWidth !== 0) return Promise.resolve();
+        return new Promise(resolve => {
+          img.addEventListener('load', resolve, { once: true });
+          img.addEventListener('error', resolve, { once: true });
+        });
+      }));
+    }
+
     async function downloadElement(elementId, filename) {
       const element = $(elementId);
-      const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#fffefb', useCORS: true });
-      window.alert("이미지가 생성되었습니다! 다운로드가 안 되면 화면을 꾹 눌러 '사진에 추가/저장'을 해주세요!");
-      const link = document.createElement('a');
-      link.download = filename;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      if (!element) {
+        window.alert('저장할 리포트 영역을 찾지 못했어요. 잠시 후 다시 눌러주세요.');
+        return;
+      }
+
+      if (typeof html2canvas === 'undefined') {
+        window.alert('이미지 저장 라이브러리를 불러오는 중이에요. 인터넷 연결을 확인한 뒤 다시 눌러주세요.');
+        return;
+      }
+
+      try {
+        await waitForImages(element);
+        const canvas = await html2canvas(element, {
+          scale: Math.min(2, window.devicePixelRatio || 2),
+          backgroundColor: '#fff7fb',
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          scrollX: 0,
+          scrollY: -window.scrollY,
+          windowWidth: document.documentElement.scrollWidth,
+          windowHeight: document.documentElement.scrollHeight
+        });
+
+        window.alert("이미지가 생성되었습니다! 다운로드가 안 되면 화면을 꾹 눌러 '사진에 추가/저장'을 해주세요!");
+
+        const openImageFallback = () => {
+          const imageUrl = canvas.toDataURL('image/png');
+          const imageWindow = window.open('');
+          if (imageWindow) {
+            imageWindow.document.write(`<title>${filename}</title><img src="${imageUrl}" alt="저장된 리포트 이미지" style="width:100%;height:auto;display:block;background:#fff7fb;">`);
+            imageWindow.document.close();
+          }
+        };
+
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (!blob) {
+              openImageFallback();
+              return;
+            }
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.rel = 'noopener';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+              setTimeout(openImageFallback, 350);
+            }
+          }, 'image/png');
+        } else {
+          openImageFallback();
+        }
+      } catch (error) {
+        console.error(error);
+        window.alert("이미지 저장 중 문제가 생겼어요. 화면 캡처를 사용하거나 잠시 후 다시 눌러주세요.");
+      }
     }
 
     function renderCounselorQuiz() {
@@ -1368,7 +1452,7 @@
     });
     $('profileNextBtn').addEventListener('click', validateProfile);
     $('reasonNextBtn').addEventListener('click', saveReasonAndContinue);
-    $('downloadReportBtn').addEventListener('click', () => downloadElement('reportSaveArea', 'my-color-palette-report.png'));
+    $('downloadReportBtn').addEventListener('click', () => downloadElement('reportSaveArea', 'art_therapy_report.png'));
     $('counselorModeBtn').addEventListener('click', () => {
       state.counselorQuizIndex = 0;
       renderCounselorQuiz();
