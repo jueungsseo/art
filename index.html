@@ -43,18 +43,20 @@
     }
 
     .choice-card {
-      min-height: 150px;
+      min-height: 214px;
+      overflow: hidden;
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     }
 
     .choice-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 32px rgba(93, 78, 122, 0.14);
+      transform: translateY(-4px);
+      box-shadow: none;
     }
 
     .choice-card.selected {
       border-color: #a78bfa;
-      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.18), 0 16px 34px rgba(93, 78, 122, 0.14);
+      background: rgba(255, 255, 255, 0.56);
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.16);
       transform: translateY(-2px);
     }
 
@@ -74,54 +76,46 @@
 
     .choice-icon {
       position: relative;
-      isolation: isolate;
-      border-radius: 999px;
+      border-radius: 34px;
       background:
-        radial-gradient(circle at 33% 24%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.28) 26%, transparent 42%),
-        radial-gradient(circle at 68% 78%, rgba(64, 48, 79, 0.16), transparent 38%),
-        linear-gradient(145deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 54%),
+        radial-gradient(circle at 27% 23%, rgba(255, 255, 255, 0.72), transparent 20%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 58%),
         var(--choice-color);
       box-shadow:
-        inset 0 11px 18px rgba(255, 255, 255, 0.46),
-        inset 0 -16px 22px rgba(64, 48, 79, 0.15),
-        0 16px 28px rgba(76, 60, 95, 0.18);
-      transform: translateY(-2px);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+        inset 0 -12px 20px rgba(64, 48, 79, 0.09),
+        0 20px 34px rgba(76, 60, 95, 0.13);
+      transform: translateY(0);
     }
 
     .choice-icon::before {
-      content: "";
-      position: absolute;
-      inset: 8%;
-      z-index: -1;
-      border-radius: inherit;
-      border: 1px solid rgba(255, 255, 255, 0.55);
-      background: radial-gradient(circle at 42% 36%, rgba(255, 255, 255, 0.26), transparent 55%);
-      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.26);
+      display: none;
     }
 
     .choice-icon .icon-img {
-      width: 78%;
-      height: 78%;
+      width: 66%;
+      height: 66%;
       padding: 0;
       object-fit: contain;
       filter:
-        drop-shadow(0 5px 5px rgba(48, 36, 62, 0.2))
+        drop-shadow(0 4px 5px rgba(48, 36, 62, 0.18))
         saturate(1.08)
         contrast(1.04);
     }
 
     .choice-card:hover .choice-icon {
       box-shadow:
-        inset 0 12px 18px rgba(255, 255, 255, 0.5),
-        inset 0 -18px 24px rgba(64, 48, 79, 0.17),
-        0 22px 34px rgba(76, 60, 95, 0.23);
-      transform: translateY(-6px) scale(1.04);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.76),
+        inset 0 -12px 20px rgba(64, 48, 79, 0.1),
+        0 24px 38px rgba(76, 60, 95, 0.16);
+      transform: translateY(-3px) scale(1.03);
     }
 
     .palette-choice-grid {
-      max-height: min(58vh, 590px);
+      max-height: min(68vh, 760px);
       overflow-y: auto;
-      padding-right: 4px;
+      overflow-x: hidden;
+      padding: 8px 10px 34px 8px;
       scrollbar-width: thin;
       scrollbar-color: rgba(124, 95, 199, 0.42) rgba(255, 255, 255, 0.5);
     }
@@ -258,14 +252,18 @@
 
     .painter-palette {
       position: relative;
-      min-height: clamp(230px, 44vw, 330px);
-      border-radius: 58% 42% 46% 54% / 62% 42% 58% 38%;
+      min-height: clamp(270px, 48vw, 360px);
+      border-radius: 58% 42% 47% 53% / 64% 43% 57% 36%;
       background:
-        radial-gradient(ellipse at 38% 8%, rgba(255, 255, 255, 0.76), transparent 24%),
-        radial-gradient(ellipse at 50% 96%, rgba(186, 135, 63, 0.12), transparent 42%),
-        linear-gradient(135deg, rgba(255, 249, 232, 0.99), rgba(244, 220, 178, 0.88));
-      border: 1px solid rgba(222, 190, 137, 0.7);
-      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.45), inset 0 -18px 36px rgba(165, 119, 55, 0.12), 0 22px 42px rgba(128, 94, 52, 0.16);
+        radial-gradient(ellipse at 36% 11%, rgba(255, 255, 255, 0.88), transparent 22%),
+        radial-gradient(ellipse at 72% 30%, rgba(255, 255, 255, 0.5), transparent 24%),
+        radial-gradient(ellipse at 50% 96%, rgba(180, 127, 55, 0.13), transparent 45%),
+        linear-gradient(135deg, #fff8e7 0%, #f8e7bd 52%, #f2d59b 100%);
+      border: 2px solid rgba(230, 196, 139, 0.72);
+      box-shadow:
+        inset 0 0 0 5px rgba(255, 255, 255, 0.42),
+        inset 0 -24px 46px rgba(161, 107, 39, 0.13),
+        0 24px 46px rgba(128, 94, 52, 0.18);
     }
 
     .painter-palette::after {
@@ -276,15 +274,19 @@
       width: clamp(42px, 9vw, 64px);
       height: clamp(42px, 9vw, 64px);
       border-radius: 999px;
-      background: radial-gradient(circle at 45% 38%, #fffdf8 0 48%, #efe1c8 70%, #d8bd91 100%);
+      background: radial-gradient(circle at 42% 36%, #fffdf8 0 44%, #f0e0c3 68%, #d5b783 100%);
       border: 1px solid rgba(222, 190, 137, 0.62);
-      box-shadow: inset 0 8px 16px rgba(128, 94, 52, 0.18), 0 2px 8px rgba(128, 94, 52, 0.12);
+      box-shadow: inset 0 10px 18px rgba(128, 94, 52, 0.2), 0 3px 10px rgba(128, 94, 52, 0.12);
     }
 
     .paint-well {
       position: relative;
-      border: 3px solid rgba(255, 255, 255, 0.62);
-      box-shadow: inset 0 8px 18px rgba(255, 255, 255, 0.38), inset 0 -12px 22px rgba(83, 57, 98, 0.14), 0 10px 24px rgba(76, 60, 95, 0.14);
+      border: 5px solid rgba(255, 255, 255, 0.56);
+      box-shadow:
+        inset 0 10px 18px rgba(255, 255, 255, 0.42),
+        inset 0 -16px 24px rgba(83, 57, 98, 0.16),
+        0 10px 0 rgba(98, 72, 117, 0.08),
+        0 18px 28px rgba(76, 60, 95, 0.16);
     }
 
     .paint-well::before {
@@ -300,6 +302,10 @@
       position: relative;
       z-index: 1;
       filter: drop-shadow(0 3px 4px rgba(76, 60, 95, 0.18));
+    }
+
+    .paint-symbol .icon-img {
+      padding: 0.6rem;
     }
 
     .report-divider {
@@ -533,7 +539,7 @@
           <div id="palettePreview" class="mb-7 flex min-h-16 flex-wrap items-center gap-3 rounded-3xl bg-white/55 p-4"></div>
           <div class="inner-panel rounded-3xl p-5 sm:p-7">
             <p id="paletteQuestion" class="text-xl sm:text-2xl font-bold leading-9 text-[#40394f]"></p>
-            <div id="paletteChoices" class="palette-choice-grid mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"></div>
+            <div id="paletteChoices" class="palette-choice-grid mt-7 grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-10"></div>
           </div>
           <div id="reasonPanel" class="mt-6 hidden rounded-3xl bg-white/80 p-5 sm:p-6 shadow-sm">
             <p id="reasonTitle" class="font-extrabold text-[#4b3f72]"></p>
@@ -551,63 +557,60 @@
 
       <div id="resultScreen" class="screen">
         <div class="soft-card rounded-[28px] p-6 sm:p-9">
-          <div id="reportCapture" class="report-sheet print-safe rounded-[28px] p-4 sm:p-7">
-            <article class="report-page rounded-[34px] px-5 py-7 sm:px-8 sm:py-9">
-              <section id="reportPageOne">
-                <div class="text-center">
-                  <div class="flex items-center justify-center gap-3">
-                    <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/palette.png" alt="컬러 팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
-                    <div>
-                      <p class="text-xs font-bold text-[#8f7acb]">4단계</p>
-                      <h2 class="mt-1 text-2xl font-extrabold leading-tight text-[#4b3f72] sm:text-3xl">오늘의 마음 컬러 팔레트</h2>
+          <div id="reportSaveArea" class="rounded-[28px]">
+            <div id="reportCapture" class="report-sheet print-safe rounded-[28px] p-4 sm:p-7">
+              <article class="report-page rounded-[34px] px-5 py-7 sm:px-8 sm:py-9">
+                <section id="reportPageOne">
+                  <div class="text-center">
+                    <div class="flex items-center justify-center gap-3">
+                      <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/palette.png" alt="컬러 팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
+                      <div>
+                        <p class="text-xs font-bold text-[#8f7acb]">4단계</p>
+                        <h2 class="mt-1 text-2xl font-extrabold leading-tight text-[#4b3f72] sm:text-3xl">오늘의 마음 컬러 팔레트</h2>
+                      </div>
+                      <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/leaf.png" alt="마음 성장" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                     </div>
-                    <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/leaf.png" alt="마음 성장" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                   </div>
-                </div>
-                <div class="mt-6 rounded-3xl bg-white/84 p-4 shadow-sm">
-                  <h4 class="flex items-center gap-2 font-extrabold text-[#4b3f72]"><img src="assets/icons/profile.png" alt="프로필" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 내담자 프로필</h4>
-                  <div class="mt-4 grid grid-cols-[112px_1fr] gap-4">
-                    <div id="profileAvatar" class="overflow-hidden rounded-[28px] bg-[#eef4f8] shadow-sm"></div>
-                    <div id="profileSummary" class="grid grid-cols-2 gap-2"></div>
+                  <div class="mt-6 rounded-3xl bg-white/84 p-4 shadow-sm">
+                    <h4 class="flex items-center gap-2 font-extrabold text-[#4b3f72]"><img src="assets/icons/profile.png" alt="프로필" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 내담자 프로필</h4>
+                    <div class="mt-4 grid grid-cols-[112px_1fr] gap-4">
+                      <div id="profileAvatar" class="overflow-hidden rounded-[28px] bg-[#eef4f8] shadow-sm"></div>
+                      <div id="profileSummary" class="grid grid-cols-2 gap-2"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="mt-5">
-                  <div class="mb-3 flex items-center gap-2">
-                    <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/heart.png" alt="마음" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
-                    <h4 class="font-extrabold text-[#4b3f72]">주 호소 문제</h4>
+                  <div class="mt-5">
+                    <div class="mb-3 flex items-center gap-2">
+                      <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/heart.png" alt="마음" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
+                      <h4 class="font-extrabold text-[#4b3f72]">주 호소 문제</h4>
+                    </div>
+                    <div class="rounded-2xl border border-[#dfd1f2] bg-[#fbf8ff] px-4 py-4 text-center shadow-sm">
+                      <p id="concernSummary" class="whitespace-pre-line text-sm leading-7 text-[#5d566b]"></p>
+                    </div>
                   </div>
-                  <div class="rounded-2xl border border-[#dfd1f2] bg-[#fbf8ff] px-4 py-4 text-center shadow-sm">
-                    <p id="concernSummary" class="whitespace-pre-line text-sm leading-7 text-[#5d566b]"></p>
+                  <div class="mt-5">
+                    <div class="mb-3 flex items-center gap-2">
+                      <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/palette.png" alt="팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
+                      <h4 class="font-extrabold text-[#4b3f72]">마음 팔레트</h4>
+                    </div>
+                    <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-2 px-4 py-10 pr-[18%] sm:px-8 sm:py-12"></div>
                   </div>
-                </div>
-                <div class="mt-5">
-                  <div class="mb-3 flex items-center gap-2">
-                    <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/palette.png" alt="팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
-                    <h4 class="font-extrabold text-[#4b3f72]">마음 팔레트</h4>
+                  <p class="mt-5 rounded-2xl border border-dashed border-[#d8c7ff] bg-white/70 px-4 py-3 text-sm leading-6 text-[#6d657c]">이 리포트는 색채선택을 통해 드러난 내담자의 현재 마음 상태와 필요를 이해하는 데 도움을 줍니다.</p>
+                </section>
+                <section id="reportPageTwo" class="mt-7">
+                  <div id="reasonSummary" class="grid gap-4"></div>
+                  <div class="mt-5 rounded-3xl bg-[#f6f1ff] p-5 shadow-sm">
+                    <h3 class="text-base font-extrabold text-[#4b3f72]">미술심리치료사의 통찰 리포트</h3>
+                    <p id="insightText" class="mt-3 whitespace-pre-line text-sm leading-7 text-[#5d566b]"></p>
                   </div>
-                  <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-2 px-5 py-9 pr-[18%]"></div>
-                </div>
-                <p class="mt-5 rounded-2xl border border-dashed border-[#d8c7ff] bg-white/70 px-4 py-3 text-sm leading-6 text-[#6d657c]">이 리포트는 색채선택을 통해 드러난 내담자의 현재 마음 상태와 필요를 이해하는 데 도움을 줍니다.</p>
-              </section>
-              <section id="reportPageTwo" class="mt-7">
-                <div id="reasonSummary" class="grid gap-4"></div>
-                <div class="mt-5 rounded-3xl bg-[#f6f1ff] p-5 shadow-sm">
-                  <h3 class="text-base font-extrabold text-[#4b3f72]">미술심리치료사의 통찰 리포트</h3>
-                  <p id="insightText" class="mt-3 whitespace-pre-line text-sm leading-7 text-[#5d566b]"></p>
-                </div>
-                <button id="reportCounselorShortcutBtn" type="button" class="report-cta mt-5 w-full rounded-2xl px-5 py-4 text-sm font-extrabold text-white">
-                  <span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/document.png" alt="진단서" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 짝꿍 진단서 작성에 참고하기</span>
-                </button>
-              </section>
-            </article>
-          </div>
-          <div class="mt-6 rounded-[28px] bg-[#fff2d9] p-6 text-lg font-bold leading-8 text-[#6d5841] shadow-sm sm:p-8 sm:text-xl">
-            스마트폰에 저장된 내 리포트 이미지(또는 화면)를 짝꿍에게 공유하여 짝꿍이 진단서를 작성할 수 있도록 참고하세요.
+                </section>
+              </article>
+            </div>
+            <div class="mt-6 rounded-[28px] bg-[#fff2d9] p-6 text-lg font-bold leading-8 text-[#6d5841] shadow-sm sm:p-8 sm:text-xl">
+              스마트폰에 저장된 내 리포트 이미지(또는 화면)를 짝꿍에게 공유하여 짝꿍이 진단서를 작성할 수 있도록 참고하세요.
+            </div>
           </div>
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <button id="downloadReportPageOneBtn" class="report-action-button rounded-full bg-[#5d9c7a] px-6 py-5 text-lg font-extrabold text-white transition hover:bg-[#4d8b69]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 요약 저장</span></button>
-            <button id="downloadReportPageTwoBtn" class="report-action-button rounded-full bg-[#5d9c7a] px-6 py-5 text-lg font-extrabold text-white transition hover:bg-[#4d8b69]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 상세 저장</span></button>
-            <button id="downloadReportBtn" class="report-action-button rounded-full bg-[#6aa58b] px-6 py-5 text-lg font-extrabold text-white transition hover:bg-[#578f75]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 전체 저장</span></button>
+            <button id="downloadReportBtn" class="report-action-button rounded-full bg-[#6aa58b] px-6 py-5 text-lg font-extrabold text-white transition hover:bg-[#578f75]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 리포트 저장</span></button>
             <button id="counselorModeBtn" class="report-action-button rounded-full bg-[#7c5fc7] px-6 py-5 text-lg font-extrabold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/stethoscope.png" alt="상담사 모드" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 상담사 모드 전환</span></button>
           </div>
         </div>
@@ -1044,12 +1047,12 @@
       $('paletteQuestion').textContent = item.question;
       renderPalettePreview();
       $('paletteChoices').innerHTML = item.choices.map((choice, index) => `
-        <button class="choice-card rounded-3xl border-2 border-white/80 bg-white/76 p-4 text-center" data-choice-index="${index}" style="--choice-color:${choice.hex};">
-          <div class="flex h-full flex-col items-center justify-center gap-3">
-            <div class="choice-icon grid h-24 w-24 place-items-center sm:h-28 sm:w-28" aria-hidden="true">${choice.icon}</div>
+        <button class="choice-card rounded-[30px] border-2 border-transparent bg-transparent px-2 py-3 text-center" data-choice-index="${index}" style="--choice-color:${choice.hex};">
+          <div class="flex h-full flex-col items-center justify-center gap-4">
+            <div class="choice-icon grid h-[104px] w-[104px] place-items-center sm:h-[118px] sm:w-[118px]" aria-hidden="true">${choice.icon}</div>
             <div>
-              <p class="text-sm font-extrabold leading-5 text-[#40394f] sm:text-base">${choice.object}</p>
-              <p class="mt-1 text-xs font-bold text-[#7c5fc7] sm:text-sm">${choice.colorName}</p>
+              <p class="text-base font-extrabold leading-6 text-[#40394f] sm:text-lg">${choice.object}</p>
+              <p class="mt-2 text-sm font-extrabold text-[#7c5fc7] sm:text-base">${choice.colorName}</p>
             </div>
           </div>
         </button>
@@ -1092,8 +1095,8 @@
       $('resultPalette').innerHTML = state.selectedPalette.map(choice => `
         <div class="text-center">
           <div class="paint-well mx-auto grid h-20 w-20 place-items-center rounded-full text-4xl sm:h-28 sm:w-28 sm:text-6xl" style="background:${choice.hex};"><span class="paint-symbol">${choice.icon}</span></div>
-          <p class="mt-3 text-base font-extrabold text-[#40394f]">${choice.colorName}</p>
-          <p class="mt-1 text-xs leading-5 text-[#746d82]">${choice.object}</p>
+          <p class="mt-3 text-sm font-extrabold text-[#40394f] sm:text-base">${choice.colorName}</p>
+          <p class="mt-1 text-[11px] leading-4 text-[#746d82] sm:text-xs sm:leading-5">${choice.object}</p>
         </div>
       `).join('');
 
@@ -1365,10 +1368,7 @@
     });
     $('profileNextBtn').addEventListener('click', validateProfile);
     $('reasonNextBtn').addEventListener('click', saveReasonAndContinue);
-    $('downloadReportPageOneBtn').addEventListener('click', () => downloadElement('reportPageOne', 'my-color-palette-report-page-1.png'));
-    $('downloadReportPageTwoBtn').addEventListener('click', () => downloadElement('reportPageTwo', 'my-color-palette-report-page-2.png'));
-    $('downloadReportBtn').addEventListener('click', () => downloadElement('reportCapture', 'my-color-palette-report.png'));
-    $('reportCounselorShortcutBtn').addEventListener('click', () => $('counselorModeBtn').click());
+    $('downloadReportBtn').addEventListener('click', () => downloadElement('reportSaveArea', 'my-color-palette-report.png'));
     $('counselorModeBtn').addEventListener('click', () => {
       state.counselorQuizIndex = 0;
       renderCounselorQuiz();
