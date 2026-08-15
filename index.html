@@ -630,16 +630,19 @@
                 <section id="reportPageOne">
                   <div class="text-center">
                     <div class="flex items-center justify-center gap-3">
-                      <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/palette.png" alt="컬러 팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                       <div>
                         <p class="text-xs font-bold text-[#8f7acb]">4단계</p>
                         <h2 class="mt-1 text-2xl font-extrabold leading-tight text-[#4b3f72] sm:text-3xl">AI 미술심리 소견서</h2>
                       </div>
-                      <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/leaf.png" alt="마음 성장" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                     </div>
                   </div>
                   <div class="mt-6 rounded-3xl bg-white/84 p-4 shadow-sm">
-                    <h4 class="flex items-center gap-2 font-extrabold text-[#4b3f72]"><img src="assets/icons/profile.png" alt="프로필" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 내담자 프로필</h4>
+                    <h4 class="flex items-center gap-2 font-extrabold text-[#4b3f72]">
+                      <svg class="h-8 w-8 text-black" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1.25c0 .41.34.75.75.75h14.5c.41 0 .75-.34.75-.75V19c0-2.76-3.58-5-8-5Z" />
+                      </svg>
+                      내담자 프로필
+                    </h4>
                     <div class="mt-4 grid grid-cols-[112px_1fr] gap-4">
                       <div id="profileAvatar" class="overflow-hidden rounded-[28px] bg-[#eef4f8] shadow-sm"></div>
                       <div id="profileSummary" class="grid grid-cols-2 gap-2"></div>
@@ -647,7 +650,7 @@
                   </div>
                   <div class="mt-5">
                     <div class="mb-3 flex items-center gap-2">
-                      <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/heart.png" alt="마음" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
+                      <img src="assets/icons/heart.png" alt="마음" class="h-10 w-10 object-contain drop-shadow-md" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" />
                       <h4 class="font-extrabold text-[#4b3f72]">주 호소 문제</h4>
                     </div>
                     <div class="rounded-2xl border border-[#dfd1f2] bg-[#fbf8ff] px-4 py-4 text-center shadow-sm">
@@ -656,7 +659,7 @@
                   </div>
                   <div class="mt-5">
                     <div class="mb-3 flex items-center gap-2">
-                      <span class="icon-badge h-9 w-9 rounded-full"><img src="assets/icons/palette.png" alt="팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
+                      <img src="assets/icons/palette.png" alt="팔레트" class="h-11 w-11 object-contain drop-shadow-md" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" />
                       <h4 class="font-extrabold text-[#4b3f72]">마음 팔레트</h4>
                     </div>
                     <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-2 px-6 py-8 pr-[24%] sm:px-12 sm:py-9 sm:pr-[22%]"></div>
