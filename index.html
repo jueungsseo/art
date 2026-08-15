@@ -479,10 +479,10 @@
         <div class="soft-card rounded-[28px] p-6 sm:p-9">
           <p class="text-sm font-bold text-[#8f7acb]">5단계 - 옵션 A</p>
           <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">짝꿍 진단서 작성</h2>
-          <button id="guidebookToggleBtn" class="mt-6 w-full rounded-full bg-[#fff2d9] px-6 py-4 font-extrabold text-[#7a5a3b] shadow-sm transition hover:bg-[#ffedc5]">
-            📖 실무 가이드북 및 예시 보기
-          </button>
-          <div id="guidebookPanel" class="mt-5 hidden rounded-3xl bg-white/84 p-5 sm:p-6 shadow-sm">
+          <div class="mt-6 w-full rounded-full bg-[#fff2d9] px-6 py-4 text-center font-extrabold text-[#7a5a3b] shadow-sm">
+            📖 작성 가이드
+          </div>
+          <div id="guidebookPanel" class="mt-5 rounded-3xl bg-white/84 p-5 sm:p-6 shadow-sm">
             <div class="grid gap-4 lg:grid-cols-3">
               <div class="rounded-3xl bg-[#fff8d9] p-5">
                 <h3 class="font-extrabold text-[#4b3f72]">임상 소견 예시</h3>
@@ -728,7 +728,6 @@
       $('treatmentSettingInput').value = '';
       $('artPrescriptionInput').value = '';
       $('therapeuticPrognosisInput').value = '';
-      $('guidebookPanel').classList.add('hidden');
       $('diagnosisOutputWrap').classList.add('hidden');
       showScreen('intro', { remember: false });
     }
@@ -1118,9 +1117,6 @@
     });
     $('digitalOptionBtn').addEventListener('click', () => showScreen('digitalDiagnosis'));
     $('paperOptionBtn').addEventListener('click', () => showScreen('paperGuide'));
-    $('guidebookToggleBtn').addEventListener('click', () => {
-      $('guidebookPanel').classList.toggle('hidden');
-    });
     renderDiagnosisGuideChips();
     $('issueDiagnosisBtn').addEventListener('click', issueDiagnosis);
     $('downloadDiagnosisBtn').addEventListener('click', () => downloadElement('diagnosisCapture', 'partner-art-therapy-diagnosis.png'));
