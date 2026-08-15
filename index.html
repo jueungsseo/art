@@ -158,6 +158,19 @@
 
     .print-safe { color: #3f3a4a; }
 
+    .nav-button {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      box-shadow: 0 10px 24px rgba(93, 78, 122, 0.11);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-button:hover {
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 14px 30px rgba(93, 78, 122, 0.14);
+      transform: translateY(-1px);
+    }
+
     textarea, input {
       outline: none;
     }
@@ -198,6 +211,14 @@
 <body>
   <main class="min-h-screen px-4 py-6 sm:px-6 flex items-center justify-center">
     <section class="w-full max-w-5xl">
+      <div id="navControls" class="mb-4 hidden flex-wrap items-center justify-between gap-3">
+        <button id="backBtn" class="nav-button rounded-full px-5 py-3 text-sm font-extrabold text-[#5c526d]">
+          ← 뒤로 가기
+        </button>
+        <button id="homeBtn" class="nav-button hidden rounded-full px-5 py-3 text-sm font-extrabold text-[#7c5fc7]">
+          처음으로 가기
+        </button>
+      </div>
 
       <div id="introScreen" class="screen active">
         <div class="soft-card rounded-[28px] p-7 sm:p-10 text-center">
@@ -539,15 +560,56 @@
       selectedPalette: [],
       pendingChoice: null,
       profile: { nickname: "", concern: "" },
-      typingTimer: null
+      typingTimer: null,
+      currentScreen: "intro",
+      screenHistory: []
     };
 
     const $ = (id) => document.getElementById(id);
 
-    function showScreen(name) {
+    function updateNavControls() {
+      const finalScreens = ["result", "diagnosisChoice", "digitalDiagnosis", "paperGuide"];
+      const isIntro = state.currentScreen === "intro";
+      $('navControls').classList.toggle('hidden', isIntro);
+      $('backBtn').classList.toggle('hidden', isIntro || state.screenHistory.length === 0);
+      $('homeBtn').classList.toggle('hidden', !finalScreens.includes(state.currentScreen));
+    }
+
+    function showScreen(name, options = {}) {
+      const shouldRemember = options.remember !== false;
+      if (shouldRemember && state.currentScreen && state.currentScreen !== name) {
+        state.screenHistory.push(state.currentScreen);
+      }
+      state.currentScreen = name;
       Object.values(screens).forEach(screen => screen.classList.remove('active'));
       screens[name].classList.add('active');
+      updateNavControls();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBack() {
+      const previousScreen = state.screenHistory.pop();
+      if (!previousScreen) return;
+      showScreen(previousScreen, { remember: false });
+    }
+
+    function goHome() {
+      clearTyping();
+      state.quizIndex = 0;
+      state.counselorQuizIndex = 0;
+      state.paletteIndex = 0;
+      state.selectedPalette = [];
+      state.pendingChoice = null;
+      state.profile = { nickname: "", concern: "" };
+      state.screenHistory = [];
+      $('nicknameInput').value = '';
+      $('concernInput').value = '';
+      $('reasonInput').value = '';
+      $('counselorNameInput').value = '';
+      $('clinicalOpinionInput').value = '';
+      $('artPrescriptionInput').value = '';
+      $('diagnosisOutputWrap').classList.add('hidden');
+      showScreen('intro', { remember: false });
     }
 
     function clearTyping() {
@@ -783,6 +845,8 @@
     }
 
     $('startBtn').addEventListener('click', () => { renderQuiz(); showScreen('quiz'); });
+    $('backBtn').addEventListener('click', goBack);
+    $('homeBtn').addEventListener('click', goHome);
     document.querySelectorAll('.quiz-answer').forEach(button => button.addEventListener('click', () => handleQuizAnswer(button.dataset.answer, button)));
     $('nextQuizBtn').addEventListener('click', () => {
       state.quizIndex++;
@@ -807,6 +871,7 @@
     $('paperOptionBtn').addEventListener('click', () => showScreen('paperGuide'));
     $('issueDiagnosisBtn').addEventListener('click', issueDiagnosis);
     $('downloadDiagnosisBtn').addEventListener('click', () => downloadElement('diagnosisCapture', 'partner-art-therapy-diagnosis.png'));
+    updateNavControls();
   </script>
 </body>
 </html>
