@@ -343,7 +343,15 @@
               <button class="counselor-answer rounded-3xl border-2 border-transparent bg-[#ffe1eb] px-4 py-6 text-3xl font-extrabold text-[#d94b78] transition hover:scale-[1.02]" data-answer="O">O</button>
               <button class="counselor-answer rounded-3xl border-2 border-transparent bg-[#dff0ff] px-4 py-6 text-3xl font-extrabold text-[#3f7fc0] transition hover:scale-[1.02]" data-answer="X">X</button>
             </div>
-            <div id="counselorFeedback" class="mt-6 hidden rounded-3xl bg-[#fff8d9] p-5 leading-7 text-[#62553a]"></div>
+            <div id="counselorFeedback" class="teacher-feedback mt-6 hidden rounded-3xl border border-white p-4 sm:p-6 leading-7 text-[#62553a]">
+              <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
+                <img src="teacher.png" alt="미술심리치료사 선생님" class="teacher-cutout shrink-0 object-contain" />
+                <div class="speech-bubble min-h-32 w-full flex-1 rounded-[26px] border border-white/90 p-5 sm:p-6">
+                  <p id="counselorFeedbackTitle" class="font-extrabold" aria-live="polite"></p>
+                  <p id="counselorFeedbackText" class="mt-2 min-h-20 text-[#62553a]" aria-live="polite"></p>
+                </div>
+              </div>
+            </div>
             <button id="nextCounselorQuizBtn" disabled class="mt-6 w-full rounded-full bg-[#bbb4ca] px-6 py-4 font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-70 enabled:bg-[#7c5fc7] enabled:hover:bg-[#6d55b6]">
               다음으로
             </button>
@@ -460,11 +468,11 @@
     ];
 
     const counselorQuizzes = [
-      { question: "상담사는 친구가 말한 고민과 개인적인 이야기를 함부로 다른 친구들에게 퍼뜨리면 안 된다?", answer: "O", explain: "맞아요. 비밀유지는 상담 관계의 기본이에요. 단, 안전에 큰 위험이 있을 때는 어른의 도움을 연결해야 해요." },
-      { question: "상담사는 내담자의 선택을 듣기 전에 먼저 '너는 틀렸어'라고 판단해도 된다?", answer: "X", explain: "정답이에요. 상담사는 판단보다 경청과 이해를 먼저 실천해야 해요." },
-      { question: "무조건적 수용은 친구의 모든 행동을 무조건 찬성한다는 뜻이다?", answer: "X", explain: "좋아요. 무조건적 수용은 사람 자체를 존중한다는 뜻이지, 위험한 행동까지 찬성한다는 뜻은 아니에요." },
-      { question: "상담사는 친구가 고른 색과 이야기를 바탕으로 질문하며 의미를 함께 찾아갈 수 있다?", answer: "O", explain: "맞아요. 좋은 상담사는 정답을 찍어내는 사람이 아니라 의미를 함께 발견하는 동행자예요." },
-      { question: "친구의 리포트를 볼 때 놀리거나 비교하기보다 따뜻한 언어로 피드백해야 한다?", answer: "O", explain: "정답이에요. 상담사의 언어는 상대가 자신을 더 안전하게 이해하도록 돕는 다리예요." }
+      { question: "비밀유지는 상담의 기본이지만, 친구가 자신이나 타인을 다치게 할 위험을 말한다면 믿을 수 있는 어른에게 도움을 연결해야 한다?", answer: "O", explain: "맞아요. 비밀유지는 매우 중요하지만 안전이 위협받는 상황에서는 보호가 우선이에요. 좋은 상담사는 비밀을 지키는 사람인 동시에 안전을 연결하는 사람이에요." },
+      { question: "무조건적 수용은 친구의 감정과 존재를 존중한다는 뜻이지, 위험하거나 상처 주는 행동까지 모두 괜찮다고 허락한다는 뜻은 아니다?", answer: "O", explain: "정답이에요. 상담사는 사람 자체를 존중하지만 모든 행동을 무조건 승인하지는 않아요. 감정은 수용하고, 행동은 안전한 방향으로 함께 조절하도록 돕는 태도가 필요해요." },
+      { question: "짝꿍의 색 선택이 내 생각과 다르면, 상담사는 빠르게 정답 해석을 알려주기 위해 '너는 이런 사람이야'라고 단정해도 된다?", answer: "X", explain: "잘했어요. 색채심리 해석은 단정문이 아니라 질문의 출발점이에요. 상담사는 해석을 강요하기보다 '이 색이 너에게 어떤 느낌이었어?'처럼 의미를 함께 찾아가야 해요." },
+      { question: "상담사가 공감한다는 것은 친구와 똑같이 울거나 화내는 것이 아니라, 친구의 감정을 이해하려고 안전한 거리에서 함께 머무는 태도이다?", answer: "O", explain: "맞아요. 공감은 감정에 휩쓸리는 것이 아니라 상대의 마음을 존중하며 곁에 머무는 능력이에요. 그래서 상담사는 따뜻함과 안정감을 함께 갖추려 노력해요." },
+      { question: "친구가 적은 고민이 가볍게 보여도, 상담사는 비교하거나 농담으로 넘기지 않고 그 친구에게는 실제로 중요한 경험일 수 있음을 인정해야 한다?", answer: "O", explain: "정답이에요. 상담사의 태도는 '내 기준'보다 '상대의 경험'을 먼저 존중하는 데서 시작해요. 사소해 보이는 표현 안에도 중요한 감정의 단서가 담겨 있을 수 있어요." }
     ];
 
     const paletteQuestions = [
@@ -719,10 +727,14 @@
 
     function renderCounselorQuiz() {
       const quiz = counselorQuizzes[state.counselorQuizIndex];
+      clearTyping();
       $('counselorQuizCount').textContent = `${state.counselorQuizIndex + 1} / ${counselorQuizzes.length}`;
       $('counselorQuizQuestion').textContent = `Q${state.counselorQuizIndex + 1}. ${quiz.question}`;
       $('counselorFeedback').classList.add('hidden');
-      $('counselorFeedback').textContent = '';
+      $('counselorFeedbackTitle').textContent = '';
+      $('counselorFeedbackTitle').className = 'font-extrabold';
+      $('counselorFeedbackText').textContent = '';
+      $('counselorFeedbackText').classList.remove('typing-cursor');
       $('nextCounselorQuizBtn').disabled = true;
       document.querySelectorAll('.counselor-answer').forEach(btn => {
         btn.disabled = false;
@@ -733,6 +745,7 @@
     function handleCounselorAnswer(answer, button) {
       const quiz = counselorQuizzes[state.counselorQuizIndex];
       const isCorrect = answer === quiz.answer;
+      clearTyping();
       document.querySelectorAll('.counselor-answer').forEach(btn => {
         btn.disabled = true;
         btn.classList.add('opacity-60');
@@ -740,8 +753,17 @@
       button.classList.remove('opacity-60');
       button.classList.add('border-[#7c5fc7]');
       $('counselorFeedback').classList.remove('hidden');
-      $('counselorFeedback').innerHTML = `<p class="font-extrabold ${isCorrect ? 'text-[#5b9c78]' : 'text-[#d06767]'}">${isCorrect ? '정답이에요.' : '괜찮아요, 상담사는 계속 배워가는 사람이에요.'}</p><p class="mt-2">${quiz.explain}</p>`;
-      $('nextCounselorQuizBtn').disabled = false;
+      $('counselorFeedbackTitle').textContent = '';
+      $('counselorFeedbackTitle').className = `font-extrabold ${isCorrect ? 'text-[#5b9c78]' : 'text-[#d06767]'}`;
+      $('counselorFeedbackText').textContent = '';
+      $('counselorFeedbackText').classList.add('typing-cursor');
+      $('nextCounselorQuizBtn').disabled = true;
+      typeInto($('counselorFeedbackTitle'), isCorrect ? '정답이에요.' : '괜찮아요, 상담사는 계속 배워가는 사람이에요.', 34, () => {
+        typeInto($('counselorFeedbackText'), quiz.explain, 28, () => {
+          $('counselorFeedbackText').classList.remove('typing-cursor');
+          $('nextCounselorQuizBtn').disabled = false;
+        });
+      });
     }
 
     function issueDiagnosis() {
