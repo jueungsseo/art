@@ -225,6 +225,18 @@
       border-color: #a78bfa;
     }
 
+    .validation-shake {
+      animation: gentleShake 0.36s ease both;
+    }
+
+    @keyframes gentleShake {
+      0%, 100% { transform: translateX(0); }
+      22% { transform: translateX(-5px); }
+      44% { transform: translateX(5px); }
+      66% { transform: translateX(-3px); }
+      88% { transform: translateX(3px); }
+    }
+
     @media (max-width: 640px) {
       .teacher-feedback::before {
         left: 50%;
@@ -753,6 +765,17 @@
       tick();
     }
 
+    function showGentleValidation(alertId, focusId) {
+      const alertElement = $(alertId);
+      alertElement.textContent = "소중한 한 줄을 채워주세요! ✍️";
+      alertElement.classList.remove('hidden');
+      alertElement.classList.remove('validation-shake');
+      void alertElement.offsetWidth;
+      alertElement.classList.add('validation-shake');
+      if (focusId) $(focusId).focus();
+      window.alert("소중한 한 줄을 채워주세요! ✍️");
+    }
+
     function renderQuiz() {
       const quiz = quizzes[state.quizIndex];
       clearTyping();
@@ -799,7 +822,7 @@
       const ageGrade = $('ageGradeInput').value.trim();
       const concern = $('concernInput').value.trim();
       if (!nickname || !ageGrade || !state.profile.gender || !state.profile.weather || !concern) {
-        $('profileAlert').classList.remove('hidden');
+        showGentleValidation('profileAlert', !nickname ? 'nicknameInput' : !ageGrade ? 'ageGradeInput' : !concern ? 'concernInput' : null);
         return;
       }
       $('profileAlert').classList.add('hidden');
@@ -902,6 +925,7 @@
     async function downloadElement(elementId, filename) {
       const element = $(elementId);
       const canvas = await html2canvas(element, { scale: 2, backgroundColor: '#fffefb', useCORS: true });
+      window.alert("📸 이미지가 생성되었습니다! 다운로드가 안 되면 화면을 꾹 눌러 '사진에 추가/저장'을 해주세요!");
       const link = document.createElement('a');
       link.download = filename;
       link.href = canvas.toDataURL('image/png');
@@ -1031,7 +1055,15 @@
 
     function addGuideTextToTextarea(targetId, text) {
       const target = $(targetId);
-      target.value = target.value.trim() ? `${target.value.trim()}\n\n${text}` : text;
+      const start = target.selectionStart ?? target.value.length;
+      const end = target.selectionEnd ?? target.value.length;
+      const before = target.value.slice(0, start);
+      const after = target.value.slice(end);
+      const prefix = before.trim() ? "\n\n" : "";
+      const suffix = after.trim() ? "\n\n" : "";
+      target.value = `${before}${prefix}${text}${suffix}${after}`;
+      const cursor = before.length + prefix.length + text.length;
+      target.setSelectionRange(cursor, cursor);
       target.focus();
       $('diagnosisAlert').classList.add('hidden');
     }
@@ -1056,7 +1088,7 @@
       const prescription = $('artPrescriptionInput').value.trim();
       const prognosis = $('therapeuticPrognosisInput').value.trim();
       if (!name || !opinion || !setting || !prescription || !prognosis) {
-        $('diagnosisAlert').classList.remove('hidden');
+        showGentleValidation('diagnosisAlert', !name ? 'counselorNameInput' : !opinion ? 'clinicalOpinionInput' : !setting ? 'treatmentSettingInput' : !prescription ? 'artPrescriptionInput' : 'therapeuticPrognosisInput');
         return;
       }
       $('diagnosisAlert').classList.add('hidden');
