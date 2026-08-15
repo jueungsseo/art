@@ -73,10 +73,49 @@
     }
 
     .choice-icon {
+      position: relative;
+      isolation: isolate;
+      border-radius: 999px;
       background:
-        radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.86), transparent 32%),
+        radial-gradient(circle at 33% 24%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.28) 26%, transparent 42%),
+        radial-gradient(circle at 68% 78%, rgba(64, 48, 79, 0.16), transparent 38%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 54%),
         var(--choice-color);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.68), 0 10px 20px rgba(76, 60, 95, 0.13);
+      box-shadow:
+        inset 0 11px 18px rgba(255, 255, 255, 0.46),
+        inset 0 -16px 22px rgba(64, 48, 79, 0.15),
+        0 16px 28px rgba(76, 60, 95, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .choice-icon::before {
+      content: "";
+      position: absolute;
+      inset: 8%;
+      z-index: -1;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: radial-gradient(circle at 42% 36%, rgba(255, 255, 255, 0.26), transparent 55%);
+      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.26);
+    }
+
+    .choice-icon .icon-img {
+      width: 78%;
+      height: 78%;
+      padding: 0;
+      object-fit: contain;
+      filter:
+        drop-shadow(0 5px 5px rgba(48, 36, 62, 0.2))
+        saturate(1.08)
+        contrast(1.04);
+    }
+
+    .choice-card:hover .choice-icon {
+      box-shadow:
+        inset 0 12px 18px rgba(255, 255, 255, 0.5),
+        inset 0 -18px 24px rgba(64, 48, 79, 0.17),
+        0 22px 34px rgba(76, 60, 95, 0.23);
+      transform: translateY(-6px) scale(1.04);
     }
 
     .palette-choice-grid {
@@ -1007,7 +1046,7 @@
       $('paletteChoices').innerHTML = item.choices.map((choice, index) => `
         <button class="choice-card rounded-3xl border-2 border-white/80 bg-white/76 p-4 text-center" data-choice-index="${index}" style="--choice-color:${choice.hex};">
           <div class="flex h-full flex-col items-center justify-center gap-3">
-            <div class="choice-icon grid h-16 w-16 place-items-center rounded-[22px] text-4xl sm:h-20 sm:w-20 sm:text-5xl" aria-hidden="true">${choice.icon}</div>
+            <div class="choice-icon grid h-24 w-24 place-items-center sm:h-28 sm:w-28" aria-hidden="true">${choice.icon}</div>
             <div>
               <p class="text-sm font-extrabold leading-5 text-[#40394f] sm:text-base">${choice.object}</p>
               <p class="mt-1 text-xs font-bold text-[#7c5fc7] sm:text-sm">${choice.colorName}</p>
