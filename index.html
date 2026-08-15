@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>내 마음의 컬러 팔레트</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
 
@@ -229,6 +228,59 @@
 
     .print-safe { color: #3f3a4a; }
 
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      button,
+      .no-print {
+        display: none !important;
+      }
+
+      .soft-card,
+      div,
+      section,
+      article {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      body.printing-report > * {
+        visibility: hidden !important;
+      }
+
+      body.printing-report .print-active,
+      body.printing-report .print-active * {
+        visibility: visible !important;
+      }
+
+      body.printing-report .print-active {
+        position: absolute !important;
+        inset: 0 auto auto 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      body.printing-report .print-active .rounded-3xl,
+      body.printing-report .print-active .report-page {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+
     .report-page {
       background: linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(255, 250, 244, 0.94));
       border: 1px solid rgba(255, 255, 255, 0.92);
@@ -444,12 +496,12 @@
 
       <div id="introScreen" class="screen active">
         <div class="soft-card rounded-[28px] p-7 sm:p-10 text-center">
-          <div class="icon-badge mx-auto mb-6 h-24 w-24 rounded-full">
-            <img src="assets/icons/palette.png" alt="컬러 팔레트" class="icon-img p-5" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" />
+          <div class="mx-auto mb-6 h-32 w-32">
+            <img src="assets/icons/palette.png" alt="컬러 팔레트" class="h-full w-full object-contain drop-shadow-xl" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" />
           </div>
           <h1 class="text-3xl sm:text-5xl font-extrabold text-[#4b3f72] leading-tight">내 마음의 컬러 팔레트</h1>
           <p class="mt-6 text-base sm:text-lg leading-8 text-[#665f77]">
-            미술심리치료사는 내 마음의 도화지에 어떤 색이 칠해져 있는지 함께 바라보는 사람입니다.
+            미술심리상담사는 내 마음의 도화지에 어떤 색이 칠해져 있는지 함께 바라보는 사람입니다.
             본격적인 미술 활동 전, 나의 <span class="font-bold text-[#7c5fc7]">'마음의 컬러 팔레트'</span>를 먼저 채워볼까요?
           </p>
           <button id="startBtn" class="mt-8 w-full sm:w-auto rounded-full bg-[#7c5fc7] px-8 py-4 text-white font-bold shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6] active:scale-[0.98]">
@@ -476,7 +528,7 @@
             </div>
             <div id="quizFeedback" class="teacher-feedback mt-6 hidden rounded-3xl border border-white p-4 sm:p-6 leading-7 text-[#62553a]">
               <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
-                <img src="teacher.png" alt="미술심리치료사 선생님" class="teacher-cutout shrink-0 object-contain" />
+                <img src="teacher.png" alt="미술심리상담사 선생님" class="teacher-cutout shrink-0 object-contain" />
                 <div class="speech-bubble min-h-32 w-full flex-1 rounded-[26px] border border-white/90 p-5 sm:p-6">
                   <p id="feedbackTitle" class="font-extrabold" aria-live="polite"></p>
                   <p id="feedbackText" class="mt-2 min-h-20 text-[#62553a]" aria-live="polite"></p>
@@ -581,7 +633,7 @@
                       <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/palette.png" alt="컬러 팔레트" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                       <div>
                         <p class="text-xs font-bold text-[#8f7acb]">4단계</p>
-                        <h2 class="mt-1 text-2xl font-extrabold leading-tight text-[#4b3f72] sm:text-3xl">오늘의 마음 컬러 팔레트</h2>
+                        <h2 class="mt-1 text-2xl font-extrabold leading-tight text-[#4b3f72] sm:text-3xl">AI 미술심리 소견서</h2>
                       </div>
                       <span class="icon-badge h-11 w-11 rounded-full"><img src="assets/icons/leaf.png" alt="마음 성장" class="icon-img p-2" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
                     </div>
@@ -609,23 +661,23 @@
                     </div>
                     <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-2 px-6 py-8 pr-[24%] sm:px-12 sm:py-9 sm:pr-[22%]"></div>
                   </div>
-                  <p class="mt-5 rounded-2xl border border-dashed border-[#d8c7ff] bg-white/70 px-4 py-3 text-sm leading-6 text-[#6d657c]">이 리포트는 색채선택을 통해 드러난 내담자의 현재 마음 상태와 필요를 이해하는 데 도움을 줍니다.</p>
+                  <p class="mt-5 rounded-2xl border border-dashed border-[#d8c7ff] bg-white/70 px-4 py-3 text-sm leading-6 text-[#6d657c]">이 소견서는 색채선택을 통해 드러난 내담자의 현재 마음 상태와 필요를 이해하는 데 도움을 줍니다.</p>
                 </section>
                 <section id="reportPageTwo" class="mt-7">
                   <div id="reasonSummary" class="grid gap-4"></div>
                   <div class="mt-5 rounded-3xl bg-[#f6f1ff] p-5 shadow-sm">
-                    <h3 class="text-base font-extrabold text-[#4b3f72]">미술심리치료사의 통찰 리포트</h3>
+                    <h3 class="text-base font-extrabold text-[#4b3f72]">AI 미술심리 소견서</h3>
                     <p id="insightText" class="mt-3 whitespace-pre-line text-sm leading-7 text-[#5d566b]"></p>
                   </div>
                 </section>
               </article>
             </div>
             <div class="mt-6 rounded-[28px] bg-[#fff2d9] p-6 text-lg font-bold leading-8 text-[#6d5841] shadow-sm sm:p-8 sm:text-xl">
-              스마트폰에 저장된 내 리포트 이미지(또는 화면)를 짝꿍에게 공유하여 짝꿍이 진단서를 작성할 수 있도록 참고하세요.
+              저장된 내 소견서 화면을 이미지로 저장하거나 공유하여 참고해 보세요.
             </div>
           </div>
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <button id="downloadReportBtn" class="report-action-button rounded-full bg-[#6aa58b] px-6 py-5 text-lg font-extrabold text-white transition hover:bg-[#578f75]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 리포트 저장</span></button>
+            <button id="downloadReportBtn" class="report-action-button rounded-full bg-[#6aa58b] px-6 py-5 text-lg font-extrabold text-white transition hover:bg-[#578f75]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 소견서 저장</span></button>
             <button id="counselorModeBtn" class="report-action-button rounded-full bg-[#7c5fc7] px-6 py-5 text-lg font-extrabold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/stethoscope.png" alt="상담사 모드" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 상담사 모드 전환</span></button>
           </div>
         </div>
@@ -636,7 +688,7 @@
           <div class="mb-6 flex items-center justify-between gap-4">
             <div>
               <p class="text-sm font-bold text-[#8f7acb]">5단계 - ①</p>
-              <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">상담사 태도 퀴즈</h2>
+              <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">실무 윤리 알아보기</h2>
             </div>
             <div id="counselorQuizCount" class="rounded-full bg-white/80 px-4 py-2 text-sm font-bold text-[#7c5fc7] shadow-sm">1 / 5</div>
           </div>
@@ -648,7 +700,7 @@
             </div>
             <div id="counselorFeedback" class="teacher-feedback mt-6 hidden rounded-3xl border border-white p-4 sm:p-6 leading-7 text-[#62553a]">
               <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6">
-                <img src="teacher.png" alt="미술심리치료사 선생님" class="teacher-cutout shrink-0 object-contain" />
+                <img src="teacher.png" alt="미술심리상담사 선생님" class="teacher-cutout shrink-0 object-contain" />
                 <div class="speech-bubble min-h-32 w-full flex-1 rounded-[26px] border border-white/90 p-5 sm:p-6">
                   <p id="counselorFeedbackTitle" class="font-extrabold" aria-live="polite"></p>
                   <p id="counselorFeedbackText" class="mt-2 min-h-20 text-[#62553a]" aria-live="polite"></p>
@@ -665,18 +717,16 @@
       <div id="diagnosisChoiceScreen" class="screen">
         <div class="soft-card rounded-[28px] p-6 sm:p-9">
           <p class="text-sm font-bold text-[#8f7acb]">5단계 - ②</p>
-          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">짝꿍의 미술심리상담사가 되어 리포트 작성하기</h2>
-          <p class="mt-3 leading-7 text-[#6d657c]">상담사 태도 퀴즈를 통과했어요. 이제 짝꿍의 리포트를 바탕으로 진단서 작성 방식을 선택해 주세요.</p>
+          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">미술심리상담사가 되어 소견서 작성하기</h2>
+          <p class="mt-3 leading-7 text-[#6d657c]">내담자의 소견서를 참고해 상담사의 언어로 정리해 보세요.</p>
           <div class="mt-7 grid gap-4 lg:grid-cols-2">
             <button id="digitalOptionBtn" class="choice-card rounded-3xl border-2 border-white/90 bg-white/80 p-6 text-left">
-              <span class="icon-badge h-14 w-14 rounded-3xl"><img src="assets/icons/mobile.png" alt="스마트폰 작성" class="icon-img p-3" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
-              <h3 class="mt-4 text-xl font-extrabold text-[#4b3f72]">옵션 A: 스마트폰 웹앱에 직접 타이핑하기</h3>
-              <p class="mt-3 leading-7 text-[#6d657c]">상담사명, 임상 소견, 미술 매체 처방, 치료적 기대 효과를 입력하고 이미지 진단서를 발급합니다.</p>
+              <span class="icon-badge h-14 w-14 rounded-3xl"><img src="assets/icons/mobile.png" alt="웹앱 작성" class="icon-img p-3" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
+              <h3 class="mt-4 text-xl font-extrabold text-[#4b3f72]">옵션 A: 웹앱에 직접 타이핑하기</h3>
             </button>
             <button id="paperOptionBtn" class="choice-card rounded-3xl border-2 border-white/90 bg-white/80 p-6 text-left">
               <span class="icon-badge h-14 w-14 rounded-3xl"><img src="assets/icons/pencil-paper.png" alt="종이 작성" class="icon-img p-3" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
-              <h3 class="mt-4 text-xl font-extrabold text-[#4b3f72]">옵션 B: 종이 임상 진단서 활동지에 손으로 직접 작성하기</h3>
-              <p class="mt-3 leading-7 text-[#6d657c]">짝꿍의 리포트를 보며 종이 활동지에 상담사의 언어로 정리합니다.</p>
+              <h3 class="mt-4 text-xl font-extrabold text-[#4b3f72]">옵션 B: 종이 활동지에 직접 작성하기</h3>
             </button>
           </div>
         </div>
@@ -685,7 +735,7 @@
       <div id="digitalDiagnosisScreen" class="screen">
         <div class="soft-card rounded-[28px] p-6 sm:p-9">
           <p class="text-sm font-bold text-[#8f7acb]">5단계 - 옵션 A</p>
-          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">짝꿍 진단서 작성</h2>
+          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">소견서 작성</h2>
           <div class="mt-6 w-full rounded-full bg-[#fff2d9] px-6 py-4 text-center font-extrabold text-[#7a5a3b] shadow-sm">
             <span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/book.png" alt="작성 가이드" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 작성 가이드</span>
           </div>
@@ -704,7 +754,7 @@
                 <p class="mt-3 text-sm leading-6 text-[#6d657c]">활동 후 기대되는 정서 변화, 회복 방향, 성장 가능성을 씁니다.</p>
               </div>
             </div>
-            <p class="mt-4 rounded-2xl bg-white/74 px-4 py-3 text-sm font-bold text-[#6d657c]">각 입력창 위의 예시 칩을 누르면 문장이 들어갑니다. 여러 개를 추가한 뒤 짝꿍의 리포트에 맞게 지우고 고쳐서 자기 문장으로 완성해 주세요.</p>
+            <p class="mt-4 rounded-2xl bg-white/74 px-4 py-3 text-sm font-bold text-[#6d657c]">각 입력창 위의 예시 칩을 누르면 문장이 들어갑니다. 여러 개를 추가한 뒤 상대방의 소견서에 맞게 지우고 고쳐서 자기 문장으로 완성해 주세요.</p>
           </div>
           <div class="mt-7 grid gap-5">
             <label>
@@ -714,7 +764,7 @@
             <label>
               <span class="font-extrabold text-[#4b3f72]">임상 소견 및 심리 평가</span>
               <div id="clinicalChipBox" class="guide-chip-box mt-3 rounded-2xl border border-white/90 bg-purple-50/50 p-2"></div>
-              <textarea id="clinicalOpinionInput" rows="5" placeholder="짝꿍의 리포트와 대화를 바탕으로 관찰한 색채, 감정, 강점, 필요를 적어주세요." class="mt-2 w-full resize-none rounded-3xl border border-white/90 bg-white/86 px-5 py-4 leading-7 text-[#4b3f72] shadow-sm"></textarea>
+              <textarea id="clinicalOpinionInput" rows="5" placeholder="상대방의 소견서와 대화를 바탕으로 관찰한 색채, 감정, 강점, 필요를 적어주세요." class="mt-2 w-full resize-none rounded-3xl border border-white/90 bg-white/86 px-5 py-4 leading-7 text-[#4b3f72] shadow-sm"></textarea>
             </label>
             <label>
               <span class="font-extrabold text-[#4b3f72]">치료 필요 여부 및 추천 세팅</span>
@@ -733,12 +783,12 @@
             </label>
           </div>
           <p id="diagnosisAlert" class="mt-4 hidden rounded-2xl bg-[#ffe8ef] px-4 py-3 text-sm font-bold text-[#c95873]">상담사명, 임상 소견, 치료 세팅, 솔루션 처방, 치료적 기대 효과를 모두 작성해주세요.</p>
-          <button id="issueDiagnosisBtn" class="mt-7 w-full rounded-full bg-[#7c5fc7] px-6 py-4 font-bold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6]">정식 진단서 발급</button>
+          <button id="issueDiagnosisBtn" class="mt-7 w-full rounded-full bg-[#7c5fc7] px-6 py-4 font-bold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6]">정식 소견서 발급</button>
           <div id="diagnosisOutputWrap" class="mt-7 hidden">
             <div id="diagnosisCapture" class="report-sheet print-safe rounded-[28px] p-6 sm:p-9">
               <div class="text-center">
                 <p class="text-sm font-bold text-[#8f7acb]">내 마음의 컬러 팔레트</p>
-                <h3 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">짝꿍 미술심리 임상 진단서</h3>
+                <h3 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">상대방 미술심리 임상 소견서</h3>
               </div>
               <div class="mt-7 grid gap-4 sm:grid-cols-2">
                 <div class="rounded-3xl bg-white/82 p-5 shadow-sm">
@@ -767,7 +817,7 @@
                 <p id="diagnosisPrognosis" class="mt-3 whitespace-pre-line leading-8 text-[#5d566b]"></p>
               </div>
             </div>
-            <button id="downloadDiagnosisBtn" class="mt-5 w-full rounded-full bg-[#5d9c7a] px-6 py-4 font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 짝꿍 진단서 이미지로 저장하기</span></button>
+            <button id="downloadDiagnosisBtn" class="mt-5 w-full rounded-full bg-[#5d9c7a] px-6 py-4 font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 상대방 소견서 저장하기</span></button>
           </div>
         </div>
       </div>
@@ -775,14 +825,14 @@
       <div id="paperGuideScreen" class="screen">
         <div class="soft-card rounded-[28px] p-6 sm:p-9">
           <p class="text-sm font-bold text-[#8f7acb]">5단계 - 옵션 B</p>
-          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">종이 임상 진단서 활동지 작성</h2>
+          <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">종이 임상 소견서 활동지 작성</h2>
           <div class="mt-7 rounded-3xl bg-white/84 p-7 sm:p-10 shadow-sm">
             <span class="icon-badge h-16 w-16 rounded-3xl"><img src="assets/icons/pencil-paper.png" alt="종이 활동지" class="icon-img p-3" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /></span>
             <p class="mt-5 text-xl sm:text-2xl font-extrabold leading-9 text-[#4b3f72]">
-              선생님이 나누어주신 종이 활동지에 펜을 들고, 짝꿍의 스마트폰에 뜬 리포트 이미지를 보며 정성껏 진단서를 작성해 주세요!
+              선생님이 나누어주신 종이 활동지에 펜을 들고, 상대방이 공유한 소견서 화면을 보며 정성껏 소견서를 작성해 주세요!
             </p>
             <p class="mt-5 leading-8 text-[#6d657c]">
-              색을 맞히려 하기보다, 짝꿍이 직접 적은 고민과 선택 이유를 존중하며 임상 소견, 미술 매체 처방, 치료적 기대 효과를 따뜻한 언어로 적어주세요.
+              색을 맞히려 하기보다, 상대방이 직접 적은 고민과 선택 이유를 존중하며 임상 소견, 미술 매체 처방, 치료적 기대 효과를 따뜻한 언어로 적어주세요.
             </p>
           </div>
         </div>
@@ -810,18 +860,18 @@
 
     const quizzes = [
       { question: "미술심리치료는 말로 표현하기 힘든 감정을 그림이나 색으로 안전하게 꺼내어 표현하는 '비언어적 소통'이다?", answer: "O", explain: "맞아요. 미술심리치료는 말보다 먼저 떠오르는 이미지, 색, 선, 상징을 통해 마음을 안전하게 표현하도록 돕는 과정이에요." },
-      { question: "미술심리치료사는 내 그림을 보고 '그림을 얼마나 잘 그렸는지' 예술 점수를 매기는 사람이다?", answer: "X", explain: "정답이에요. 미술심리치료사는 그림 실력을 평가하지 않아요. 작품 속에 담긴 감정과 이야기를 함께 바라보는 사람이에요." },
+      { question: "미술심리상담사는 내 그림을 보고 '그림을 얼마나 잘 그렸는지' 예술 점수를 매기는 사람이다?", answer: "X", explain: "정답이에요. 미술심리상담사는 그림 실력을 평가하지 않아요. 작품 속에 담긴 감정과 이야기를 함께 바라보는 사람이에요." },
       { question: "미술심리치료는 꼭 마음에 큰 상처나 병이 있는 사람들만 받을 수 있는 특별한 치료이다?", answer: "X", explain: "잘했어요. 미술심리치료는 누구나 경험할 수 있어요. 스트레스, 진로 고민, 관계 감정, 자기 이해에도 도움이 될 수 있답니다." },
       { question: "이 웹앱처럼 무의식적으로 '색상'이나 '상징 오브제'를 고르는 것도 실제 심리 상담에서 쓰이는 투사 기법의 일부이다?", answer: "O", explain: "맞아요. 색이나 상징을 고르는 행동에는 지금의 감정, 욕구, 기대가 자연스럽게 비칠 수 있어요. 이것을 투사적 표현이라고 볼 수 있어요." },
-      { question: "미술심리치료사는 내 그림을 마음대로 해석해서 '너는 이런 사람이야!' 하고 정답을 단정 짓는 권위자이다?", answer: "X", explain: "정답이에요. 좋은 미술심리치료사는 단정하지 않아요. 그림의 의미를 만든 사람은 바로 나 자신이기 때문에, 함께 질문하고 발견하는 태도가 중요해요." }
+      { question: "미술심리상담사는 내 그림을 마음대로 해석해서 '너는 이런 사람이야!' 하고 정답을 단정 짓는 권위자이다?", answer: "X", explain: "정답이에요. 좋은 미술심리상담사는 단정하지 않아요. 그림의 의미를 만든 사람은 바로 나 자신이기 때문에, 함께 질문하고 발견하는 태도가 중요해요." }
     ];
 
     const counselorQuizzes = [
-      { question: "상담사는 내담자의 이야기를 비밀로 지켜야 하지만, 내담자나 타인의 안전에 중대한 위험이 예상되는 경우에는 필요한 범위 안에서 보호자나 관련 전문가에게 도움을 요청할 수 있다?", answer: "O", explain: "맞아요. 비밀유지는 상담의 핵심이지만 절대적인 침묵을 뜻하지는 않아요. 생명과 안전이 걸린 상황에서는 내담자를 보호하기 위해 필요한 최소한의 도움을 연결하는 것이 윤리적인 태도입니다." },
-      { question: "미술심리치료사는 색채나 상징에 대한 전문 지식을 참고할 수 있지만, 작품의 의미를 내담자보다 상담사가 더 정확히 안다고 단정해서는 안 된다?", answer: "O", explain: "정답이에요. 색채심리 지식은 내담자를 이해하기 위한 지도일 뿐, 내담자 위에 놓이는 정답지가 아니에요. 작품의 의미는 상담사와 내담자가 함께 탐색할 때 더 안전하고 깊어집니다." },
-      { question: "상담사가 보기에 내담자에게 더 좋은 선택이 분명해 보인다면, 내담자의 의사보다 상담사의 판단을 우선하여 결정을 대신 내려주는 것이 전문적인 태도이다?", answer: "X", explain: "잘했어요. 상담사는 내담자의 선택 능력을 빼앗는 사람이 아니라, 내담자가 자신의 감정과 욕구를 이해하고 스스로 결정할 수 있도록 돕는 사람입니다. 이를 자기결정권 존중이라고 볼 수 있어요." },
-      { question: "상담사가 내담자에게 따뜻하게 공감하는 것은 중요하지만, 상담 관계를 개인적 친분이나 사적인 의존 관계로 바꾸지 않도록 경계를 지키는 것도 전문성의 일부이다?", answer: "O", explain: "맞아요. 상담사의 따뜻함은 중요하지만, 상담 관계는 사적인 친분과 달라요. 전문적 경계가 있어야 내담자는 더 안전하게 자신을 표현하고, 상담사는 안정적으로 도울 수 있습니다." },
-      { question: "내담자가 만든 그림이나 상담 내용을 수업 자료, 발표, SNS 등에 활용할 때는 이름을 가리기만 하면 별도의 동의 없이 사용해도 된다?", answer: "X", explain: "정답이에요. 이름을 가리는 것만으로 충분하지 않을 수 있어요. 작품과 상담 내용은 내담자의 사적인 표현이기 때문에, 활용 목적과 범위를 설명하고 동의를 구하는 태도가 필요합니다." }
+      { question: "내담자의 비밀은 지켜야 하지만, 생명이나 안전에 중대한 위험이 있다면 보호자나 전문가에게 알릴 수 있다?", answer: "O", explain: "맞아요. 비밀유지는 상담의 핵심이지만, 생명과 안전이 걸린 상황에서는 내담자를 보호하기 위해 필요한 도움을 연결하는 것이 윤리적인 태도입니다." },
+      { question: "상담사는 전문 지식을 참고하되, 작품의 의미를 내담자보다 내가 더 잘 안다고 단정해선 안 된다?", answer: "O", explain: "정답이에요. 전문 지식은 내담자를 이해하기 위한 참고 자료일 뿐이에요. 작품의 의미는 내담자와 함께 묻고 탐색할 때 더 안전하고 깊어집니다." },
+      { question: "내담자가 어떤 결정을 하든, 상담사가 보기에 더 좋은 선택을 대신 해주는 것이 전문적인 태도이다?", answer: "X", explain: "잘했어요. 상담사는 결정을 대신 내려주는 사람이 아니라, 내담자가 자신의 감정과 욕구를 이해하고 스스로 선택할 수 있도록 돕는 사람입니다." },
+      { question: "내담자와 친해진 후에는 개인연락처 공유나 집초대를 해도 된다?", answer: "X", explain: "정답이에요. 상담 관계에서는 따뜻함과 함께 전문적 경계가 필요해요. 사적인 연락이나 초대는 내담자의 안전한 상담 환경을 흐릴 수 있습니다." },
+      { question: "내담자의 그림이나 상담 내용을 이름만 가리면 동의 없이 수업 자료나 SNS에 마음대로 써도 된다?", answer: "X", explain: "정답이에요. 이름을 가리는 것만으로는 충분하지 않아요. 그림과 상담 내용은 내담자의 사적인 표현이므로, 목적과 범위를 설명하고 동의를 구해야 합니다." }
     ];
 
     const paletteQuestions = [
@@ -894,6 +944,7 @@
     };
 
     const $ = (id) => document.getElementById(id);
+    const STORAGE_KEY = 'artTherapyPaletteDraft';
 
     const escapeHtml = (value) => String(value)
       .replace(/&/g, '&amp;')
@@ -901,6 +952,99 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+
+    function getDraftData() {
+      return {
+        profile: {
+          nickname: $('nicknameInput').value,
+          ageGrade: $('ageGradeInput').value,
+          gender: state.profile.gender,
+          weather: state.profile.weather,
+          concern: $('concernInput').value
+        },
+        opinion: {
+          counselorName: $('counselorNameInput').value,
+          clinical: $('clinicalOpinionInput').value,
+          setting: $('treatmentSettingInput').value,
+          prescription: $('artPrescriptionInput').value,
+          prognosis: $('therapeuticPrognosisInput').value
+        }
+      };
+    }
+
+    function saveDraft() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(getDraftData()));
+      } catch (error) {
+        console.warn('Draft save skipped.', error);
+      }
+    }
+
+    function restoreDraft() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (draft.profile) {
+          $('nicknameInput').value = draft.profile.nickname || '';
+          $('ageGradeInput').value = draft.profile.ageGrade || '';
+          $('concernInput').value = draft.profile.concern || '';
+          state.profile = {
+            ...state.profile,
+            nickname: draft.profile.nickname || '',
+            ageGrade: draft.profile.ageGrade || '',
+            gender: draft.profile.gender || '',
+            weather: draft.profile.weather || '',
+            concern: draft.profile.concern || ''
+          };
+          document.querySelectorAll('.gender-option').forEach(button => {
+            button.classList.toggle('selected', button.dataset.value === state.profile.gender);
+          });
+          document.querySelectorAll('.weather-option').forEach(button => {
+            button.classList.toggle('selected', button.dataset.value === state.profile.weather);
+          });
+        }
+        if (draft.opinion) {
+          $('counselorNameInput').value = draft.opinion.counselorName || '';
+          $('clinicalOpinionInput').value = draft.opinion.clinical || '';
+          $('treatmentSettingInput').value = draft.opinion.setting || '';
+          $('artPrescriptionInput').value = draft.opinion.prescription || '';
+          $('therapeuticPrognosisInput').value = draft.opinion.prognosis || '';
+        }
+      } catch (error) {
+        console.warn('Draft restore skipped.', error);
+      }
+    }
+
+    function bindDraftAutosave() {
+      [
+        'nicknameInput',
+        'ageGradeInput',
+        'concernInput',
+        'counselorNameInput',
+        'clinicalOpinionInput',
+        'treatmentSettingInput',
+        'artPrescriptionInput',
+        'therapeuticPrognosisInput'
+      ].forEach(id => $(id).addEventListener('input', saveDraft));
+    }
+
+    function resetAssessmentState() {
+      clearTyping();
+      state.quizIndex = 0;
+      state.counselorQuizIndex = 0;
+      state.paletteIndex = 0;
+      state.selectedPalette = [];
+      state.pendingChoice = null;
+      $('palettePreview').innerHTML = '';
+      $('paletteChoices').innerHTML = '';
+      $('resultPalette').innerHTML = '';
+      $('reasonSummary').innerHTML = '';
+      $('insightText').textContent = '';
+      $('reasonInput').value = '';
+      $('reasonPanel').classList.add('hidden');
+      $('reasonAlert').classList.add('hidden');
+    }
 
     function updateNavControls() {
       const finalScreens = ["result", "diagnosisChoice", "digitalDiagnosis", "paperGuide"];
@@ -923,18 +1067,29 @@
     }
 
     function goBack() {
+      if (state.currentScreen === 'quiz' && state.quizIndex > 0) {
+        state.quizIndex--;
+        renderQuiz();
+        updateNavControls();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (state.currentScreen === 'counselorQuiz' && state.counselorQuizIndex > 0) {
+        state.counselorQuizIndex--;
+        renderCounselorQuiz();
+        updateNavControls();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
       const previousScreen = state.screenHistory.pop();
       if (!previousScreen) return;
       showScreen(previousScreen, { remember: false });
     }
 
     function goHome() {
-      clearTyping();
-      state.quizIndex = 0;
-      state.counselorQuizIndex = 0;
-      state.paletteIndex = 0;
-      state.selectedPalette = [];
-      state.pendingChoice = null;
+      resetAssessmentState();
       state.profile = { nickname: "", ageGrade: "", gender: "", weather: "", concern: "" };
       state.screenHistory = [];
       $('nicknameInput').value = '';
@@ -948,6 +1103,11 @@
       $('artPrescriptionInput').value = '';
       $('therapeuticPrognosisInput').value = '';
       $('diagnosisOutputWrap').classList.add('hidden');
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (error) {
+        console.warn('Draft clear skipped.', error);
+      }
       showScreen('intro', { remember: false });
     }
 
@@ -1034,8 +1194,8 @@
       }
       $('profileAlert').classList.add('hidden');
       state.profile = { ...state.profile, nickname, ageGrade, concern };
-      state.paletteIndex = 0;
-      state.selectedPalette = [];
+      saveDraft();
+      resetAssessmentState();
       renderPaletteQuestion();
       showScreen('palette');
     }
@@ -1093,7 +1253,8 @@
         return;
       }
       $('reasonAlert').classList.add('hidden');
-      state.selectedPalette.push({ ...state.pendingChoice, reason });
+      state.selectedPalette[state.paletteIndex] = { ...state.pendingChoice, reason };
+      state.selectedPalette = state.selectedPalette.slice(0, paletteQuestions.length);
       state.paletteIndex++;
       if (state.paletteIndex < paletteQuestions.length) renderPaletteQuestion();
       else {
@@ -1108,8 +1269,10 @@
     }
 
     function renderResult() {
+      state.selectedPalette = state.selectedPalette.slice(0, paletteQuestions.length);
       const [energy, object, healing] = state.selectedPalette;
-      $('resultPalette').innerHTML = state.selectedPalette.map(choice => `
+      const finalPalette = state.selectedPalette.slice(0, paletteQuestions.length);
+      $('resultPalette').innerHTML = finalPalette.map(choice => `
         <div class="text-center">
           <div class="paint-well mx-auto h-[68px] w-[68px] rounded-full sm:h-[90px] sm:w-[90px]" style="background:${choice.hex};"></div>
           <p class="mt-3 text-sm font-extrabold text-[#40394f] sm:text-base">${choice.colorName}</p>
@@ -1130,7 +1293,7 @@
       `).join('');
       $('concernSummary').textContent = state.profile.concern;
 
-      $('reasonSummary').innerHTML = state.selectedPalette.map(choice => `
+      $('reasonSummary').innerHTML = finalPalette.map(choice => `
         <div class="rounded-3xl bg-white/86 p-4 shadow-sm">
           <div class="grid gap-4 sm:grid-cols-[132px_1fr]">
             <div class="grid place-items-center border-b border-[#eadfcf] pb-4 text-center sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4">
@@ -1155,7 +1318,7 @@
               <div class="report-divider pt-3">
                 <div class="grid gap-2 sm:grid-cols-[132px_1fr]">
                   <p class="font-extrabold text-[#8f7acb]">▪ 상담사가 볼 포인트</p>
-                  <p>${choice.keyword}의 욕구가 어떤 상황에서 강해지는지 묻고, 짝꿍이 스스로 선택한 이유를 존중하며 활동 방향을 잡아주세요.</p>
+                  <p>${choice.keyword}의 욕구가 어떤 상황에서 강해지는지 묻고, 상대방이 스스로 선택한 이유를 존중하며 활동 방향을 잡아주세요.</p>
                 </div>
               </div>
             </div>
@@ -1164,88 +1327,33 @@
       `).join('');
 
       $('insightText').textContent =
-        `${state.profile.nickname}님의 리포트는 '${state.profile.concern}'이라는 현재 고민을 중심에 두고 읽어볼 수 있습니다.\n\n` +
+        `${state.profile.nickname}님의 소견서는 '${state.profile.concern}'이라는 현재 고민을 중심에 두고 읽어볼 수 있습니다.\n\n` +
         `첫 번째 색인 ${energy.colorName}은 ${energy.theory} ${energy.insight} 특히 선택 이유로 적은 "${energy.reason}"에는 현재 에너지가 어떤 방식으로 움직이고 싶은지에 대한 단서가 담겨 있습니다.\n\n` +
         `두 번째 오브제인 ${object.object}와 ${object.colorName}은 ${object.theory} ${object.insight} "${object.reason}"이라는 기록은 마음이 무엇을 보호하거나 꺼내고 싶어 하는지 보여주는 투사적 표현으로 볼 수 있습니다.\n\n` +
         `세 번째 치유 색인 ${healing.colorName}은 ${healing.theory} ${healing.insight} "${healing.reason}"에서 드러나듯, 지금 필요한 회복 방식은 스스로에게 더 맞는 속도와 환경을 찾는 일과 연결됩니다.\n\n` +
-        `세 색의 조합을 종합하면, ${state.profile.nickname}님은 ${energy.keyword}의 에너지를 가지고 있으면서도 ${object.keyword}의 감정을 조심스럽게 다루고 있으며, 앞으로는 ${healing.keyword}의 방향으로 마음을 돌보고 싶어 하는 모습입니다. 이 리포트는 단정이 아니라 대화를 여는 지도입니다.`;
+        `세 색의 조합을 종합하면, ${state.profile.nickname}님은 ${energy.keyword}의 에너지를 가지고 있으면서도 ${object.keyword}의 감정을 조심스럽게 다루고 있으며, 앞으로는 ${healing.keyword}의 방향으로 마음을 돌보고 싶어 하는 모습입니다. 이 소견서는 단정이 아니라 대화를 여는 지도입니다.`;
     }
 
-    function waitForImages(element) {
-      const images = Array.from(element.querySelectorAll('img'));
-      return Promise.all(images.map(img => {
-        if (img.complete && img.naturalWidth !== 0) return Promise.resolve();
-        return new Promise(resolve => {
-          img.addEventListener('load', resolve, { once: true });
-          img.addEventListener('error', resolve, { once: true });
-        });
-      }));
-    }
-
-    async function downloadElement(elementId, filename) {
+    function printOpinionSection(elementId) {
       const element = $(elementId);
       if (!element) {
-        window.alert('저장할 리포트 영역을 찾지 못했어요. 잠시 후 다시 눌러주세요.');
-        return;
-      }
-
-      if (typeof html2canvas === 'undefined') {
-        window.alert('이미지 저장 라이브러리를 불러오는 중이에요. 인터넷 연결을 확인한 뒤 다시 눌러주세요.');
+        window.alert('저장할 소견서 화면을 찾지 못했어요. 잠시 후 다시 시도해 주세요.');
         return;
       }
 
       try {
-        await waitForImages(element);
-        const canvas = await html2canvas(element, {
-          scale: Math.min(2, window.devicePixelRatio || 2),
-          backgroundColor: '#fff7fb',
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          scrollX: 0,
-          scrollY: -window.scrollY,
-          windowWidth: document.documentElement.scrollWidth,
-          windowHeight: document.documentElement.scrollHeight
-        });
-
-        window.alert("이미지가 생성되었습니다! 다운로드가 안 되면 화면을 꾹 눌러 '사진에 추가/저장'을 해주세요!");
-
-        const openImageFallback = () => {
-          const imageUrl = canvas.toDataURL('image/png');
-          const imageWindow = window.open('');
-          if (imageWindow) {
-            imageWindow.document.write(`<title>${filename}</title><img src="${imageUrl}" alt="저장된 리포트 이미지" style="width:100%;height:auto;display:block;background:#fff7fb;">`);
-            imageWindow.document.close();
-          }
-        };
-
-        if (canvas.toBlob) {
-          canvas.toBlob(blob => {
-            if (!blob) {
-              openImageFallback();
-              return;
-            }
-
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename;
-            link.rel = 'noopener';
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            setTimeout(() => URL.revokeObjectURL(url), 1500);
-
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-              setTimeout(openImageFallback, 350);
-            }
-          }, 'image/png');
-        } else {
-          openImageFallback();
-        }
+        document.body.classList.add('printing-report');
+        element.classList.add('print-active');
+        window.print();
+        setTimeout(() => {
+          element.classList.remove('print-active');
+          document.body.classList.remove('printing-report');
+        }, 600);
       } catch (error) {
-        console.error(error);
-        window.alert("이미지 저장 중 문제가 생겼어요. 화면 캡처를 사용하거나 잠시 후 다시 눌러주세요.");
+        element.classList.remove('print-active');
+        document.body.classList.remove('printing-report');
+        console.warn('Print failed.', error);
+        window.alert('인쇄 창을 여는 중 문제가 생겼어요. 브라우저 메뉴의 인쇄 기능을 사용해 주세요.');
       }
     }
 
@@ -1312,7 +1420,7 @@
         "현재 상태는 일상생활에 큰 지장은 없으나, 누적된 스트레스 환기를 위해 [원데이 아트 테라피 (1회성 긴급 정화, 90분)]를 적극 권장함.",
         "또래 관계 속에서 소통 방식을 넓히고 긍정적 자극을 받기 위해, 학교나 센터 연계의 [소집단 / 다인원 미술치료 프로그램 (총 4~6회기, 주 1~2회)]을 추천함.",
         "내면의 깊은 고민과 방어기제를 다루기 위해, 안전한 공간에서 집중적인 케어를 받을 수 있는 [1:1 개인 심리 미술치료 (총 8~12회기, 주 1회)]를 권장함.",
-        "현재 특별한 전문 치료 개입은 필요치 않으며, 본 리포트와 짝꿍과의 상호작용을 통한 일상 속 [자기돌봄 및 셀프 코칭]만으로도 충분히 긍정적 회복이 가능함.",
+        "현재 특별한 전문 치료 개입은 필요치 않으며, 본 소견서와 상대방과의 상호작용을 통한 일상 속 [자기돌봄 및 셀프 코칭]만으로도 충분히 긍정적 회복이 가능함.",
         "가벼운 정서적 환기와 스트레스 해소를 위해, 주말이나 방학을 활용한 [단기 미술치료 워크숍 (2~3회기)] 참여를 제안함.",
         "스스로 감정을 조율하는 능력이 돋보이므로 전문 치료보다는 일상 속 '취미 미술'이나 '예술 활동'을 통한 지속적인 자기표현을 지지함.",
         "초기 방어기제가 다소 강하게 작동하므로, 라포(신뢰) 형성을 위해 최소 3회기 이상의 [초기 집중형 1:1 상담] 후 집단 연계를 제안함.",
@@ -1383,6 +1491,7 @@
       target.setSelectionRange(cursor, cursor);
       target.focus();
       $('diagnosisAlert').classList.add('hidden');
+      saveDraft();
     }
 
     function renderDiagnosisGuideChips() {
@@ -1410,15 +1519,23 @@
       }
       $('diagnosisAlert').classList.add('hidden');
       $('diagnosisCounselorName').textContent = name;
-      $('diagnosisClientName').textContent = state.profile.nickname || '짝꿍';
+      $('diagnosisClientName').textContent = state.profile.nickname || '상대방';
       $('diagnosisOpinion').textContent = opinion;
       $('diagnosisSetting').textContent = setting;
       $('diagnosisPrescription').textContent = prescription;
       $('diagnosisPrognosis').textContent = prognosis;
       $('diagnosisOutputWrap').classList.remove('hidden');
+      saveDraft();
     }
 
-    $('startBtn').addEventListener('click', () => { renderQuiz(); showScreen('quiz'); });
+    restoreDraft();
+    bindDraftAutosave();
+
+    $('startBtn').addEventListener('click', () => {
+      resetAssessmentState();
+      renderQuiz();
+      showScreen('quiz');
+    });
     $('backBtn').addEventListener('click', goBack);
     $('homeBtn').addEventListener('click', goHome);
     document.querySelectorAll('.gender-option').forEach(button => {
@@ -1427,6 +1544,7 @@
         button.classList.add('selected');
         state.profile.gender = button.dataset.value;
         $('profileAlert').classList.add('hidden');
+        saveDraft();
       });
     });
     document.querySelectorAll('.weather-option').forEach(button => {
@@ -1435,6 +1553,7 @@
         button.classList.add('selected');
         state.profile.weather = button.dataset.value;
         $('profileAlert').classList.add('hidden');
+        saveDraft();
       });
     });
     document.querySelectorAll('.example-chip').forEach(button => {
@@ -1442,6 +1561,7 @@
         $('concernInput').value = button.dataset.text;
         $('concernInput').focus();
         $('profileAlert').classList.add('hidden');
+        saveDraft();
       });
     });
     document.querySelectorAll('.quiz-answer').forEach(button => button.addEventListener('click', () => handleQuizAnswer(button.dataset.answer, button)));
@@ -1452,7 +1572,7 @@
     });
     $('profileNextBtn').addEventListener('click', validateProfile);
     $('reasonNextBtn').addEventListener('click', saveReasonAndContinue);
-    $('downloadReportBtn').addEventListener('click', () => downloadElement('reportSaveArea', 'art_therapy_report.png'));
+    $('downloadReportBtn').addEventListener('click', () => printOpinionSection('reportCapture'));
     $('counselorModeBtn').addEventListener('click', () => {
       state.counselorQuizIndex = 0;
       renderCounselorQuiz();
@@ -1468,7 +1588,7 @@
     $('paperOptionBtn').addEventListener('click', () => showScreen('paperGuide'));
     renderDiagnosisGuideChips();
     $('issueDiagnosisBtn').addEventListener('click', issueDiagnosis);
-    $('downloadDiagnosisBtn').addEventListener('click', () => downloadElement('diagnosisCapture', 'partner-art-therapy-diagnosis.png'));
+    $('downloadDiagnosisBtn').addEventListener('click', () => printOpinionSection('diagnosisCapture'));
     updateNavControls();
   </script>
 </body>
