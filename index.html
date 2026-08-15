@@ -172,6 +172,27 @@
 
     .print-safe { color: #3f3a4a; }
 
+    .report-page {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      box-shadow: 0 14px 34px rgba(93, 78, 122, 0.09);
+    }
+
+    .painter-palette {
+      position: relative;
+      min-height: 260px;
+      border-radius: 52% 48% 46% 54% / 58% 48% 52% 42%;
+      background:
+        radial-gradient(circle at 72% 66%, transparent 0 28px, rgba(214, 176, 112, 0.2) 29px 31px, transparent 32px),
+        linear-gradient(135deg, rgba(255, 248, 228, 0.98), rgba(244, 220, 178, 0.86));
+      border: 1px solid rgba(222, 190, 137, 0.7);
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.45), 0 18px 36px rgba(128, 94, 52, 0.13);
+    }
+
+    .paint-well {
+      box-shadow: inset 0 8px 18px rgba(255, 255, 255, 0.36), inset 0 -12px 22px rgba(83, 57, 98, 0.12), 0 10px 24px rgba(76, 60, 95, 0.14);
+    }
+
     .nav-button {
       background: rgba(255, 255, 255, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.92);
@@ -408,29 +429,55 @@
           <div id="reportCapture" class="report-sheet print-safe rounded-[28px] p-6 sm:p-9">
             <div class="text-center">
               <p class="text-sm font-bold text-[#8f7acb]">4단계</p>
-              <h2 class="mt-1 text-2xl sm:text-4xl font-extrabold leading-tight text-[#4b3f72]">🎨 오늘의 마음 컬러 팔레트 통찰 리포트</h2>
+              <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold leading-tight text-[#4b3f72]">🎨 오늘의 마음 컬러 팔레트 통찰 리포트</h2>
             </div>
-            <div id="resultPalette" class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6"></div>
-            <div class="mt-8 grid gap-4 lg:grid-cols-2">
-              <div class="rounded-3xl bg-white/82 p-5 shadow-sm">
-                <h3 class="font-extrabold text-[#4b3f72]">내담자 프로필</h3>
-                <p id="profileSummary" class="mt-3 whitespace-pre-line leading-7 text-[#625a70]"></p>
+            <section id="reportPageOne" class="report-page mt-7 rounded-[28px] p-5 sm:p-7">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="text-xs font-extrabold text-[#8f7acb]">1쪽</p>
+                  <h3 class="mt-1 text-xl font-extrabold text-[#4b3f72]">내담자 요약과 마음 팔레트</h3>
+                </div>
+                <span class="rounded-full bg-[#f3efff] px-3 py-1 text-xs font-extrabold text-[#7c5fc7]">상담 시작 자료</span>
               </div>
-              <div class="rounded-3xl bg-white/82 p-5 shadow-sm">
-                <h3 class="font-extrabold text-[#4b3f72]">선택 이유 기록</h3>
-                <div id="reasonSummary" class="mt-3 space-y-3 leading-7 text-[#625a70]"></div>
+              <div class="mt-5 rounded-3xl bg-white/84 p-5 shadow-sm">
+                <h4 class="font-extrabold text-[#4b3f72]">내담자 프로필</h4>
+                <div id="profileSummary" class="mt-4 grid gap-2 sm:grid-cols-4"></div>
+                <div class="mt-4 rounded-2xl bg-[#f8f4ff] p-4">
+                  <p class="text-sm font-extrabold text-[#8f7acb]">주 호소 문제 및 탐색 주제</p>
+                  <p id="concernSummary" class="mt-2 whitespace-pre-line text-sm leading-7 text-[#5d566b]"></p>
+                </div>
               </div>
-            </div>
-            <div class="mt-6 rounded-3xl bg-white/86 p-6 sm:p-8 shadow-sm">
-              <h3 class="text-xl font-extrabold text-[#4b3f72]">색채심리 전문 통찰 리포트</h3>
-              <p id="insightText" class="mt-4 whitespace-pre-line text-base sm:text-lg leading-8 text-[#5d566b]"></p>
-            </div>
+              <div class="mt-6">
+                <div class="mb-3 flex items-center gap-2">
+                  <span class="text-2xl">🎨</span>
+                  <h4 class="font-extrabold text-[#4b3f72]">마음 팔레트</h4>
+                </div>
+                <div id="resultPalette" class="painter-palette grid grid-cols-3 items-center gap-3 px-4 py-8 sm:px-8"></div>
+              </div>
+              <p class="mt-5 rounded-2xl border border-dashed border-[#d8c7ff] bg-white/70 px-4 py-3 text-sm leading-6 text-[#6d657c]">이 리포트는 색채선택을 통해 드러난 내담자의 현재 마음 상태와 필요를 이해하는 데 도움을 줍니다.</p>
+            </section>
+            <section id="reportPageTwo" class="report-page mt-7 rounded-[28px] p-5 sm:p-7">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p class="text-xs font-extrabold text-[#8f7acb]">2쪽</p>
+                  <h3 class="mt-1 text-xl font-extrabold text-[#4b3f72]">색채 해석과 상담 활동 참고</h3>
+                </div>
+                <span class="rounded-full bg-[#fff2d9] px-3 py-1 text-xs font-extrabold text-[#8a6541]">진단서 참고</span>
+              </div>
+              <div id="reasonSummary" class="mt-5 grid gap-4"></div>
+              <div class="mt-5 rounded-3xl bg-[#f6f1ff] p-5 sm:p-6 shadow-sm">
+                <h3 class="text-lg font-extrabold text-[#4b3f72]">미술심리치료사의 통찰 리포트</h3>
+                <p id="insightText" class="mt-3 whitespace-pre-line text-sm sm:text-base leading-7 text-[#5d566b]"></p>
+              </div>
+            </section>
           </div>
           <div class="mt-6 rounded-3xl bg-[#fff2d9] p-5 leading-7 text-[#6d5841] shadow-sm">
             스마트폰에 저장된 내 리포트 이미지(또는 화면)를 짝꿍에게 공유하여 짝꿍이 진단서를 작성할 수 있도록 참고하세요.
           </div>
-          <div class="mt-6 grid gap-3 sm:grid-cols-2">
-            <button id="downloadReportBtn" class="rounded-full bg-[#5d9c7a] px-6 py-4 font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]">📥 내 리포트 이미지로 저장하기</button>
+          <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <button id="downloadReportPageOneBtn" class="rounded-full bg-[#5d9c7a] px-5 py-4 text-sm font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]">📥 1쪽 저장</button>
+            <button id="downloadReportPageTwoBtn" class="rounded-full bg-[#5d9c7a] px-5 py-4 text-sm font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]">📥 2쪽 저장</button>
+            <button id="downloadReportBtn" class="rounded-full bg-[#6aa58b] px-5 py-4 text-sm font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#578f75]">📥 전체 저장</button>
             <button id="counselorModeBtn" class="rounded-full bg-[#7c5fc7] px-6 py-4 font-bold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6]">🩺 상담사 모드 전환</button>
           </div>
         </div>
@@ -695,6 +742,13 @@
 
     const $ = (id) => document.getElementById(id);
 
+    const escapeHtml = (value) => String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
     function updateNavControls() {
       const finalScreens = ["result", "diagnosisChoice", "digitalDiagnosis", "paperGuide"];
       const isIntro = state.currentScreen === "intro";
@@ -896,24 +950,56 @@
     }
 
     function renderResult() {
-      $('resultPalette').innerHTML = state.selectedPalette.map(choice => `
-        <div class="rounded-[26px] bg-white/78 p-4 text-center shadow-sm">
-          <div class="mx-auto grid h-24 w-24 place-items-center rounded-full color-chip text-5xl sm:h-32 sm:w-32 sm:text-6xl" style="background:${choice.hex};">${choice.icon}</div>
-          <p class="mt-4 text-sm font-bold text-[#8f7acb]">${choice.category}</p>
-          <p class="mt-1 text-lg font-extrabold text-[#40394f]">${choice.colorName}</p>
-          <p class="mt-1 text-sm leading-5 text-[#746d82]">${choice.object}</p>
-        </div>
-      `).join('');
-
-      $('profileSummary').textContent = `닉네임: ${state.profile.nickname}\n나이/학년: ${state.profile.ageGrade}\n성별: ${state.profile.gender}\n오늘 내 마음의 날씨: ${state.profile.weather}\n주 호소 문제 및 탐색 주제: ${state.profile.concern}`;
-      $('reasonSummary').innerHTML = state.selectedPalette.map(choice => `
-        <div class="rounded-2xl bg-white/70 p-4">
-          <p class="font-extrabold text-[#4b3f72]">${choice.category}: ${choice.object} / ${choice.colorName}</p>
-          <p class="mt-1">${choice.reason}</p>
-        </div>
-      `).join('');
-
       const [energy, object, healing] = state.selectedPalette;
+      $('resultPalette').innerHTML = state.selectedPalette.map(choice => `
+        <div class="text-center">
+          <div class="paint-well mx-auto grid h-20 w-20 place-items-center rounded-full text-4xl sm:h-28 sm:w-28 sm:text-5xl" style="background:${choice.hex};">${choice.icon}</div>
+          <p class="mt-3 text-[11px] font-extrabold text-[#8f7acb] sm:text-xs">${choice.category}</p>
+          <p class="mt-1 text-base font-extrabold text-[#40394f] sm:text-lg">${choice.colorName}</p>
+          <p class="mt-1 text-xs leading-5 text-[#746d82] sm:text-sm">${choice.object}</p>
+        </div>
+      `).join('');
+
+      $('profileSummary').innerHTML = [
+        ['닉네임', state.profile.nickname],
+        ['나이/학년', state.profile.ageGrade],
+        ['성별', state.profile.gender],
+        ['마음 날씨', state.profile.weather]
+      ].map(([label, value]) => `
+        <div class="rounded-2xl bg-white/76 px-4 py-3 shadow-sm">
+          <p class="text-[11px] font-extrabold text-[#8f7acb]">${label}</p>
+          <p class="mt-1 text-sm font-extrabold text-[#4b3f72]">${escapeHtml(value)}</p>
+        </div>
+      `).join('');
+      $('concernSummary').textContent = state.profile.concern;
+
+      $('reasonSummary').innerHTML = state.selectedPalette.map(choice => `
+        <div class="rounded-3xl bg-white/84 p-4 shadow-sm sm:p-5">
+          <div class="grid gap-4 sm:grid-cols-[120px_1fr] sm:items-center">
+            <div class="text-center">
+              <div class="paint-well mx-auto grid h-20 w-20 place-items-center rounded-full text-4xl" style="background:${choice.hex};">${choice.icon}</div>
+              <p class="mt-3 text-sm font-extrabold text-[#7c5fc7]">${choice.category}</p>
+              <p class="mt-1 text-base font-extrabold text-[#40394f]">${choice.colorName}</p>
+              <p class="text-xs leading-5 text-[#746d82]">${choice.object}</p>
+            </div>
+            <div class="space-y-3 text-sm leading-7 text-[#5d566b]">
+              <div>
+                <p class="font-extrabold text-[#8f7acb]">● 선택 이유</p>
+                <p class="mt-1">${escapeHtml(choice.reason)}</p>
+              </div>
+              <div>
+                <p class="font-extrabold text-[#8f7acb]">● 색채심리 해석</p>
+                <p class="mt-1">${choice.theory} ${choice.insight}</p>
+              </div>
+              <div class="rounded-2xl bg-[#f8f4ff] px-4 py-3">
+                <p class="font-extrabold text-[#7c5fc7]">상담사가 볼 포인트</p>
+                <p class="mt-1">${choice.keyword}의 욕구가 어떤 상황에서 강해지는지 묻고, 짝꿍이 스스로 선택한 이유를 존중하며 활동 방향을 잡아주세요.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
       $('insightText').textContent =
         `${state.profile.nickname}님의 리포트는 '${state.profile.concern}'이라는 현재 고민을 중심에 두고 읽어볼 수 있습니다.\n\n` +
         `첫 번째 색인 ${energy.colorName}은 ${energy.theory} ${energy.insight} 특히 선택 이유로 적은 "${energy.reason}"에는 현재 에너지가 어떤 방식으로 움직이고 싶은지에 대한 단서가 담겨 있습니다.\n\n` +
@@ -1135,6 +1221,8 @@
     });
     $('profileNextBtn').addEventListener('click', validateProfile);
     $('reasonNextBtn').addEventListener('click', saveReasonAndContinue);
+    $('downloadReportPageOneBtn').addEventListener('click', () => downloadElement('reportPageOne', 'my-color-palette-report-page-1.png'));
+    $('downloadReportPageTwoBtn').addEventListener('click', () => downloadElement('reportPageTwo', 'my-color-palette-report-page-2.png'));
     $('downloadReportBtn').addEventListener('click', () => downloadElement('reportCapture', 'my-color-palette-report.png'));
     $('counselorModeBtn').addEventListener('click', () => {
       state.counselorQuizIndex = 0;
