@@ -58,6 +58,20 @@
       transform: translateY(-2px);
     }
 
+    .profile-toggle {
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .profile-toggle:hover {
+      transform: translateY(-2px);
+    }
+
+    .profile-toggle.selected {
+      border-color: #a78bfa;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.18), 0 12px 24px rgba(93, 78, 122, 0.12);
+    }
+
     .choice-icon {
       background:
         radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.86), transparent 32%),
@@ -272,16 +286,46 @@
           <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#4b3f72]">내담자 프로필 작성</h2>
           <p class="mt-3 leading-7 text-[#6d657c]">상담실에 들어오기 전, 오늘의 마음 상태를 짧게 적어보는 초기 면접지입니다.</p>
           <div class="mt-7 grid gap-5">
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="block">
+                <span class="font-extrabold text-[#4b3f72]">닉네임</span>
+                <input id="nicknameInput" type="text" maxlength="20" placeholder="예: 하늘, 민트, 별빛" class="mt-2 w-full rounded-3xl border border-white/90 bg-white/86 px-5 py-4 text-[#4b3f72] shadow-sm" />
+              </label>
+              <label class="block">
+                <span class="font-extrabold text-[#4b3f72]">나이 / 학년</span>
+                <input id="ageGradeInput" type="text" maxlength="20" placeholder="예: 15세 / 중2, 고1" class="mt-2 w-full rounded-3xl border border-white/90 bg-white/86 px-5 py-4 text-[#4b3f72] shadow-sm" />
+              </label>
+            </div>
+            <div>
+              <p class="font-extrabold text-[#4b3f72]">성별</p>
+              <div class="mt-2 grid grid-cols-2 gap-3">
+                <button class="profile-toggle gender-option rounded-3xl border-2 border-white/90 bg-white/76 px-5 py-4 font-extrabold text-[#5c526d]" data-value="남">남</button>
+                <button class="profile-toggle gender-option rounded-3xl border-2 border-white/90 bg-white/76 px-5 py-4 font-extrabold text-[#5c526d]" data-value="여">여</button>
+              </div>
+            </div>
+            <div>
+              <p class="font-extrabold text-[#4b3f72]">오늘 내 마음의 날씨</p>
+              <div class="mt-2 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                <button class="profile-toggle weather-option rounded-3xl border-2 border-white/90 bg-white/76 px-4 py-4 font-extrabold text-[#5c526d]" data-value="☀️ 맑음">☀️ 맑음</button>
+                <button class="profile-toggle weather-option rounded-3xl border-2 border-white/90 bg-white/76 px-4 py-4 font-extrabold text-[#5c526d]" data-value="⛅ 구름 조금">⛅ 구름 조금</button>
+                <button class="profile-toggle weather-option rounded-3xl border-2 border-white/90 bg-white/76 px-4 py-4 font-extrabold text-[#5c526d]" data-value="🌧️ 흐림">🌧️ 흐림</button>
+                <button class="profile-toggle weather-option rounded-3xl border-2 border-white/90 bg-white/76 px-4 py-4 font-extrabold text-[#5c526d]" data-value="⚡ 번개">⚡ 번개</button>
+              </div>
+            </div>
             <label class="block">
-              <span class="font-extrabold text-[#4b3f72]">닉네임</span>
-              <input id="nicknameInput" type="text" maxlength="20" placeholder="예: 하늘, 민트, 별빛" class="mt-2 w-full rounded-3xl border border-white/90 bg-white/86 px-5 py-4 text-[#4b3f72] shadow-sm" />
-            </label>
-            <label class="block">
-              <span class="font-extrabold text-[#4b3f72]">오늘 상담실을 찾은 주 호소 문제</span>
-              <textarea id="concernInput" rows="6" placeholder="요즘 나의 고민, 마음 상태, 관계나 진로에서 신경 쓰이는 점을 자유롭게 적어주세요." class="mt-2 w-full resize-none rounded-3xl border border-white/90 bg-white/86 px-5 py-4 leading-7 text-[#4b3f72] shadow-sm"></textarea>
+              <span class="font-extrabold text-[#4b3f72]">오늘 상담실을 찾은 주 호소 문제 및 탐색 주제</span>
+              <div class="mt-3 rounded-3xl bg-white/56 p-4">
+                <p class="text-sm font-extrabold text-[#8f7acb]">💡 고민이 없나요? 아래 예시를 눌러보세요!</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <button class="example-chip rounded-full bg-[#fff2d9] px-4 py-2 text-sm font-bold text-[#8a6541] shadow-sm" data-text="요즘 진로를 어떻게 정해야 할지 막막해서, 내가 좋아하는 것과 잘하는 것을 탐색해보고 싶어요.">진로가 막막해요</button>
+                  <button class="example-chip rounded-full bg-[#ffe8ef] px-4 py-2 text-sm font-bold text-[#a94f68] shadow-sm" data-text="친구 관계에서 눈치를 많이 보게 되고, 내 감정을 어떻게 표현해야 할지 고민돼요.">관계가 어려워요</button>
+                  <button class="example-chip rounded-full bg-[#e8f6ff] px-4 py-2 text-sm font-bold text-[#4b78a0] shadow-sm" data-text="특별한 큰 고민은 없지만, 요즘 내 마음 상태와 나에게 필요한 색을 알아보고 싶어요.">내 마음을 알고 싶어요</button>
+                </div>
+              </div>
+              <textarea id="concernInput" rows="7" placeholder="요즘 나의 고민, 마음 상태, 관계나 진로에서 신경 쓰이는 점을 자유롭게 적어주세요. 예시를 누른 뒤에도 지우거나 고쳐서 나만의 문장으로 만들 수 있어요." class="mt-3 w-full resize-none rounded-3xl border border-white/90 bg-white/86 px-5 py-4 leading-7 text-[#4b3f72] shadow-sm"></textarea>
             </label>
           </div>
-          <p id="profileAlert" class="mt-4 hidden rounded-2xl bg-[#ffe8ef] px-4 py-3 text-sm font-bold text-[#c95873]">닉네임과 고민 내용을 모두 작성해주세요.</p>
+          <p id="profileAlert" class="mt-4 hidden rounded-2xl bg-[#ffe8ef] px-4 py-3 text-sm font-bold text-[#c95873]">닉네임, 나이/학년, 성별, 마음의 날씨, 고민 내용을 모두 작성해주세요.</p>
           <button id="profileNextBtn" class="mt-7 w-full rounded-full bg-[#7c5fc7] px-6 py-4 font-bold text-white shadow-lg shadow-purple-200 transition hover:bg-[#6d55b6] active:scale-[0.98]">
             컬러 팔레트 채우러 가기
           </button>
@@ -559,7 +603,7 @@
       paletteIndex: 0,
       selectedPalette: [],
       pendingChoice: null,
-      profile: { nickname: "", concern: "" },
+      profile: { nickname: "", ageGrade: "", gender: "", weather: "", concern: "" },
       typingTimer: null,
       currentScreen: "intro",
       screenHistory: []
@@ -600,10 +644,12 @@
       state.paletteIndex = 0;
       state.selectedPalette = [];
       state.pendingChoice = null;
-      state.profile = { nickname: "", concern: "" };
+      state.profile = { nickname: "", ageGrade: "", gender: "", weather: "", concern: "" };
       state.screenHistory = [];
       $('nicknameInput').value = '';
+      $('ageGradeInput').value = '';
       $('concernInput').value = '';
+      document.querySelectorAll('.gender-option, .weather-option').forEach(btn => btn.classList.remove('selected'));
       $('reasonInput').value = '';
       $('counselorNameInput').value = '';
       $('clinicalOpinionInput').value = '';
@@ -676,13 +722,14 @@
 
     function validateProfile() {
       const nickname = $('nicknameInput').value.trim();
+      const ageGrade = $('ageGradeInput').value.trim();
       const concern = $('concernInput').value.trim();
-      if (!nickname || !concern) {
+      if (!nickname || !ageGrade || !state.profile.gender || !state.profile.weather || !concern) {
         $('profileAlert').classList.remove('hidden');
         return;
       }
       $('profileAlert').classList.add('hidden');
-      state.profile = { nickname, concern };
+      state.profile = { ...state.profile, nickname, ageGrade, concern };
       state.paletteIndex = 0;
       state.selectedPalette = [];
       renderPaletteQuestion();
@@ -761,7 +808,7 @@
         </div>
       `).join('');
 
-      $('profileSummary').textContent = `닉네임: ${state.profile.nickname}\n주 호소 문제: ${state.profile.concern}`;
+      $('profileSummary').textContent = `닉네임: ${state.profile.nickname}\n나이/학년: ${state.profile.ageGrade}\n성별: ${state.profile.gender}\n오늘 내 마음의 날씨: ${state.profile.weather}\n주 호소 문제 및 탐색 주제: ${state.profile.concern}`;
       $('reasonSummary').innerHTML = state.selectedPalette.map(choice => `
         <div class="rounded-2xl bg-white/70 p-4">
           <p class="font-extrabold text-[#4b3f72]">${choice.category}: ${choice.object} / ${choice.colorName}</p>
@@ -847,6 +894,29 @@
     $('startBtn').addEventListener('click', () => { renderQuiz(); showScreen('quiz'); });
     $('backBtn').addEventListener('click', goBack);
     $('homeBtn').addEventListener('click', goHome);
+    document.querySelectorAll('.gender-option').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.gender-option').forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
+        state.profile.gender = button.dataset.value;
+        $('profileAlert').classList.add('hidden');
+      });
+    });
+    document.querySelectorAll('.weather-option').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.weather-option').forEach(btn => btn.classList.remove('selected'));
+        button.classList.add('selected');
+        state.profile.weather = button.dataset.value;
+        $('profileAlert').classList.add('hidden');
+      });
+    });
+    document.querySelectorAll('.example-chip').forEach(button => {
+      button.addEventListener('click', () => {
+        $('concernInput').value = button.dataset.text;
+        $('concernInput').focus();
+        $('profileAlert').classList.add('hidden');
+      });
+    });
     document.querySelectorAll('.quiz-answer').forEach(button => button.addEventListener('click', () => handleQuizAnswer(button.dataset.answer, button)));
     $('nextQuizBtn').addEventListener('click', () => {
       state.quizIndex++;
