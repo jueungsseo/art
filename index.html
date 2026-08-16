@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>내 마음의 컬러 팔레트</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap');
 
@@ -892,6 +893,11 @@
 
     const $ = (id) => document.getElementById(id);
     const STORAGE_KEY = 'artTherapyPaletteDraft';
+    const SUPABASE_URL = 'https://kvbuuqgsjkmgcnjeqyiq.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_aOj8vjJsgOfVAQfwui92zQ_YTzyCVuN';
+    const supabaseClient = window.supabase
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+      : null;
 
     const escapeHtml = (value) => String(value)
       .replace(/&/g, '&amp;')
@@ -1313,13 +1319,91 @@
       return Promise.resolve();
     }
 
-    async function shareOpinionReport() {
-      const shareUrl = window.location.href;
-      const shareData = {
-        title: 'AI 미술심리 소견서',
-        text: '내 마음의 컬러 팔레트 AI 미술심리 소견서를 공유합니다.',
-        url: shareUrl
+    function getShareBaseUrl() {
+      const cleanPath = window.location.pathname.replace(/index\.html$/, '');
+      return `${window.location.origin}${cleanPath || '/'}`;
+    }
+
+    async function createSharedReport() {
+      if (!supabaseClient) {
+        throw new Error('Supabase client is not available.');
+      }
+
+      const reportPayload = {
+        profile: { ...state.profile },
+        palette: state.selectedPalette.slice(0, paletteQuestions.length),
+        insight: $('insightText').textContent || ''
       };
+
+      const { data, error } = await supabaseClient
+        .from('art_reports')
+        .insert(reportPayload)
+        .select('id')
+        .single();
+
+      if (error) throw error;
+      return `${getShareBaseUrl()}?report=${encodeURIComponent(data.id)}`;
+    }
+
+    async function loadSharedReportIfNeeded() {
+      const reportId = new URLSearchParams(window.location.search).get('report');
+      if (!reportId || !supabaseClient) return false;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('art_reports')
+          .select('profile, palette, insight')
+          .eq('id', reportId)
+          .single();
+
+        if (error) throw error;
+        if (!data || !Array.isArray(data.palette) || data.palette.length < paletteQuestions.length) return false;
+
+        resetAssessmentState();
+        state.profile = {
+          nickname: data.profile?.nickname || '',
+          ageGrade: data.profile?.ageGrade || '',
+          gender: data.profile?.gender || '',
+          weather: data.profile?.weather || '',
+          concern: data.profile?.concern || ''
+        };
+        state.selectedPalette = data.palette.slice(0, paletteQuestions.length);
+        state.paletteIndex = paletteQuestions.length;
+        state.screenHistory = [];
+        renderResult();
+        if (data.insight) $('insightText').textContent = data.insight;
+        showScreen('result', { remember: false });
+        return true;
+      } catch (error) {
+        console.warn('Shared report load failed.', error);
+        window.alert('공유된 소견서를 불러오지 못했어요. 링크를 다시 확인해 주세요.');
+        return false;
+      }
+    }
+
+    async function shareOpinionReport() {
+      const shareButton = $('shareReportBtn');
+      const originalLabel = shareButton ? shareButton.innerHTML : '';
+      if (shareButton) {
+        shareButton.disabled = true;
+        shareButton.innerHTML = '<span class="inline-flex items-center justify-center gap-2">공유 링크 만드는 중...</span>';
+      }
+
+      let shareUrl = getShareBaseUrl();
+
+      try {
+        shareUrl = await createSharedReport();
+      } catch (error) {
+        console.warn('Supabase share save failed. Falling back to current URL.', error);
+        window.alert('공유용 소견서 저장에 문제가 생겨 현재 페이지 주소를 공유합니다. Supabase 테이블 설정을 확인해 주세요.');
+      } finally {
+        if (shareButton) {
+          shareButton.disabled = false;
+          shareButton.innerHTML = originalLabel;
+        }
+      }
+
+      const shareData = { url: shareUrl };
 
       try {
         if (navigator.share) {
@@ -1573,6 +1657,7 @@
     $('issueDiagnosisBtn').addEventListener('click', issueDiagnosis);
     $('downloadDiagnosisBtn').addEventListener('click', shareOpinionReport);
     updateNavControls();
+    loadSharedReportIfNeeded();
   </script>
 </body>
 </html>
