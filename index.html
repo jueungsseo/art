@@ -707,7 +707,7 @@
             </div>
             <p class="mt-4 rounded-2xl bg-white/74 px-4 py-3 text-sm font-bold text-[#6d657c]">각 입력창 위의 예시 칩을 누르면 문장이 들어갑니다. 여러 개를 추가한 뒤 상대방의 소견서에 맞게 지우고 고쳐서 자기 문장으로 완성해 주세요.</p>
           </div>
-          <div class="mt-7 grid gap-5">
+          <div id="diagnosisFormFields" class="mt-7 grid gap-5">
             <label>
               <span class="font-extrabold text-[#4b3f72]">상담사 명</span>
               <input id="counselorNameInput" type="text" placeholder="예: 김상담사" class="mt-2 w-full rounded-3xl border border-white/90 bg-white/86 px-5 py-4 text-[#4b3f72] shadow-sm" />
@@ -768,7 +768,7 @@
                 <p id="diagnosisPrognosis" class="mt-3 whitespace-pre-line leading-8 text-[#5d566b]"></p>
               </div>
             </div>
-            <button id="downloadDiagnosisBtn" class="mt-5 w-full rounded-full bg-[#5d9c7a] px-6 py-4 font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/download.png" alt="저장" class="inline-icon" onerror="this.onerror=null; this.src=this.src.replace('.png','.svg');" /> 상대방 소견서 저장하기</span></button>
+            <button id="downloadDiagnosisBtn" class="mt-5 w-full rounded-full bg-[#5d9c7a] px-6 py-4 font-bold text-white shadow-lg shadow-green-100 transition hover:bg-[#4d8b69]"><span class="inline-flex items-center justify-center gap-2"><img src="assets/icons/document.svg" alt="공유" class="inline-icon" /> 상대방 소견서 공유하기</span></button>
           </div>
         </div>
       </div>
@@ -1345,6 +1345,58 @@
       return `${getShareBaseUrl()}?report=${encodeURIComponent(data.id)}`;
     }
 
+    function getDiagnosisPayload() {
+      return {
+        counselorName: $('diagnosisCounselorName').textContent.trim(),
+        clientName: $('diagnosisClientName').textContent.trim(),
+        opinion: $('diagnosisOpinion').textContent.trim(),
+        setting: $('diagnosisSetting').textContent.trim(),
+        prescription: $('diagnosisPrescription').textContent.trim(),
+        prognosis: $('diagnosisPrognosis').textContent.trim()
+      };
+    }
+
+    function renderDiagnosisOutput(payload) {
+      $('diagnosisCounselorName').textContent = payload.counselorName || '';
+      $('diagnosisClientName').textContent = payload.clientName || '상대방';
+      $('diagnosisOpinion').textContent = payload.opinion || '';
+      $('diagnosisSetting').textContent = payload.setting || '';
+      $('diagnosisPrescription').textContent = payload.prescription || '';
+      $('diagnosisPrognosis').textContent = payload.prognosis || '';
+      $('diagnosisOutputWrap').classList.remove('hidden');
+    }
+
+    async function createSharedClinicalOpinion() {
+      if (!supabaseClient) {
+        throw new Error('Supabase client is not available.');
+      }
+
+      const diagnosis = getDiagnosisPayload();
+      const reportPayload = {
+        profile: {
+          reportType: 'clinicalOpinion',
+          diagnosis,
+          sourceProfile: { ...state.profile }
+        },
+        palette: state.selectedPalette.slice(0, paletteQuestions.length),
+        insight: [
+          diagnosis.opinion,
+          diagnosis.setting,
+          diagnosis.prescription,
+          diagnosis.prognosis
+        ].filter(Boolean).join('\n\n')
+      };
+
+      const { data, error } = await supabaseClient
+        .from('art_reports')
+        .insert(reportPayload)
+        .select('id')
+        .single();
+
+      if (error) throw error;
+      return `${getShareBaseUrl()}?report=${encodeURIComponent(data.id)}`;
+    }
+
     async function loadSharedReportIfNeeded() {
       const reportId = new URLSearchParams(window.location.search).get('report');
       if (!reportId || !supabaseClient) return false;
@@ -1357,6 +1409,21 @@
           .single();
 
         if (error) throw error;
+        if (data?.profile?.reportType === 'clinicalOpinion') {
+          resetAssessmentState();
+          state.screenHistory = [];
+          state.profile = {
+            ...state.profile,
+            ...(data.profile.sourceProfile || {})
+          };
+          renderDiagnosisOutput(data.profile.diagnosis || {});
+          $('guidebookPanel').classList.add('hidden');
+          $('diagnosisFormFields').classList.add('hidden');
+          $('diagnosisAlert').classList.add('hidden');
+          $('issueDiagnosisBtn').classList.add('hidden');
+          showScreen('digitalDiagnosis', { remember: false });
+          return true;
+        }
         if (!data || !Array.isArray(data.palette) || data.palette.length < paletteQuestions.length) return false;
 
         resetAssessmentState();
@@ -1381,21 +1448,21 @@
       }
     }
 
-    async function shareOpinionReport() {
-      const shareButton = $('shareReportBtn');
+    async function shareUrlWithFallback({ buttonId, createUrl, loadingText, errorText }) {
+      const shareButton = $(buttonId);
       const originalLabel = shareButton ? shareButton.innerHTML : '';
       if (shareButton) {
         shareButton.disabled = true;
-        shareButton.innerHTML = '<span class="inline-flex items-center justify-center gap-2">공유 링크 만드는 중...</span>';
+        shareButton.innerHTML = `<span class="inline-flex items-center justify-center gap-2">${loadingText}</span>`;
       }
 
       let shareUrl = getShareBaseUrl();
 
       try {
-        shareUrl = await createSharedReport();
+        shareUrl = await createUrl();
       } catch (error) {
         console.warn('Supabase share save failed. Falling back to current URL.', error);
-        window.alert('공유용 소견서 저장에 문제가 생겨 현재 페이지 주소를 공유합니다. Supabase 테이블 설정을 확인해 주세요.');
+        window.alert(errorText);
       } finally {
         if (shareButton) {
           shareButton.disabled = false;
@@ -1422,6 +1489,24 @@
         console.warn('Clipboard copy failed.', error);
         window.alert(`현재 페이지 주소를 복사해 공유해 주세요.\n${shareUrl}`);
       }
+    }
+
+    function shareOpinionReport() {
+      return shareUrlWithFallback({
+        buttonId: 'shareReportBtn',
+        createUrl: createSharedReport,
+        loadingText: '공유 링크 만드는 중...',
+        errorText: '공유용 소견서 저장에 문제가 생겨 현재 페이지 주소를 공유합니다. Supabase 테이블 설정을 확인해 주세요.'
+      });
+    }
+
+    function shareClinicalOpinionReport() {
+      return shareUrlWithFallback({
+        buttonId: 'downloadDiagnosisBtn',
+        createUrl: createSharedClinicalOpinion,
+        loadingText: '임상 소견서 공유 링크 만드는 중...',
+        errorText: '상대방 임상 소견서 저장에 문제가 생겨 현재 페이지 주소를 공유합니다. Supabase 테이블 설정을 확인해 주세요.'
+      });
     }
 
     function renderCounselorQuiz() {
@@ -1585,13 +1670,14 @@
         return;
       }
       $('diagnosisAlert').classList.add('hidden');
-      $('diagnosisCounselorName').textContent = name;
-      $('diagnosisClientName').textContent = state.profile.nickname || '상대방';
-      $('diagnosisOpinion').textContent = opinion;
-      $('diagnosisSetting').textContent = setting;
-      $('diagnosisPrescription').textContent = prescription;
-      $('diagnosisPrognosis').textContent = prognosis;
-      $('diagnosisOutputWrap').classList.remove('hidden');
+      renderDiagnosisOutput({
+        counselorName: name,
+        clientName: state.profile.nickname || '상대방',
+        opinion,
+        setting,
+        prescription,
+        prognosis
+      });
       saveDraft();
     }
 
@@ -1655,7 +1741,7 @@
     $('paperOptionBtn').addEventListener('click', () => showScreen('paperGuide'));
     renderDiagnosisGuideChips();
     $('issueDiagnosisBtn').addEventListener('click', issueDiagnosis);
-    $('downloadDiagnosisBtn').addEventListener('click', shareOpinionReport);
+    $('downloadDiagnosisBtn').addEventListener('click', shareClinicalOpinionReport);
     updateNavControls();
     loadSharedReportIfNeeded();
   </script>
